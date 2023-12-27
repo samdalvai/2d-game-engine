@@ -17,7 +17,7 @@ void Game::initialize() {
         return;
     }
 
-    SDL_Window* window = SDL_CreateWindow(
+    window = SDL_CreateWindow(
         "My game engine", 
         SDL_WINDOWPOS_CENTERED, 
         SDL_WINDOWPOS_CENTERED, 
@@ -31,7 +31,7 @@ void Game::initialize() {
         return;
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_CreateRenderer(window, -1, 0);
 
     if (!renderer) {
         std::cerr << "Error creating SDL renderer" << std::endl;
