@@ -23,7 +23,7 @@ void Game::initialize() {
     windowHeight = displayMode.h;
 
     window = SDL_CreateWindow(
-        "My game engine", 
+        NULL, 
         SDL_WINDOWPOS_CENTERED, 
         SDL_WINDOWPOS_CENTERED, 
         windowWidth, 
@@ -42,6 +42,8 @@ void Game::initialize() {
         std::cerr << "Error creating SDL renderer" << std::endl;
         return;
     }
+
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
     isRunning = true;
 }
@@ -77,7 +79,7 @@ void Game::update() {
 }
 
 void Game::render() {
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     //TODO: render all game objects
