@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 Game::Game() {
+    isRunning = false;
     std::cout << "Game constructor called" << std::endl;
 }
 
@@ -36,18 +37,34 @@ void Game::initialize() {
         std::cerr << "Error creating SDL renderer" << std::endl;
         return;
     }
+
+    isRunning = true;
 }
 
 void Game::run() {
-    /*while (true) {
+    while (isRunning) {
         processInput();
         update();
         render();
-    }*/
+    }
 }
 
 void Game::processInput() {
-
+    SDL_Event sdlEvent;
+    while (SDL_PollEvent(&sdlEvent)) {
+        switch (sdlEvent.type) {
+        case SDL_QUIT:
+            isRunning = false;
+            break;
+        case SDL_KEYDOWN:
+            if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
+                isRunning = false;
+            }
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void Game::update() {
@@ -59,5 +76,7 @@ void Game::render() {
 }
 
 void Game::destroy() {
-    
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
