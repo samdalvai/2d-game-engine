@@ -18,6 +18,9 @@ class Game {
         void update();
         void render();
         void destroy();
+
+        int windowWidth;
+        int windowHeight;
 };
 
 #endif
