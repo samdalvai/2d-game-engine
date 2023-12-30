@@ -7,7 +7,7 @@ const std::string greenColor = "\033[1;32m";
 const std::string redColor = "\033[1;31m";
 const std::string resetColor = "\033[0m";
 
-std::tm* Logger::getCurrentTime() {
+std::tm* getCurrentTime() {
     std::time_t currentTime = std::time(nullptr);
     std::tm* localTime = std::localtime(&currentTime);
     return localTime;
