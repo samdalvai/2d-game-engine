@@ -15,10 +15,10 @@ std::tm* Logger::getCurrentTime() {
 
 void Logger::log(const std::string& message) {
     std::tm* localTime = getCurrentTime();
-    std::cout << greenColor << "LOG: [" << std::put_time(localTime, "%d/%m/%y %T") << "] - " << message << resetColor << std::endl;
+    std::cout << greenColor << "LOG: " << std::put_time(localTime, "[%d/%m/%y %T]") << " - " << message << resetColor << std::endl;
 }
 
 void Logger::err(const std::string& message) {
     std::tm* localTime = getCurrentTime();
-    std::cout << redColor << "ERR: [" << std::put_time(localTime, "%d/%m/%y %T") << "] - " << message << resetColor << std::endl;
+    std::cout << redColor << "ERR: " << std::put_time(localTime, "[%d/%m/%y %T]") << " - " << message << resetColor << std::endl;
 }
