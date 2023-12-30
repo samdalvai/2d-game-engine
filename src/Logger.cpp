@@ -24,5 +24,5 @@ void Logger::log(const std::string& message) {
 
 void Logger::err(const std::string& message) {
     std::tm* localTime = getCurrentTime();
-    std::cout << redColor << "ERR: " << getFormattedTime(localTime) << " - " << message << resetColor << std::endl;
+    std::cerr << redColor << "ERR: " << getFormattedTime(localTime) << " - " << message << resetColor << std::endl;
 }
