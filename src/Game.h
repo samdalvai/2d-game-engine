@@ -14,6 +14,7 @@ class Game {
         ~Game();
         void initialize();
         void run();
+        void setup();
         void processInput();
         void update();
         void render();

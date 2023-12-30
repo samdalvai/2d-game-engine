@@ -50,11 +50,16 @@ void Game::initialize() {
 }
 
 void Game::run() {
+    setup();
     while (isRunning) {
         processInput();
         update();
         render();
     }
+}
+
+void Game::setup() {
+    // TODO: set up initial objects
 }
 
 void Game::processInput() {
