@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 Game::Game() {
     isRunning = false;
@@ -44,7 +45,7 @@ void Game::initialize() {
         return;
     }
 
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    //SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
     isRunning = true;
 }
@@ -89,9 +90,15 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     //TODO: render all game objects
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_Rect player = { 10, 10, 20, 20 };
-    SDL_RenderFillRect(renderer, &player);
+    SDL_Surface* surface = IMG_Load("./assets/images/tank-panther-right.png");
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    // Destination rectangle
+    SDL_Rect destRect = {10, 10, 32, 32};
+
+    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+    SDL_DestroyTexture(texture);
 
     SDL_RenderPresent(renderer);
 }
