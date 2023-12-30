@@ -13,12 +13,16 @@ std::tm* Logger::getCurrentTime() {
     return localTime;
 }
 
+std::__1::__iom_t10<char> getFormattedTime(std::tm* time) {
+    return std::put_time(time, "[%d/%m/%y %T]");
+}
+
 void Logger::log(const std::string& message) {
     std::tm* localTime = getCurrentTime();
-    std::cout << greenColor << "LOG: " << std::put_time(localTime, "[%d/%m/%y %T]") << " - " << message << resetColor << std::endl;
+    std::cout << greenColor << "LOG: " << getFormattedTime(localTime) << " - " << message << resetColor << std::endl;
 }
 
 void Logger::err(const std::string& message) {
     std::tm* localTime = getCurrentTime();
-    std::cout << redColor << "ERR: " << std::put_time(localTime, "[%d/%m/%y %T]") << " - " << message << resetColor << std::endl;
+    std::cout << redColor << "ERR: " << getFormattedTime(localTime) << " - " << message << resetColor << std::endl;
 }
