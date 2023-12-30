@@ -88,7 +88,12 @@ void Game::setup() {
 }
 
 void Game::update() {
-    //TODO: update game objects
+    // Synchronize with MILLISECS_PER_FRAME
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), millisecondsPreviousFrame + MILLISECS_PER_FRAME)) {
+        ; // Wait until milliseconds per frame are passed
+    }
+    millisecondsPreviousFrame = SDL_GetTicks();
+    
     playerPosition.x += playerVelocity.x;
     playerPosition.y += playerVelocity.y;
 }

@@ -9,6 +9,7 @@ const int MILLISECS_PER_FRAME = 1000 / FPS;
 class Game {
     private:
         bool isRunning;
+        int millisecondsPreviousFrame;
         SDL_Window* window;
         SDL_Renderer* renderer;
 
@@ -17,8 +18,8 @@ class Game {
         ~Game();
         void initialize();
         void run();
-        void setup();
         void processInput();
+        void setup();
         void update();
         void render();
         void destroy();
