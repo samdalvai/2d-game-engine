@@ -10,19 +10,11 @@ void System::AddEntityToSystem(Entity entity) {
 }
 
 void System::RemoveEntityFromSystem(Entity entity) {
-    int entityPosition = -1;
-
     for (int i = 0; i < entities.size(); i++) {
         if (entities[i].GetId() == entity.GetId()) {
-            entityPosition = i;
+            entities.erase(entities.begin() + i);
             break;
         }
-    }
-
-    if (entityPosition != -1) {
-        entities.erase(entities.begin() + entityPosition);
-    } else {
-        Logger::Err("Failed to delete entity with id: " + entity.GetId());
     }
 }
 
