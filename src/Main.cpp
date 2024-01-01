@@ -1,12 +1,11 @@
-#include <iostream>
-#include "./game/Game.h"
+#include "./Game/Game.h"
 
 int main(int argc, char* argv[]) {
     Game game;
 
-    game.initialize();
-    game.run();
-    game.destroy();
-    
+    game.Initialize();
+    game.Run();
+    game.Destroy();
+
     return 0;
 }
