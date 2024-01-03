@@ -3,9 +3,9 @@
 
 #include <bitset>
 #include <vector>
+#include <set>
 #include <unordered_map>
 #include <typeindex>
-#include <set>
 
 const unsigned int MAX_COMPONENTS = 32;
 
@@ -128,7 +128,7 @@ class Pool: public IPool {
 ////////////////////////////////////////////////////////////////////////////////
 class Registry {
     private:
-        int numOfEntities = 0;
+        int numEntities = 0;
 
         // Vector of component pools, each pool contains all the data for a component type
         // [Vector index = component type id]
@@ -154,8 +154,8 @@ class Registry {
 
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
         template <typename T> void RemoveComponent(Entity entity);
-        template <typename T> bool HasComponent(Entity entity);
-        template <typename T> T& GetComponent(Entity entity);
+        template <typename T> bool HasComponent(Entity entity) const;
+        template <typename T> T& GetComponent(Entity entity) const;
 
         void Update();
 };
