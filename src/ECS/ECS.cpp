@@ -29,7 +29,7 @@ const Signature& System::GetComponentSignature() const {
 Entity Registry::CreateEntity() {
     int entityId = numOfEntities++;
 
-    Entity entity = Entity(entityId);
+    Entity entity(entityId);
     entitiesToBeAdded.insert(entity);
 
     Logger::Log("Entity created with id = " + std::to_string(entityId));

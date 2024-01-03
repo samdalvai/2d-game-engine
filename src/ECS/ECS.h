@@ -44,6 +44,8 @@ class Entity {
         Entity& operator = (const Entity& other) = default;
         bool operator == (const Entity& other) const { return id == other.GetId(); }
         bool operator != (const Entity& other) const { return id != other.GetId(); }
+        bool operator > (const Entity& other) const { return id > other.GetId(); }
+        bool operator < (const Entity& other) const { return id < other.GetId(); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +130,7 @@ class Pool: public IPool {
 ////////////////////////////////////////////////////////////////////////////////
 class Registry {
     private:
-        int numEntities = 0;
+        int numOfEntities = 0;
 
         // Vector of component pools, each pool contains all the data for a component type
         // [Vector index = component type id]
