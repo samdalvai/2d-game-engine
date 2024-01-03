@@ -152,10 +152,10 @@ class Registry {
         Entity CreateEntity();
         void AddEntityToSystem(Entity entity);
 
-        //void AddComponent(Entity entity);
-        //Component GetComponent(Entity entity);
-
-        //void AddSystem();
+        template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
+        template <typename T> void RemoveComponent(Entity entity);
+        template <typename T> bool HasComponent(Entity entity);
+        template <typename T> T& GetComponent(Entity entity);
 
         void Update();
 };
