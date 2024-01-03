@@ -66,8 +66,74 @@ class System {
         template <typename TComponent> void RequireComponent();
 };
 
+class IPool {
+    public:
+        virtual ~IPool() {};
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Pool
+////////////////////////////////////////////////////////////////////////////////
+// A pool is a vector that contains objects of type T
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+class Pool: public IPool {
+    private:
+        std::vector<T> data;
+    
+    public:
+        Pool(int size = 100) { data.resize(size); }
+        ~Pool() = default;
+    
+        bool IsEmpty() const { 
+            return data.empty(); 
+        }
+        
+        bool GetSize() const {
+            return data.size();
+        }
+        
+        void Resize(int newSize) {
+            data.resize(newSize);
+        }
+
+        void Clear() { 
+            data.clear();
+        }
+
+        void Add(T object) {
+            data.push_back(object);
+        }
+
+        void Set(int index, T object) {
+            data[index] = object;
+        }
+        
+        T& Get(int index) { 
+            return static_cast<T&>(data[index]);
+        }
+        
+        T& operator [](unsigned int index) {
+            return data[index];
+        }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Registry
+////////////////////////////////////////////////////////////////////////////////
+// Manages the creation and construction of entities, components and systems
+////////////////////////////////////////////////////////////////////////////////
 class Registry {
-    // TODO:...
+    private:
+        int numOfEntities = 0;
+
+        // Vector of component pools, each pool contains all the data for a component type
+        // Vector index = component type id
+        // Pool index = entity id
+        std::vector<IPool*> componentPools;
+
+    public:
+        Registry() = default;
 };
 
 template <typename TComponent>
