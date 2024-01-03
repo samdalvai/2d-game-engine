@@ -150,11 +150,14 @@ class Registry {
         Registry() = default;
 
         Entity CreateEntity();
+        void AddEntityToSystem(Entity entity);
 
-        void AddComponent(Entity entity);
+        //void AddComponent(Entity entity);
         //Component GetComponent(Entity entity);
 
-        void AddSystem();
+        //void AddSystem();
+
+        void Update();
 };
 
 template <typename TComponent>
