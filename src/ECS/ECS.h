@@ -154,7 +154,7 @@ class Registry {
         Entity CreateEntity();
         void AddEntityToSystem(Entity entity);
 
-        template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
+        template <typename TComponent, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
         template <typename T> void RemoveComponent(Entity entity);
         template <typename T> bool HasComponent(Entity entity) const;
         template <typename T> T& GetComponent(Entity entity) const;
@@ -167,5 +167,31 @@ void System::RequireComponent() {
     const auto componentId = Component<TComponent>::GetId();
     componentSignature.set(componentId);
 }
+
+template <typename TComponent, typename ...TArgs> 
+void Registry::AddComponent(Entity entity, TArgs&& ...args) {
+    const auto componentId = Component<TComponent>::GetId();
+    const int entityId = entity.GetId();
+
+    TComponent newComponent(std::forward<TArgs>(args)...);
+
+    if (componentId >= componentPools.size()) {
+        componentPools.resize(entityId + 1, nullptr);
+    }
+
+    if (!componentPools[componentId]) {
+        Pool<TComponent>* newComponentPool = new Pool<TComponent>();
+        componentPools[componentId] = newComponentPool;
+    }
+
+    Pool<TComponent>* componentPool = componentPools[componentId];
+
+    if (entityId >= componentPool->GetSize()) {
+        componentPool->Resize(numOfEntities);
+    }
+
+    componentPool->Set(entityId, newComponent);
+    entityComponentSignatures[entityId].set(componentId);
+};
 
 #endif
