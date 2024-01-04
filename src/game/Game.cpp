@@ -83,7 +83,7 @@ void Game::LoadLevel(int level) {
     // Load the jungle.map
     // Tip: use the source rectangle
     // Tip: consider creating one entity per tile
-    assetStore->AddTexture(renderer, "tile-map", "./assets/tilemaps/jungle.map");
+    assetStore->AddTexture(renderer, "tile-map", "./assets/tilemaps/jungle.png");
     
     // Create some entities
     Entity tank = registry->CreateEntity();
