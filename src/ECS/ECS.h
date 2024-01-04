@@ -155,9 +155,9 @@ class Registry {
         void AddEntityToSystem(Entity entity);
 
         template <typename TComponent, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
-        template <typename T> void RemoveComponent(Entity entity);
-        template <typename T> bool HasComponent(Entity entity) const;
-        template <typename T> T& GetComponent(Entity entity) const;
+        template <typename TComponent> void RemoveComponent(Entity entity);
+        template <typename TComponent> bool HasComponent(Entity entity) const;
+        template <typename TComponent> TComponent& GetComponent(Entity entity) const;
 
         void Update();
 };
@@ -173,13 +173,12 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
     const auto componentId = Component<TComponent>::GetId();
     const int entityId = entity.GetId();
 
-    TComponent newComponent(std::forward<TArgs>(args)...);
-
     if (componentId >= componentPools.size()) {
         componentPools.resize(entityId + 1, nullptr);
     }
 
     if (!componentPools[componentId]) {
+        // TODO: use smart pointer here
         Pool<TComponent>* newComponentPool = new Pool<TComponent>();
         componentPools[componentId] = newComponentPool;
     }
@@ -189,6 +188,8 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
     if (entityId >= componentPool->GetSize()) {
         componentPool->Resize(numOfEntities);
     }
+
+    TComponent newComponent(std::forward<TArgs>(args)...);
 
     componentPool->Set(entityId, newComponent);
     entityComponentSignatures[entityId].set(componentId);
