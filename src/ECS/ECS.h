@@ -152,7 +152,7 @@ class Registry {
         Registry() = default;
 
         Entity CreateEntity();
-        void AddEntityToSystem(Entity entity);
+        void AddEntityToSystems(Entity entity);
 
         // Component management
         template <typename TComponent, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
