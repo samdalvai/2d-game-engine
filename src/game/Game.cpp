@@ -74,7 +74,7 @@ void Game::Setup() {
     // Create some entities
     Entity tank = registry->CreateEntity();
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
+    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
 }
 
 void Game::Update() {
@@ -91,7 +91,7 @@ void Game::Update() {
     millisecsPreviousFrame = SDL_GetTicks();
     
     // Update game systems
-    registry->GetSystem<MovementSystem>().Update();
+    registry->GetSystem<MovementSystem>().Update(deltaTime);
     // CollisionSystem.Update();
     // DamageSystem.Update();
 

@@ -12,14 +12,14 @@ class MovementSystem: public System {
             RequireComponent<RigidBodyComponent>();
         }
 
-        void Update() {
+        void Update(double deltaTime) {
             // Loop all entities that the system is interested in
             for (Entity entity: GetSystemEntities()) {
                 TransformComponent& transform = entity.GetComponent<TransformComponent>();
                 const RigidBodyComponent rigidBody = entity.GetComponent<RigidBodyComponent>();
 
-                transform.position.x += rigidBody.velocity.x;
-                transform.position.y += rigidBody.velocity.y;
+                transform.position.x += rigidBody.velocity.x * deltaTime;
+                transform.position.y += rigidBody.velocity.y * deltaTime;
 
                 Logger::Log("Entity with id: " + std::to_string(entity.GetId()) + " position updated to (" + std::to_string(transform.position.x) + ", " + std::to_string(transform.position.y) + ")");
             }
