@@ -75,15 +75,15 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<RenderSystem>();
 
     // Add assets to the asset store
-    assetStore->AddTextute(renderer, "tank-image", "./assets/images/tank-panther-right.png");
-    assetStore->AddTextute(renderer, "truck-image", "./assets/images/truck-ford-right.png");
+    assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
+    assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");
 
     // TODO:
     // Load the tile map
     // Load the jungle.map
     // Tip: use the source rectangle
     // Tip: consider creating one entity per tile
-
+    assetStore->AddTexture(renderer, "tile-map", "./assets/tilemaps/jungle.map");
     
     // Create some entities
     Entity tank = registry->CreateEntity();
