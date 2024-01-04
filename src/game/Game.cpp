@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "../Logger/Logger.h"
 #include "../ECS/ECS.h"
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
@@ -24,8 +23,8 @@ void Game::Initialize() {
     }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
-    windowWidth = 800;//displayMode.w;
-    windowHeight = 600;//displayMode.h;
+    windowWidth = displayMode.w;
+    windowHeight = displayMode.h;
     window = SDL_CreateWindow(
         NULL,
         SDL_WINDOWPOS_CENTERED,
@@ -43,7 +42,7 @@ void Game::Initialize() {
         Logger::Err("Error creating SDL renderer.");
         return;
     }
-    //SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
 }
 
@@ -64,12 +63,9 @@ void Game::ProcessInput() {
 }
 
 void Game::Setup() {
-    // TODO:
+    // Create some entities
     Entity tank = registry->CreateEntity();
     Entity truck = registry->CreateEntity();
-    // tank.AddComponent<TransformComponent>();
-    // tank.AddComponent<BoxColliderComponent>();
-    // tank.AddComponent<SpriteComponent>("./assets/images/tank.png");
 }
 
 void Game::Update() {
