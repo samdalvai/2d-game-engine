@@ -30,7 +30,7 @@ void Game::Initialize() {
     }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
-    windowWidth = 800;//displayMode.w;
+    windowWidth = 1000;//displayMode.w;
     windowHeight = 600;//displayMode.h;
     window = SDL_CreateWindow(
         NULL,
@@ -82,8 +82,8 @@ void Game::LoadLevel(int level) {
     // Load the tile map
     // Load the jungle.map
     // Tip: use the source rectangle
-    // Tip: consider creating one entty per tile
-    
+    // Tip: consider creating one entity per tile
+
     
     // Create some entities
     Entity tank = registry->CreateEntity();
@@ -98,7 +98,7 @@ void Game::LoadLevel(int level) {
 }
 
 void Game::Setup() {
-
+    LoadLevel(1);
 }
 
 void Game::Update() {
