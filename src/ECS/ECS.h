@@ -210,7 +210,7 @@ bool Registry::HasComponent(Entity entity) const {
     const auto componentId = Component<TComponent>::GetId();
     const int entityId = entity.GetId();
 
-    return entityComponentSignatures[entity].test(componentId);
+    return entityComponentSignatures[entityId].test(componentId);
 }
 
 /*template <typename TComponent> 
