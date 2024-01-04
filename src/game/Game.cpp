@@ -69,7 +69,7 @@ void Game::ProcessInput() {
     }
 }
 
-void Game::Setup() {
+void Game::LoadLevel(int level) {
     // Add systems that need to be processed in the game
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
@@ -77,6 +77,13 @@ void Game::Setup() {
     // Add assets to the asset store
     assetStore->AddTextute(renderer, "tank-image", "./assets/images/tank-panther-right.png");
     assetStore->AddTextute(renderer, "truck-image", "./assets/images/truck-ford-right.png");
+
+    // TODO:
+    // Load the tile map
+    // Load the jungle.map
+    // Tip: use the source rectangle
+    // Tip: consider creating one entty per tile
+    
     
     // Create some entities
     Entity tank = registry->CreateEntity();
@@ -88,6 +95,10 @@ void Game::Setup() {
     truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32);
+}
+
+void Game::Setup() {
+
 }
 
 void Game::Update() {
