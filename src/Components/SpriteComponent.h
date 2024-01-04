@@ -3,7 +3,6 @@
 
 #include <glm/glm.hpp>
 
-
 struct SpriteComponent {
     int width;
     int height;
