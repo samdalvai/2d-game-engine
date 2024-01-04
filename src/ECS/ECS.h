@@ -185,6 +185,8 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
 
     Pool<TComponent>* componentPool = componentPools[componentId];
 
+    // TODO: what if we delete an entity? Will the component pool size remain the same?
+    // The id of the entities des not go back
     if (entityId >= componentPool->GetSize()) {
         componentPool->Resize(numOfEntities);
     }
@@ -194,5 +196,26 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
     componentPool->Set(entityId, newComponent);
     entityComponentSignatures[entityId].set(componentId);
 };
+
+template <typename TComponent> 
+void Registry::RemoveComponent(Entity entity) {
+    const auto componentId = Component<TComponent>::GetId();
+    const int entityId = entity.GetId();
+
+    entityComponentSignatures[entityId].set(componentId, false);
+}
+
+template <typename TComponent>
+bool Registry::HasComponent(Entity entity) const {
+    const auto componentId = Component<TComponent>::GetId();
+    const int entityId = entity.GetId();
+
+    return entityComponentSignatures[entity].test(componentId);
+}
+
+/*template <typename TComponent> 
+TComponent& Registry::GetComponent(Entity entity) const {
+    //TODO...
+}*/
 
 #endif
