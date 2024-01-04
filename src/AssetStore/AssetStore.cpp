@@ -9,6 +9,7 @@ AssetStore::AssetStore() {
 }
 
 AssetStore::~AssetStore(){
+    ClearAssets();
     Logger::Log("Asset store destructor called");
 }
 
@@ -16,7 +17,7 @@ void AssetStore::ClearAssets() {
     for (auto texture : textures) {
         SDL_DestroyTexture(texture.second);
     }
-    
+
     textures.clear();
 }
 
@@ -26,6 +27,8 @@ void AssetStore::AddTextute(SDL_Renderer* renderer, const std::string& assetId, 
     SDL_FreeSurface(surface);
 
     textures.emplace(assetId, texture);
+
+    Logger::Log("New texture added to the asset store with id: " + assetId);
 }
 
 SDL_Texture* AssetStore::GetTexture(const std::string& assetId) {
