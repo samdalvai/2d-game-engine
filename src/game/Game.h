@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SDL2/SDL.h>
+#include <memory>
 
 #include "../ECS/ECS.h"
 
@@ -15,7 +16,7 @@ class Game {
         SDL_Window* window;
         SDL_Renderer* renderer;
 
-        Registry* registry;
+        std::unique_ptr<Registry> registry;
 
     public:
         Game();

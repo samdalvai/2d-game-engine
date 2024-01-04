@@ -1,6 +1,8 @@
 #ifndef ECS_H
 #define ECS_H
 
+#include "../Logger/Logger.h"
+
 #include <bitset>
 #include <vector>
 #include <set>
@@ -149,7 +151,12 @@ class Registry {
         std::set<Entity> entitiesToBeKilled;
 
     public:
-        Registry() = default;
+        Registry() {
+            Logger::Log("Registry constructor called");
+        };
+        ~Registry() {
+            Logger::Log("Registry destructor called");
+        }
 
         Entity CreateEntity();
         void AddEntityToSystems(Entity entity);
