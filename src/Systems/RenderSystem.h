@@ -16,15 +16,17 @@ class RenderSystem: public System {
             RequireComponent<SpriteComponent>();
         }
 
+        static bool compareByZIndex(const Entity& a, const Entity& b) {
+            const SpriteComponent& spriteA = a.GetComponent<SpriteComponent>();
+            const SpriteComponent& spriteB = b.GetComponent<SpriteComponent>();
+
+            return spriteA.zIndex < spriteB.zIndex;
+        }
+
         void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore) {
             // TODO: sort entities by z-index
             std::vector<Entity> entities = GetSystemEntities();
-            std::sort(entities.begin(), entities.end(), [](const Entity& a, const Entity& b) {
-                const SpriteComponent& spriteA = a.GetComponent<SpriteComponent>();
-                const SpriteComponent& spriteB = b.GetComponent<SpriteComponent>();
-
-                return spriteA.zIndex < spriteB.zIndex;
-            });
+            std::sort(entities.begin(), entities.end(), compareByZIndex);
 
             // Loop all entities that the system is interested in
             for (Entity entity: entities) {
