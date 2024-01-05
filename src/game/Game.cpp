@@ -125,13 +125,13 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<TransformComponent>(glm::vec2(100.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 2);
-    tank.AddComponent<BoxColliderComponent>();
+    tank.AddComponent<BoxColliderComponent>(32, 32);
 
     Entity truck = registry->CreateEntity();
     truck.AddComponent<TransformComponent>(glm::vec2(500.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidBodyComponent>(glm::vec2(-50.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);
-    tank.AddComponent<BoxColliderComponent>();
+    tank.AddComponent<BoxColliderComponent>(32, 32);
 }
 
 void Game::Setup() {
@@ -154,7 +154,7 @@ void Game::Update() {
     // Update game systems
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
-    // CollisionSystem.Update();
+    registry->GetSystem<CollisionSystem>().Update();
     // DamageSystem.Update();
 
     // Update entities that are waiting to be updated/killed
