@@ -50,11 +50,15 @@ void AssetStore::AddTileMap(const std::string& assetId, const std::string filePa
 
     std::string line;
     while (std::getline(mapFile, line)) {
+        std::cout << line << std::endl;
         std::vector<int> rowData;
 
         std::istringstream iss(line);
-        int value;
-        while (iss >> value) {
+        std::string token;
+    
+        while (std::getline(iss, token, ',')) {
+            int value;
+            std::istringstream(token) >> value;
             rowData.push_back(value);
         }
 

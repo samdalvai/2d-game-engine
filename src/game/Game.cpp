@@ -86,6 +86,14 @@ void Game::LoadLevel(int level) {
     assetStore->AddTexture(renderer, "tile-textures", "./assets/tilemaps/jungle.png");
     assetStore->AddTileMap("tile-map", "./assets/tilemaps/jungle.map");
 
+    std::vector<std::vector<int>>* mapData = assetStore->GetTileMap("tile-map");
+    for (const auto& rowVector : *mapData) {
+        for (int value : rowVector) {
+            std::cout << value << ' ';
+        }
+        std::cout << std::endl;
+    }
+
     /*int srcRectX = 0;
     int srcRectY = 0;
     for (int x = 0; x < 16; x++) {
