@@ -30,8 +30,8 @@ void Game::Initialize() {
     }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
-    windowWidth = 1000;//displayMode.w;
-    windowHeight = 600;//displayMode.h;
+    windowWidth = displayMode.w;
+    windowHeight = displayMode.h;
     window = SDL_CreateWindow(
         NULL,
         SDL_WINDOWPOS_CENTERED,
@@ -49,7 +49,7 @@ void Game::Initialize() {
         Logger::Err("Error creating SDL renderer.");
         return;
     }
-    //SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
 }
 
@@ -87,11 +87,28 @@ void Game::LoadLevel(int level) {
     assetStore->AddTileMap("tile-map", "./assets/tilemaps/jungle.map");
 
     std::vector<std::vector<int>>* mapData = assetStore->GetTileMap("tile-map");
+
     for (const auto& rowVector : *mapData) {
         for (int value : rowVector) {
             std::cout << value << ' ';
         }
         std::cout << std::endl;
+    }
+
+    int srcRectX = 0;
+    int srcRectY = 0;
+    for (const auto& rowVector : *mapData) {
+        for (int tileNumber : rowVector) {
+            Entity tile = registry->CreateEntity();
+            tile.AddComponent<TransformComponent>(glm::vec2(srcRectX, srcRectY), glm::vec2(1.0, 1.0), 0.0);
+            int tileXCoordinates = (tileNumber % 10) * 32;
+            int tileYCoordinates = tileNumber / 10 * 32;
+            Logger::Log("Tile x: " + std::to_string(tileXCoordinates));
+            tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, tileXCoordinates, tileYCoordinates);
+            srcRectX += 32;
+        }
+        srcRectX = 0;
+        srcRectY += 32;
     }
 
     /*int srcRectX = 0;
