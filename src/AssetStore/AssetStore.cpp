@@ -72,3 +72,7 @@ SDL_Texture* AssetStore::GetTexture(const std::string& assetId) {
     return textures[assetId];
 }
 
+std::vector<std::vector<int>>* AssetStore::GetTileMap(const std::string& assetId) {
+    return tileMaps[assetId];
+}
+

@@ -18,6 +18,7 @@ class AssetStore {
         void AddTexture(SDL_Renderer* renderer, const std::string& assetId, const std::string filePath);
         void AddTileMap(const std::string& assetId, const std::string filePath);
         SDL_Texture* GetTexture(const std::string& assetId);
+        std::vector<std::vector<int>>* GetTileMap(const std::string& assetId);
 };
 
 #endif
