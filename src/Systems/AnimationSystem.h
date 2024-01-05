@@ -21,11 +21,8 @@ class AnimationSystem: public System {
                 SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
                 AnimationComponent& animation = entity.GetComponent<AnimationComponent>();
                 
-                SDL_Rect srcRect;
-
                 animation.currentFrame = ((SDL_GetTicks() - animation.startTime) * animation.frameRateSpeed / 1000) % animation.numFrames;
                 sprite.srcRect.x = animation.currentFrame * sprite.width;
-                //sprite.srcRect.y = animation.currentFrame
             }
         }
 };
