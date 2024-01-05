@@ -254,7 +254,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
 
     entityComponentSignatures[entityId].set(componentId);
 
-    //Logger::Log("Component with id: " + std::to_string(componentId) + " was added to entity with id: " + std::to_string(entityId));
+    Logger::Log("Component with id: " + std::to_string(componentId) + " was added to entity with id: " + std::to_string(entityId));
 }
 
 template <typename TComponent>

@@ -92,7 +92,6 @@ void Game::LoadLevel(int level) {
             tile.AddComponent<TransformComponent>(glm::vec2(srcRectX * scale, srcRectY * scale), glm::vec2(scale, scale), 0.0);
             int tileXCoordinates = (tileNumber % 10) * 32;
             int tileYCoordinates = tileNumber / 10 * 32;
-            Logger::Log("Tile x: " + std::to_string(tileXCoordinates));
             tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, tileXCoordinates, tileYCoordinates);
             srcRectX += 32;
         }
