@@ -3,11 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <list>
 
 AssetStore::AssetStore() {
     Logger::Log("Asset store constructor called");
@@ -50,7 +48,6 @@ void AssetStore::AddTileMap(const std::string& assetId, const std::string filePa
 
     std::string line;
     while (std::getline(mapFile, line)) {
-        std::cout << line << std::endl;
         std::vector<int> rowData;
 
         std::istringstream iss(line);
