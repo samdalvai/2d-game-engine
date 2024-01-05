@@ -108,7 +108,7 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
-    chopper.AddComponent<AnimationComponent>("chopper-image", 32, 32, 1);
+    chopper.AddComponent<AnimationComponent>(1, 1, 1, true);
 
     // Create some entities
     /*Entity tank = registry->CreateEntity();
