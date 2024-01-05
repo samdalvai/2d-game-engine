@@ -43,7 +43,11 @@ class CollisionSystem: public System {
                     if (collisionHappened) {
                         Logger::Log("Entity " + std::to_string(a.GetId()) + " is colliding with entity " + std::to_string(b.GetId()));
                         
-                        // TODO: emit an event...
+                        aCollider.isColliding = true;
+                        bCollider.isColliding = true;
+                    } else {
+                        aCollider.isColliding = false;
+                        bCollider.isColliding = false;
                     }
                 }
             }
