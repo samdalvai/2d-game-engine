@@ -41,7 +41,7 @@ class CollisionSystem: public System {
                 Entity entityA = entities[i];
                 const BoxColliderComponent& colliderA = entityA.GetComponent<BoxColliderComponent>();
                 TransformComponent& transformA = entityA.GetComponent<TransformComponent>();
-                for (int j = 1; j < entities.size(); j++) {
+                for (int j = i + 1; j < entities.size(); j++) {
                     Entity entityB = entities[j];
                     const BoxColliderComponent& colliderB = entityB.GetComponent<BoxColliderComponent>();
                     TransformComponent& transformB = entityB.GetComponent<TransformComponent>();
