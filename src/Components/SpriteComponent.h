@@ -1,7 +1,7 @@
 #ifndef SPRITECOMPONENT_H
 #define SPRITECOMPONENT_H
 
-#include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 #include <string>
 
 struct SpriteComponent {
