@@ -7,7 +7,6 @@
 #include "../Components/AnimationComponent.h"
 
 #include <SDL2/SDL.h>
-#include <algorithm>
 
 class AnimationSystem: public System {
     public:
