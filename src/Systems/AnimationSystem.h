@@ -15,13 +15,17 @@ class AnimationSystem: public System {
             RequireComponent<AnimationComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore) {
+        void Update() {
             // Loop all entities that the system is interested in
             for (Entity entity: GetSystemEntities()) {
-                const SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
-                const AnimationComponent& animation = entity.GetComponent<AnimationComponent>();
+                SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
+                AnimationComponent& animation = entity.GetComponent<AnimationComponent>();
                 
-                
+                SDL_Rect srcRect;
+
+                animation.currentFrame = ((SDL_GetTicks() - animation.startTime) * animation.frameRateSpeed / 1000) % animation.numFrames;
+                sprite.srcRect.x = animation.currentFrame * sprite.width;
+                //sprite.srcRect.y = animation.currentFrame
             }
         }
 };

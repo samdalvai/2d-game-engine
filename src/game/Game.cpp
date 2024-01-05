@@ -77,6 +77,7 @@ void Game::LoadLevel(int level) {
     // Add systems that need to be processed in the game
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
+    registry->AddSystem<AnimationSystem>();
 
     // Add assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -108,7 +109,7 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
-    chopper.AddComponent<AnimationComponent>(1, 1, 1, true);
+    chopper.AddComponent<AnimationComponent>(2, 10, true);
 
     // Create some entities
     /*Entity tank = registry->CreateEntity();
@@ -141,6 +142,7 @@ void Game::Update() {
     
     // Update game systems
     registry->GetSystem<MovementSystem>().Update(deltaTime);
+    registry->GetSystem<AnimationSystem>().Update();
     // CollisionSystem.Update();
     // DamageSystem.Update();
 
