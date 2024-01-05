@@ -32,12 +32,12 @@ class CollisionSystem: public System {
                     bool collisionHappened = CheckAABBCollision(
                         aTransform.position.x + aCollider.offset.x,
                         aTransform.position.y + aCollider.offset.y,
-                        aCollider.width,
-                        aCollider.height,
+                        aCollider.width * aTransform.scale.x,
+                        aCollider.height* aTransform.scale.y,
                         bTransform.position.x + bCollider.offset.x,
                         bTransform.position.y + bCollider.offset.y,
-                        bCollider.width,
-                        bCollider.height
+                        bCollider.width * bTransform.scale.x,
+                        bCollider.height * bTransform.scale.y
                     );
 
                     if (collisionHappened) {
