@@ -5,7 +5,7 @@
 int IComponent::nextId = 0;
 
 void Entity::Kill() {
-    registry->RemoveEntityFromSystems(*this);
+    registry->KillEntity(*this);
 }
 
 int Entity::GetId() const {
