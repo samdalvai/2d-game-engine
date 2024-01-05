@@ -16,7 +16,7 @@ class MovementSystem: public System {
             // Loop all entities that the system is interested in
             for (Entity entity: GetSystemEntities()) {
                 TransformComponent& transform = entity.GetComponent<TransformComponent>();
-                const RigidBodyComponent rigidBody = entity.GetComponent<RigidBodyComponent>();
+                const RigidBodyComponent& rigidBody = entity.GetComponent<RigidBodyComponent>();
 
                 transform.position.x += rigidBody.velocity.x * deltaTime;
                 transform.position.y += rigidBody.velocity.y * deltaTime;

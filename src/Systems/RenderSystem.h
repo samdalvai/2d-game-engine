@@ -20,16 +20,16 @@ class RenderSystem: public System {
             // TODO: sort entities by z-index
             std::vector<Entity> entities = GetSystemEntities();
             std::sort(entities.begin(), entities.end(), [](const Entity& a, const Entity& b) {
-                const auto spriteA = a.GetComponent<SpriteComponent>();
-                const auto spriteB = b.GetComponent<SpriteComponent>();
+                const SpriteComponent& spriteA = a.GetComponent<SpriteComponent>();
+                const SpriteComponent& spriteB = b.GetComponent<SpriteComponent>();
 
                 return spriteA.zIndex < spriteB.zIndex;
             });
 
             // Loop all entities that the system is interested in
             for (Entity entity: entities) {
-                const auto transform = entity.GetComponent<TransformComponent>();
-                const auto sprite = entity.GetComponent<SpriteComponent>();
+                const TransformComponent& transform = entity.GetComponent<TransformComponent>();
+                const SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
 
                 SDL_Rect destRect = {
                     static_cast<int>(transform.position.x),
