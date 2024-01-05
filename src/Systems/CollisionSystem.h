@@ -43,8 +43,8 @@ class CollisionSystem: public System {
                 const BoxColliderComponent& colliderA = entities[i].GetComponent<BoxColliderComponent>();
                 TransformComponent& transformA = entities[i].GetComponent<TransformComponent>();
                 for (int j = 1; j < entities.size(); j++) {
-                    const BoxColliderComponent& colliderB = entities[i].GetComponent<BoxColliderComponent>();
-                    TransformComponent& transformB = entities[i].GetComponent<TransformComponent>();
+                    const BoxColliderComponent& colliderB = entities[j].GetComponent<BoxColliderComponent>();
+                    TransformComponent& transformB = entities[j].GetComponent<TransformComponent>();
 
                     if (entitiesCollide(colliderA, colliderB, transformA.position, transformB.position)) {
                         Logger::Err("ENTITIES COLLIDE!!");
