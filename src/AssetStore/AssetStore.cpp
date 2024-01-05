@@ -3,6 +3,11 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <list>
 
 AssetStore::AssetStore() {
     Logger::Log("Asset store constructor called");
@@ -32,6 +37,35 @@ void AssetStore::AddTexture(SDL_Renderer* renderer, const std::string& assetId, 
     textures.emplace(assetId, texture);
 
     Logger::Log("New texture added to the asset store with id: " + assetId);
+}
+
+void AssetStore::AddTileMap(const std::string& assetId, const std::string filePath) {
+    std::ifstream mapFile(filePath);
+
+    if (!mapFile.is_open()) {
+        Logger::Err("Error: Unable to open file: " + filePath);
+    }
+
+    std::vector<std::vector<int>>* mapData = new std::vector<std::vector<int>>();
+
+    std::string line;
+    while (std::getline(mapFile, line)) {
+        std::vector<int> rowData;
+
+        std::istringstream iss(line);
+        int value;
+        while (iss >> value) {
+            rowData.push_back(value);
+        }
+
+        mapData->push_back(rowData);
+    }
+
+    mapFile.close();
+
+    tileMaps.emplace(assetId, mapData);
+
+    Logger::Log("New tile map added to the asset store with id: " + assetId);
 }
 
 SDL_Texture* AssetStore::GetTexture(const std::string& assetId) {

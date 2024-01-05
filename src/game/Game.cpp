@@ -83,9 +83,10 @@ void Game::LoadLevel(int level) {
     // Load the jungle.map
     // Tip: use the source rectangle
     // Tip: consider creating one entity per tile
-    assetStore->AddTexture(renderer, "tile-map", "./assets/tilemaps/jungle.png");
+    assetStore->AddTexture(renderer, "tile-textures", "./assets/tilemaps/jungle.png");
+    assetStore->AddTileMap("tile-map", "./assets/tilemaps/jungle.map");
 
-    int srcRectX = 0;
+    /*int srcRectX = 0;
     int srcRectY = 0;
     for (int x = 0; x < 16; x++) {
         Entity tile = registry->CreateEntity();
@@ -93,7 +94,7 @@ void Game::LoadLevel(int level) {
         tile.AddComponent<SpriteComponent>("tile-map", 32, 32, srcRectX, srcRectY);
         srcRectX += 32;
         srcRectY += 0;
-    }
+    }*/
     
     // Create some entities
     Entity tank = registry->CreateEntity();

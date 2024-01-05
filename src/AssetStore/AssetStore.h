@@ -8,6 +8,7 @@
 class AssetStore {
     private:
         std::map<std::string, SDL_Texture*> textures;
+        std::map<std::string, std::vector<std::vector<int>>*> tileMaps;
 
     public:
         AssetStore();
@@ -15,6 +16,7 @@ class AssetStore {
 
         void ClearAssets();
         void AddTexture(SDL_Renderer* renderer, const std::string& assetId, const std::string filePath);
+        void AddTileMap(const std::string& assetId, const std::string filePath);
         SDL_Texture* GetTexture(const std::string& assetId);
 };
 
