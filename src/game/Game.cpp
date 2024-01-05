@@ -78,11 +78,6 @@ void Game::LoadLevel(int level) {
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");
 
-    // TODO:
-    // Load the tile map
-    // Load the jungle.map
-    // Tip: use the source rectangle
-    // Tip: consider creating one entity per tile
     assetStore->AddTexture(renderer, "tile-textures", "./assets/tilemaps/jungle.png");
     assetStore->AddTileMap("tile-map", "./assets/tilemaps/jungle.map");
 
@@ -105,16 +100,6 @@ void Game::LoadLevel(int level) {
         srcRectY += 32;
     }
 
-    /*int srcRectX = 0;
-    int srcRectY = 0;
-    for (int x = 0; x < 16; x++) {
-        Entity tile = registry->CreateEntity();
-        tile.AddComponent<TransformComponent>(glm::vec2(srcRectX, srcRectY), glm::vec2(1.0, 1.0), 0.0);
-        tile.AddComponent<SpriteComponent>("tile-map", 32, 32, srcRectX, srcRectY);
-        srcRectX += 32;
-        srcRectY += 0;
-    }*/
-    
     // Create some entities
     Entity tank = registry->CreateEntity();
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
