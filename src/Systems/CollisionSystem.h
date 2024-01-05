@@ -16,17 +16,17 @@ class CollisionSystem: public System {
             auto entities = GetSystemEntities();
 
             // Loop all the entities that the system is interested in
-            for (auto i = entities.begin(); i != entities.end(); i++) {
-                Entity a = *i;
+            for (int i = 0; i < entities.size() - 1 && !entities.empty(); i++) {
+                Entity a = entities[i];
                 auto aTransform = a.GetComponent<TransformComponent>();
-                auto aCollider = a.GetComponent<BoxColliderComponent>();
+                BoxColliderComponent& aCollider = a.GetComponent<BoxColliderComponent>();
 
                 // Loop all the entities that still need to be checked (to the right of i)
-                for (auto j = i + 1; j != entities.end(); j++) {
-                    Entity b = *j;
+                for (int j = i + 1; j < entities.size(); j++) {
+                    Entity b = entities[j];
 
                     auto bTransform = b.GetComponent<TransformComponent>();
-                    auto bCollider = b.GetComponent<BoxColliderComponent>();
+                    BoxColliderComponent& bCollider = b.GetComponent<BoxColliderComponent>();
                  
                     // Perform the AABB collision check between entities a and b
                     bool collisionHappened = CheckAABBCollision(
