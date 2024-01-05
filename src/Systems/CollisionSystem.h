@@ -38,16 +38,17 @@ class CollisionSystem: public System {
         void Update() {
             std::vector<Entity> entities = GetSystemEntities();
             for (int i = 0; i < entities.size() - 1 && !entities.empty() != 0; i++) {
-                const BoxColliderComponent& colliderA = entities[i].GetComponent<BoxColliderComponent>();
-                TransformComponent& transformA = entities[i].GetComponent<TransformComponent>();
+                Entity entityA = entities[i];
+                const BoxColliderComponent& colliderA = entityA.GetComponent<BoxColliderComponent>();
+                TransformComponent& transformA = entityA.GetComponent<TransformComponent>();
                 for (int j = 1; j < entities.size(); j++) {
-                    const BoxColliderComponent& colliderB = entities[j].GetComponent<BoxColliderComponent>();
-                    TransformComponent& transformB = entities[j].GetComponent<TransformComponent>();
+                    Entity entityB = entities[j];
+                    const BoxColliderComponent& colliderB = entityB.GetComponent<BoxColliderComponent>();
+                    TransformComponent& transformB = entityB.GetComponent<TransformComponent>();
 
                     if (entitiesCollide(colliderA, colliderB, transformA.position, transformB.position)) {
-                        Logger::Err("ENTITIES COLLIDE!!");
-                        RigidBodyComponent& rigidBodyA = entities[i].GetComponent<RigidBodyComponent>();
-                        RigidBodyComponent& rigidBodyB = entities[j].GetComponent<RigidBodyComponent>();
+                        RigidBodyComponent& rigidBodyA = entityA.GetComponent<RigidBodyComponent>();
+                        RigidBodyComponent& rigidBodyB = entityB.GetComponent<RigidBodyComponent>();
 
                         rigidBodyA.velocity = glm::vec2(0.0, 0.0);
                         rigidBodyB.velocity = glm::vec2(0.0, 0.0);
