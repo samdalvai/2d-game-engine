@@ -4,18 +4,34 @@
 #include "../ECS/ECS.h"
 #include "../AssetStore/AssetStore.h"
 #include "../Components/BoxColliderComponent.h"
+#include "../Components/TransformComponent.h"
 
 #include <SDL2/SDL.h>
-#include <algorithm>
 
 class RenderCollisionSystem: public System {
     public:
         RenderCollisionSystem() {
             RequireComponent<BoxColliderComponent>();
+            RequireComponent<BoxColliderComponent>();
         }
 
-        void Update(SDL_Renderer* renderer) {
-            
+        void Update(SDL_Renderer* renderer, bool renderBoxCollider) {
+            if (renderBoxCollider) {
+                for (Entity entity: GetSystemEntities()) {
+                    auto transform = entity.GetComponent<TransformComponent>();
+                    auto collider = entity.GetComponent<BoxColliderComponent>();
+
+                    SDL_Rect boxColliderRect = {
+                        static_cast<int>(transform.position.x),
+                        static_cast<int>(transform.position.y),
+                        static_cast<int>(collider.width * transform.scale.x),
+                        static_cast<int>(collider.height * transform.scale.y),
+                    };
+
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    SDL_RenderDrawRect(renderer, &boxColliderRect);
+                }
+            }
         }
 };
 
