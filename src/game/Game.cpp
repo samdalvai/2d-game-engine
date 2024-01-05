@@ -172,7 +172,10 @@ void Game::Render() {
 
     // Update game systems
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
-    registry->GetSystem<RenderCollisionSystem>().Update(renderer, isDebug);
+
+    if (isDebug) {
+        registry->GetSystem<RenderCollisionSystem>().Update(renderer);
+    }
 
     SDL_RenderPresent(renderer);
 }
