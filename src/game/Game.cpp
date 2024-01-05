@@ -88,19 +88,13 @@ void Game::LoadLevel(int level) {
 
     std::vector<std::vector<int>>* mapData = assetStore->GetTileMap("tile-map");
 
-    for (const auto& rowVector : *mapData) {
-        for (int value : rowVector) {
-            std::cout << value << ' ';
-        }
-        std::cout << std::endl;
-    }
-
     int srcRectX = 0;
     int srcRectY = 0;
+    int scale = 2.0;
     for (const auto& rowVector : *mapData) {
         for (int tileNumber : rowVector) {
             Entity tile = registry->CreateEntity();
-            tile.AddComponent<TransformComponent>(glm::vec2(srcRectX, srcRectY), glm::vec2(1.0, 1.0), 0.0);
+            tile.AddComponent<TransformComponent>(glm::vec2(srcRectX * scale, srcRectY * scale), glm::vec2(scale, scale), 0.0);
             int tileXCoordinates = (tileNumber % 10) * 32;
             int tileYCoordinates = tileNumber / 10 * 32;
             Logger::Log("Tile x: " + std::to_string(tileXCoordinates));
