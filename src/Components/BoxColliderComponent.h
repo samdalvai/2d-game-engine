@@ -1,7 +1,6 @@
 #ifndef BOXCOLLIDERCOMPONENT_H
 #define BOXCOLLIDERCOMPONENT_H
 
-//#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
 struct BoxColliderComponent {

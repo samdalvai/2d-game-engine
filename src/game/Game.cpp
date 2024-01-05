@@ -131,7 +131,7 @@ void Game::LoadLevel(int level) {
     truck.AddComponent<TransformComponent>(glm::vec2(500.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidBodyComponent>(glm::vec2(-50.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);
-    tank.AddComponent<BoxColliderComponent>(32, 32);
+    truck.AddComponent<BoxColliderComponent>(32, 32);
 }
 
 void Game::Setup() {
