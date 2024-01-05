@@ -5,6 +5,7 @@
 #include <vector>
 #include <bitset>
 #include <set>
+#include <deque>
 #include <unordered_map>
 #include <typeindex>
 #include <memory>
@@ -166,6 +167,9 @@ class Registry {
         // Set of entities that are flagged to be added or removed in the next registry Update()
         std::set<Entity> entitiesToBeAdded;
         std::set<Entity> entitiesToBeKilled;
+
+        // List of available free ids previously removed
+        std::deque<int> freeIds;
 
     public:
         Registry() {
