@@ -61,6 +61,8 @@ class Entity {
         template <typename TComponent> void RemoveComponent();
 		template <typename TComponent> bool HasComponent() const;
         template <typename TComponent> TComponent& GetComponent() const;
+
+        void Kill();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,6 +187,7 @@ class Registry {
         
         // Entity management
         Entity CreateEntity();
+        void KillEntity(Entity entity);
 
         // Component management
         template <typename TComponent, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
@@ -201,6 +204,7 @@ class Registry {
         // Checks the component signature of an entity and add the entity to the systems
         // that are interested in it
         void AddEntityToSystems(Entity entity);
+        void RemoveEntityFromSystems(Entity entity);
 };
 
 template <typename TComponent>
