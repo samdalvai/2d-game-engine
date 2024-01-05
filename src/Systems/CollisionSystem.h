@@ -2,59 +2,60 @@
 #define COLLISIONSYSTEM_H
 
 #include "../ECS/ECS.h"
-#include "../AssetStore/AssetStore.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/TransformComponent.h"
-
-#include <glm/glm.hpp>
-#include <SDL2/SDL.h>
 
 class CollisionSystem: public System {
     public:
         CollisionSystem() {
             RequireComponent<TransformComponent>();
             RequireComponent<BoxColliderComponent>();
-            RequireComponent<RigidBodyComponent>();
-        }
-
-        static bool entitiesCollide(const BoxColliderComponent& colliderA, const BoxColliderComponent& colliderB, glm::vec2& positionA, glm::vec2& positionB) {
-            int colliderAMinX = positionA.x + colliderA.offset.x;
-            int colliderAMaxX = positionA.x + colliderA.width + colliderA.offset.x;
-            int colliderBMinX = positionB.x + colliderB.offset.x;
-            int colliderBMaxX = positionB.x + colliderB.width + colliderB.offset.x;
-
-            if (colliderAMaxX < colliderBMinX || colliderAMinX > colliderBMaxX) return false;
-
-            int colliderAMinY = positionA.y + colliderA.offset.y;
-            int colliderAMaxY = positionA.y + colliderA.height + colliderA.offset.y;
-            int colliderBMinY = positionB.y + colliderB.offset.y;
-            int colliderBMaxY = positionB.y + colliderB.height + colliderB.offset.y;
-
-            if (colliderAMaxY < colliderBMinY || colliderAMinY > colliderBMaxY) return false;
-
-            return true;
         }
 
         void Update() {
-            std::vector<Entity> entities = GetSystemEntities();
-            for (int i = 0; i < entities.size() - 1 && !entities.empty() != 0; i++) {
-                Entity entityA = entities[i];
-                const BoxColliderComponent& colliderA = entityA.GetComponent<BoxColliderComponent>();
-                TransformComponent& transformA = entityA.GetComponent<TransformComponent>();
-                for (int j = i + 1; j < entities.size(); j++) {
-                    Entity entityB = entities[j];
-                    const BoxColliderComponent& colliderB = entityB.GetComponent<BoxColliderComponent>();
-                    TransformComponent& transformB = entityB.GetComponent<TransformComponent>();
+            auto entities = GetSystemEntities();
 
-                    if (entitiesCollide(colliderA, colliderB, transformA.position, transformB.position)) {
-                        RigidBodyComponent& rigidBodyA = entityA.GetComponent<RigidBodyComponent>();
-                        RigidBodyComponent& rigidBodyB = entityB.GetComponent<RigidBodyComponent>();
+            // Loop all the entities that the system is interested in
+            for (auto i = entities.begin(); i != entities.end(); i++) {
+                Entity a = *i;
+                auto aTransform = a.GetComponent<TransformComponent>();
+                auto aCollider = a.GetComponent<BoxColliderComponent>();
 
-                        rigidBodyA.velocity = glm::vec2(0.0, 0.0);
-                        rigidBodyB.velocity = glm::vec2(0.0, 0.0);
+                // Loop all the entities that still need to be checked (to the right of i)
+                for (auto j = i + 1; j != entities.end(); j++) {
+                    Entity b = *j;
+
+                    auto bTransform = b.GetComponent<TransformComponent>();
+                    auto bCollider = b.GetComponent<BoxColliderComponent>();
+                 
+                    // Perform the AABB collision check between entities a and b
+                    bool collisionHappened = CheckAABBCollision(
+                        aTransform.position.x + aCollider.offset.x,
+                        aTransform.position.y + aCollider.offset.y,
+                        aCollider.width,
+                        aCollider.height,
+                        bTransform.position.x + bCollider.offset.x,
+                        bTransform.position.y + bCollider.offset.y,
+                        bCollider.width,
+                        bCollider.height
+                    );
+
+                    if (collisionHappened) {
+                        Logger::Log("Entity " + std::to_string(a.GetId()) + " is colliding with entity " + std::to_string(b.GetId()));
+                        
+                        // TODO: emit an event...
                     }
                 }
             }
+        }
+
+        bool CheckAABBCollision(double aX, double aY, double aW, double aH, double bX, double bY, double bW, double bH) {
+            return (
+                aX < bX + bW &&
+                aX + aW > bX &&
+                aY < bY + bH &&
+                aY + aH > bY
+            );
         }
 };
 
