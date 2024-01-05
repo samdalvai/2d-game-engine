@@ -53,12 +53,12 @@ class CollisionSystem: public System {
             }
         }
 
-        bool CheckAABBCollision(double aX, double aY, double aW, double aH, double bX, double bY, double bW, double bH) {
+        bool CheckAABBCollision(double aX, double aY, double aWidth, double aHeight, double bX, double bY, double bWidth, double bHeight) {
             return (
-                aX < bX + bW &&
-                aX + aW > bX &&
-                aY < bY + bH &&
-                aY + aH > bY
+                aX < bX + bWidth &&
+                aX + aWidth > bX &&
+                aY < bY + bHeight &&
+                aY + aHeight > bY
             );
         }
 };
