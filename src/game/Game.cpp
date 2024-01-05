@@ -92,7 +92,7 @@ void Game::LoadLevel(int level) {
             tile.AddComponent<TransformComponent>(glm::vec2(srcRectX * scale, srcRectY * scale), glm::vec2(scale, scale), 0.0);
             int tileXCoordinates = (tileNumber % 10) * 32;
             int tileYCoordinates = tileNumber / 10 * 32;
-            tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, tileXCoordinates, tileYCoordinates);
+            tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, 0, tileXCoordinates, tileYCoordinates);
             srcRectX += 32;
         }
         srcRectX = 0;
@@ -103,12 +103,12 @@ void Game::LoadLevel(int level) {
     Entity tank = registry->CreateEntity();
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
-    tank.AddComponent<SpriteComponent>("tank-image", 32, 32);
+    tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 2);
 
     Entity truck = registry->CreateEntity();
     truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));
-    truck.AddComponent<SpriteComponent>("truck-image", 32, 32);
+    truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);
 }
 
 void Game::Setup() {

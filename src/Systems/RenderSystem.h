@@ -7,6 +7,7 @@
 #include "../Components/SpriteComponent.h"
 
 #include <SDL2/SDL.h>
+#include <algorithm>
 
 class RenderSystem: public System {
     public:
@@ -16,8 +17,17 @@ class RenderSystem: public System {
         }
 
         void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore) {
+            // TODO: sort entities by z-index
+            std::vector<Entity> entities = GetSystemEntities();
+            std::sort(entities.begin(), entities.end(), [](const Entity& a, const Entity& b) {
+                const auto spriteA = a.GetComponent<SpriteComponent>();
+                const auto spriteB = b.GetComponent<SpriteComponent>();
+
+                return spriteA.zIndex < spriteB.zIndex;
+            });
+
             // Loop all entities that the system is interested in
-            for (Entity entity: GetSystemEntities()) {
+            for (Entity entity: entities) {
                 const auto transform = entity.GetComponent<TransformComponent>();
                 const auto sprite = entity.GetComponent<SpriteComponent>();
 
