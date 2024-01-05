@@ -54,7 +54,6 @@ class Entity {
         bool operator <(const Entity& other) const { return id < other.id; }
 
         // Pointer to entity's owner registry
-        //std::unique_ptr<Registry> registry;
         Registry* registry;
 
         template <typename TComponent, typename ...TArgs> void AddComponent(TArgs&& ...args);
