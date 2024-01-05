@@ -17,7 +17,6 @@ class RenderSystem: public System {
         }
 
         void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore) {
-            // TODO: sort entities by z-index
             std::vector<Entity> entities = GetSystemEntities();
             std::sort(entities.begin(), entities.end(), CompareByZIndex);
 
