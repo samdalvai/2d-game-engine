@@ -6,6 +6,7 @@
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/AnimationComponent.h"
+#include "../Components/BoxColliderComponent.h"
 
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
@@ -119,14 +120,16 @@ void Game::LoadLevel(int level) {
 
     // Create some entities
     Entity tank = registry->CreateEntity();
-    tank.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
+    tank.AddComponent<TransformComponent>(glm::vec2(100.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 2);
+    tank.AddComponent<BoxColliderComponent>();
 
     Entity truck = registry->CreateEntity();
-    truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
-    truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));
+    truck.AddComponent<TransformComponent>(glm::vec2(500.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    truck.AddComponent<RigidBodyComponent>(glm::vec2(-50.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);
+    tank.AddComponent<BoxColliderComponent>();
 }
 
 void Game::Setup() {
