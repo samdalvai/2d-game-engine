@@ -161,14 +161,15 @@ void Game::Update() {
     // Store the "previous" frame time
     millisecsPreviousFrame = SDL_GetTicks();
     
+    registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
+
+    // Update entities that are waiting to be updated/killed
+    registry->Update();
+    
     // Update game systems
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
-    // DamageSystem.Update();
-
-    // Update entities that are waiting to be updated/killed
-    registry->Update();
 }
 
 void Game::Render() {
