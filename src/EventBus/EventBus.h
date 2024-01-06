@@ -2,15 +2,11 @@
 #define EVENTBUS_H
 
 #include "../Logger/Logger.h"
+#include "Event.h"
 #include <map>
 #include <typeindex>
 #include <functional>
 #include <list>
-
-class Event {
-    public:
-        Event() = default;
-};
 
 class IEventCallback {
     private:
