@@ -11,7 +11,7 @@
 class RenderCollisionSystem: public System {
     public:
         RenderCollisionSystem() {
-            RequireComponent<BoxColliderComponent>();
+            RequireComponent<TransformComponent>();
             RequireComponent<BoxColliderComponent>();
         }
 
@@ -27,7 +27,7 @@ class RenderCollisionSystem: public System {
                     static_cast<int>(collider.height * transform.scale.y),
                 };
 
-                SDL_SetRenderDrawColor(renderer, 255, collider.isColliding ? 0 : 255, 0, 255);
+                SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
                 SDL_RenderDrawRect(renderer, &boxColliderRect);
             }
         }
