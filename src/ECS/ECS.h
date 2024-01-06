@@ -206,6 +206,10 @@ class Registry {
         void RemoveEntityFromSystems(Entity entity);
 };
 
+class Event{
+    
+};
+
 template <typename TComponent>
 void System::RequireComponent() {
     const auto componentId = Component<TComponent>::GetId();
