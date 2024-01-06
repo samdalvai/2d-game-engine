@@ -26,7 +26,7 @@ struct IComponent {
 };
 
 // Used to assign a unique id to a component type
-template <typename T>
+template <typename TComponent>
 class Component: public IComponent {
     // Returns the unique id of Component<T>
     public:
@@ -204,10 +204,6 @@ class Registry {
         // that are interested in it
         void AddEntityToSystems(Entity entity);
         void RemoveEntityFromSystems(Entity entity);
-};
-
-class Event{
-    
 };
 
 template <typename TComponent>
