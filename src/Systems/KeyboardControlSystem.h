@@ -31,18 +31,22 @@ class KeyboardControlSystem: public System {
 
                 switch (event.keyCode) {
                     case SDLK_UP:
+                    case SDLK_w:
                         rigidBody.velocity = keyboardControl.upVelocity;
                         sprite.srcRect.y = sprite.height * 0;
                         break;
                     case SDLK_RIGHT:
+                    case SDLK_d:
                         rigidBody.velocity = keyboardControl.rightVelocity;
                         sprite.srcRect.y = sprite.height * 1;
                         break;
                     case SDLK_DOWN:
+                    case SDLK_s:
                         rigidBody.velocity = keyboardControl.downVelocity;
                         sprite.srcRect.y = sprite.height * 2;
                         break;
                     case SDLK_LEFT:
+                    case SDLK_a:
                         rigidBody.velocity = keyboardControl.leftVelocity;
                         sprite.srcRect.y = sprite.height * 3;
                         break;
