@@ -14,8 +14,14 @@ class CameraMovementSystem: public System {
             RequireComponent<TransformComponent>();
         }
 
-        void Update() {
-            
+        void Update(SDL_Rect& camera) {
+            for (auto entity: GetSystemEntities()) {
+                auto transform = entity.GetComponent<TransformComponent>();
+
+                // TODO: cange camera x and y based on component transform
+                camera.x = transform.position.x;
+                camera.y = transform.position.y;
+            }   
         }
 };
 
