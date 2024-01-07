@@ -17,6 +17,7 @@
 #include "../Systems/RenderCollisionSystem.h"
 #include "../Systems/DamageSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
+#include "../Systems/CameraMovementSystem.h"
 
 #include "../Event/KeyPressedEvent.h"
 
@@ -103,6 +104,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<RenderCollisionSystem>();
     registry->AddSystem<DamageSystem>();
     registry->AddSystem<KeyboardControlSystem>();
+    registry->AddSystem<CameraMovementSystem>();
 
     // Add assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -189,6 +191,7 @@ void Game::Update() {
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
     registry->GetSystem<KeyboardControlSystem>().Update();
+    registry->GetSystem<CameraMovementSystem>().Update();
 }
 
 void Game::Render() {
