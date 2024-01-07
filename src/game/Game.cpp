@@ -7,6 +7,7 @@
 #include "../Components/SpriteComponent.h"
 #include "../Components/AnimationComponent.h"
 #include "../Components/BoxColliderComponent.h"
+#include "../Components/KeyboardControlledComponent.h"
 
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
@@ -14,7 +15,7 @@
 #include "../Systems/CollisionSystem.h"
 #include "../Systems/RenderCollisionSystem.h"
 #include "../Systems/DamageSystem.h"
-#include "../Systems/KeyboardMovementSystem.h"
+#include "../Systems/KeyboardControlSystem.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -92,12 +93,12 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<CollisionSystem>();
     registry->AddSystem<RenderCollisionSystem>();
     registry->AddSystem<DamageSystem>();
-    registry->AddSystem<KeyBoardMovementSystem>();
+    registry->AddSystem<KeyboardControlSystem>();
 
     // Add assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-left.png");
-    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper.png");
+    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper-spritesheet.png");
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");
 
     assetStore->AddTexture(renderer, "tile-textures", "./assets/tilemaps/jungle.png");
@@ -127,6 +128,7 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
     chopper.AddComponent<AnimationComponent>(2, 10, true);
     chopper.AddComponent<BoxColliderComponent>(32, 32);
+    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -50), glm::vec2(50, 0), glm::vec2(0, 50), glm::vec2(-50, 0));
 
     Entity radar = registry->CreateEntity();
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
@@ -167,7 +169,7 @@ void Game::Update() {
     eventBus->Reset();
     
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
-    registry->GetSystem<KeyBoardMovementSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
 
     // Update entities that are waiting to be updated/killed
     registry->Update();
@@ -176,7 +178,7 @@ void Game::Update() {
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
-    registry->GetSystem<KeyBoardMovementSystem>().Update();
+    registry->GetSystem<KeyboardControlSystem>().Update();
 }
 
 void Game::Render() {
