@@ -160,6 +160,8 @@ void Game::Update() {
 
     // Store the "previous" frame time
     millisecsPreviousFrame = SDL_GetTicks();
+
+    eventBus->Reset();
     
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
 
