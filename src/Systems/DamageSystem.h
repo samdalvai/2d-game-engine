@@ -1,6 +1,7 @@
 #ifndef DAMAGESYSTEM_H
 #define DAMAGESYSTEM_H
 
+#include "../Logger/Logger.h"
 #include "../ECS/ECS.h"
 #include "../EventBus/EventBus.h"
 #include "../Components/BoxColliderComponent.h"
@@ -17,7 +18,9 @@ class DamageSystem: public System {
         }
 
         void onCollision(CollisionEvent& event) {
-
+            Logger::Log("Collision occurred between entities: " + std::to_string(event.a.GetId()) + " and " + std::to_string(event.b.GetId()));
+            event.a.Kill();
+            event.b.Kill();
         }
 
         void Update() {

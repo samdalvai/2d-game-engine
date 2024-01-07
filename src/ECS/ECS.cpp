@@ -6,6 +6,8 @@ int IComponent::nextId = 0;
 
 void Entity::Kill() {
     registry->KillEntity(*this);
+
+    Logger::Log("Entity with id " + std::to_string(this->GetId()) + " was killed");
 }
 
 int Entity::GetId() const {
@@ -23,9 +25,6 @@ void System::RemoveEntityFromSystem(Entity entity) {
             break;
         }
     }
-    /*entities.erase(std::remove_if(entities.begin(), entities.end(), [&entity](Entity other) {
-        return entity == other;
-    }), entities.end());*/
 }
 
 std::vector<Entity> System::GetSystemEntities() const {
