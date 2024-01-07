@@ -8,6 +8,8 @@
 #include "../Components/RigidBodyComponent.h"
 #include "../Event/KeyPressedEvent.h"
 
+#include <SDL2/SDL.h>
+
 class KeyBoardMovementSystem: public System {
     public:
         KeyBoardMovementSystem() {
@@ -20,7 +22,7 @@ class KeyBoardMovementSystem: public System {
         }
 
         void onKeyPressed(KeyPressedEvent& event) {
-            
+            Logger::Log("Key pressed event, key code: " + std::to_string(event.keyCode));
         }
 
         void Update() {

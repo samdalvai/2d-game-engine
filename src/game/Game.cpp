@@ -14,6 +14,7 @@
 #include "../Systems/CollisionSystem.h"
 #include "../Systems/RenderCollisionSystem.h"
 #include "../Systems/DamageSystem.h"
+#include "../Systems/KeyboardMovementSystem.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -71,6 +72,7 @@ void Game::ProcessInput() {
                 isRunning = false;
                 break;
             case SDL_KEYDOWN:
+                eventBus->EmitEvent<KeyPressedEvent>(sdlEvent.key.keysym.sym);
                 if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
                     isRunning = false;
                 }
@@ -90,6 +92,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<CollisionSystem>();
     registry->AddSystem<RenderCollisionSystem>();
     registry->AddSystem<DamageSystem>();
+    registry->AddSystem<KeyBoardMovementSystem>();
 
     // Add assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -164,6 +167,7 @@ void Game::Update() {
     eventBus->Reset();
     
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<KeyBoardMovementSystem>().SubscribeToEvents(eventBus);
 
     // Update entities that are waiting to be updated/killed
     registry->Update();

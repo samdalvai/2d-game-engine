@@ -4,9 +4,12 @@
 #include "../EventBus/Event.h"
 #include "../ECS/ECS.h"
 
+#include <SDL2/SDL.h>
+
 class KeyPressedEvent: public Event{
     public:
-        KeyPressedEvent() {}
+        SDL_Keycode keyCode;
+        KeyPressedEvent(SDL_Keycode keyCode): keyCode(keyCode) {}
 
 };
 
