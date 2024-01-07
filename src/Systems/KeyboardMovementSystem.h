@@ -22,7 +22,8 @@ class KeyBoardMovementSystem: public System {
         }
 
         void onKeyPressed(KeyPressedEvent& event) {
-            Logger::Log("Key pressed event, key code: " + std::to_string(event.keyCode));
+            Logger::Log("Key pressed event, key code: " + std::to_string(event.keyCode) + 
+             ", key name: " + SDL_GetKeyName(event.keyCode));
         }
 
         void Update() {
