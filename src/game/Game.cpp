@@ -131,7 +131,7 @@ void Game::LoadLevel(int level) {
             tile.AddComponent<TransformComponent>(glm::vec2(srcRectX * scale, srcRectY * scale), glm::vec2(scale, scale), 0.0);
             int tileXCoordinates = (tileNumber % 10) * 32;
             int tileYCoordinates = tileNumber / 10 * 32;
-            tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, 0, tileXCoordinates, tileYCoordinates);
+            tile.AddComponent<SpriteComponent>("tile-textures", 32, 32, 0, false, tileXCoordinates, tileYCoordinates);
             srcRectX += 32;
         }
         srcRectX = 0;
@@ -152,7 +152,7 @@ void Game::LoadLevel(int level) {
 
     Entity radar = registry->CreateEntity();
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
-    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1);
+    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);
     radar.AddComponent<AnimationComponent>(8, 7.5, true);
 
     // Create some entities
