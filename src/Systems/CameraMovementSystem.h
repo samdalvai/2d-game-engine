@@ -2,6 +2,7 @@
 #define CAMERAMOVEMENTSYSTEM_H
 
 #include "../ECS/ECS.h"
+#include "../Game/Game.h"
 #include "../Components/CameraFollowComponent.h"
 #include "../Components/TransformComponent.h"
 
@@ -18,9 +19,17 @@ class CameraMovementSystem: public System {
             for (auto entity: GetSystemEntities()) {
                 auto transform = entity.GetComponent<TransformComponent>();
 
-                // TODO: cange camera x and y based on component transform
-                camera.x = transform.position.x;
-                camera.y = transform.position.y;
+                if (transform.position.x + camera.w / 2 < Game::mapWidth) {
+                    camera.x = transform.position.x - camera.w / 2;
+                }
+                if (transform.position.y + camera.h / 2 < Game::mapHeight) {
+                    camera.y = transform.position.y - camera.h / 2;
+                }
+
+                camera.x = camera.x < 0 ? 0 : camera.x;
+                camera.y = camera.y < 0 ? 0 : camera.y;
+                camera.x = camera.x > camera.w ? camera.w : camera.x;
+                camera.y = camera.y > camera.h ? camera.h : camera.y;
             }   
         }
 };

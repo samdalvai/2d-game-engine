@@ -26,6 +26,11 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
+int Game::windowWidth;
+int Game::windowHeight;
+int Game::mapWidth;
+int Game::mapHeight;
+
 Game::Game() {
     isRunning = false;
     isDebug = false;
@@ -133,13 +138,16 @@ void Game::LoadLevel(int level) {
         srcRectY += 32;
     }
 
+    mapWidth = 32 * 25 * scale;
+    mapHeight = 32 * 20 * scale;
+
     Entity chopper = registry->CreateEntity();
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
     chopper.AddComponent<AnimationComponent>(2, 10, true);
     chopper.AddComponent<BoxColliderComponent>(32, 32);
-    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -50), glm::vec2(50, 0), glm::vec2(0, 50), glm::vec2(-50, 0));
+    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -100), glm::vec2(100, 0), glm::vec2(0, 100), glm::vec2(-100, 0));
     chopper.AddComponent<CameraFollowComponent>();
 
     Entity radar = registry->CreateEntity();
@@ -191,14 +199,14 @@ void Game::Update() {
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
     registry->GetSystem<KeyboardControlSystem>().Update();
-    registry->GetSystem<CameraMovementSystem>().Update();
+    registry->GetSystem<CameraMovementSystem>().Update(camera);
 }
 
 void Game::Render() {
     SDL_RenderClear(renderer);
 
     // Update game systems
-    registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
+    registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
 
     if (isDebug) {
         registry->GetSystem<RenderCollisionSystem>().Update(renderer);

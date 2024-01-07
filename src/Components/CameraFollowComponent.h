@@ -3,9 +3,7 @@
 
 struct CameraFollowComponent {
 
-    CameraFollowComponent() {
-        
-    }
+    CameraFollowComponent() {}
 };
 
 #endif

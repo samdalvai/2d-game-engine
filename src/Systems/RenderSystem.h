@@ -16,7 +16,7 @@ class RenderSystem: public System {
             RequireComponent<SpriteComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore) {
+        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera) {
             std::vector<Entity> entities = GetSystemEntities();
             std::sort(entities.begin(), entities.end(), CompareByZIndex);
 
@@ -26,8 +26,8 @@ class RenderSystem: public System {
                 const SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
 
                 SDL_Rect destRect = {
-                    static_cast<int>(transform.position.x),
-                    static_cast<int>(transform.position.y),
+                    static_cast<int>(transform.position.x - camera.x),
+                    static_cast<int>(transform.position.y - camera.y),
                     static_cast<int>(sprite.width * transform.scale.x),
                     static_cast<int>(sprite.height * transform.scale.y),
                 };
