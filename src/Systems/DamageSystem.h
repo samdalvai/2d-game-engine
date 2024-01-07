@@ -14,10 +14,10 @@ class DamageSystem: public System {
         }
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
-            eventBus->SubscribeToEvent<CollisionEvent>(this, &DamageSystem::onCollision);
+            eventBus->SubscribeToEvent<CollisionEvent>(this, &DamageSystem::OnCollision);
         }
 
-        void onCollision(CollisionEvent& event) {
+        void OnCollision(CollisionEvent& event) {
             Logger::Log("Collision occurred between entities: " + std::to_string(event.a.GetId()) + " and " + std::to_string(event.b.GetId()));
             event.a.Kill();
             event.b.Kill();

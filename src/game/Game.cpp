@@ -76,7 +76,7 @@ void Game::ProcessInput() {
                 if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
                     isRunning = false;
                 }
-                if (sdlEvent.key.keysym.sym == SDLK_d) {
+                if (sdlEvent.key.keysym.sym == SDLK_m) {
                     isDebug = !isDebug;
                 }
                 break;
@@ -123,7 +123,7 @@ void Game::LoadLevel(int level) {
 
     Entity chopper = registry->CreateEntity();
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
-    chopper.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 10.0));
+    chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);
     chopper.AddComponent<AnimationComponent>(2, 10, true);
     chopper.AddComponent<BoxColliderComponent>(32, 32);
@@ -176,6 +176,7 @@ void Game::Update() {
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
+    registry->GetSystem<KeyBoardMovementSystem>().Update();
 }
 
 void Game::Render() {

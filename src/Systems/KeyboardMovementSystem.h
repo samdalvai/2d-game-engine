@@ -18,10 +18,10 @@ class KeyBoardMovementSystem: public System {
         }
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
-            eventBus->SubscribeToEvent<KeyPressedEvent>(this, &KeyBoardMovementSystem::onKeyPressed);
+            eventBus->SubscribeToEvent<KeyPressedEvent>(this, &KeyBoardMovementSystem::OnKeyPressed);
         }
 
-        void onKeyPressed(KeyPressedEvent& event) {
+        void OnKeyPressed(KeyPressedEvent& event) {
             Logger::Log("Key pressed event, key code: " + std::to_string(event.keyCode) + 
              ", key name: " + SDL_GetKeyName(event.keyCode));
         }
