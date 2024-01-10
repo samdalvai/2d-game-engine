@@ -15,14 +15,14 @@ class RenderCollisionSystem: public System {
             RequireComponent<BoxColliderComponent>();
         }
 
-        void Update(SDL_Renderer* renderer) {
+        void Update(SDL_Renderer* renderer, SDL_Rect& camera) {
             for (Entity entity: GetSystemEntities()) {
                 auto transform = entity.GetComponent<TransformComponent>();
                 auto collider = entity.GetComponent<BoxColliderComponent>();
 
                 SDL_Rect boxColliderRect = {
-                    static_cast<int>(transform.position.x),
-                    static_cast<int>(transform.position.y),
+                    static_cast<int>(transform.position.x - camera.x),
+                    static_cast<int>(transform.position.y - camera.y),
                     static_cast<int>(collider.width * transform.scale.x),
                     static_cast<int>(collider.height * transform.scale.y),
                 };
