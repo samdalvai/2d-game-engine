@@ -24,7 +24,7 @@ class DamageSystem: public System {
             Entity& a = event.a;
             Entity& b = event.b;
 
-            if (a.HasComponent<HealthComponent>()) {
+            /*if (a.HasComponent<HealthComponent>()) {
                 auto& health = a.GetComponent<HealthComponent>();
                 health.healthPercentage -= 25;
                 Logger::Log("Entity: " + std::to_string(event.a.GetId()) + " has now " + std::to_string(health.healthPercentage) + " of health");
@@ -42,7 +42,7 @@ class DamageSystem: public System {
                 if (health.healthPercentage <= 0) {
                     b.Kill();
                 }
-            }
+            }*/
 
             //event.a.Kill();
             //event.b.Kill();

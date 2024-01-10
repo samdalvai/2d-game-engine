@@ -168,7 +168,7 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);
     tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 10000, 0, false);
+    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 3000, 25, false);
     tank.AddComponent<HealthComponent>(100);
 
     Entity truck = registry->CreateEntity();
@@ -176,7 +176,7 @@ void Game::LoadLevel(int level) {
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 2);
     truck.AddComponent<BoxColliderComponent>(32, 32);
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 10000, 0, false);
+    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 3000, 25, false);
     truck.AddComponent<HealthComponent>(100);
 }
 
