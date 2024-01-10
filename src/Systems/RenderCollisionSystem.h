@@ -29,6 +29,7 @@ class RenderCollisionSystem: public System {
 
                 SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
                 SDL_RenderDrawRect(renderer, &boxColliderRect);
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             }
         }
 };
