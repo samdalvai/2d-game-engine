@@ -19,6 +19,7 @@
 #include "../Systems/DamageSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
 #include "../Systems/CameraMovementSystem.h"
+#include "../Systems/ProjectileEmitSystem.h"
 
 #include "../Event/KeyPressedEvent.h"
 
@@ -150,6 +151,7 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<BoxColliderComponent>(32, 32);
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -100), glm::vec2(100, 0), glm::vec2(0, 100), glm::vec2(-100, 0));
     chopper.AddComponent<CameraFollowComponent>();
+    chopper.AddComponent<ProjectileEmitSystem>();
 
     Entity radar = registry->CreateEntity();
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
@@ -162,14 +164,14 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 2);
     tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(32, 32);
+    tank.AddComponent<ProjectileEmitterComponent>();
 
     Entity truck = registry->CreateEntity();
     truck.AddComponent<TransformComponent>(glm::vec2(500.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);
     truck.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(32, 32);
+    tank.AddComponent<ProjectileEmitterComponent>();
 }
 
 void Game::Setup() {
@@ -201,6 +203,7 @@ void Game::Update() {
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
+    registry->GetSystem<ProjectileEmitSystem>().Update();
     registry->GetSystem<KeyboardControlSystem>().Update();
     registry->GetSystem<CameraMovementSystem>().Update(camera);
 }
