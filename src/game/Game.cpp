@@ -201,6 +201,7 @@ void Game::Update() {
     
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);
 
     // Update entities that are waiting to be updated/killed
     registry->Update();

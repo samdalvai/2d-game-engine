@@ -8,6 +8,9 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/ProjectileComponent.h"
+#include "../Components/KeyboardControlledComponent.h"
+#include "../EventBus/EventBus.h"
+#include "../Event/KeyPressedEvent.h"
 #include <SDL2/SDL.h>
 
 class ProjectileEmitSystem: public System {
@@ -15,6 +18,18 @@ class ProjectileEmitSystem: public System {
         ProjectileEmitSystem() {
             RequireComponent<ProjectileEmitterComponent>();
             RequireComponent<TransformComponent>();
+        }
+
+        void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
+            eventBus->SubscribeToEvent<KeyPressedEvent>(this, &ProjectileEmitSystem::OnKeyPressed);
+        }
+
+        void OnKeyPressed(KeyPressedEvent& event) {
+            for (auto entity: GetSystemEntities()) {
+                if (event.keyCode == SDLK_SPACE) {
+                    
+                }
+            }
         }
 
         void Update(std::unique_ptr<Registry>& registry) {
