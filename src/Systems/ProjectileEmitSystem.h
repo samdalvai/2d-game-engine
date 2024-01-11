@@ -25,10 +25,13 @@ class ProjectileEmitSystem: public System {
         }
 
         void OnKeyPressed(KeyPressedEvent& event) {
-            for (auto entity: GetSystemEntities()) {
-                if (event.keyCode == SDLK_SPACE) {
-                    
-                }
+            if (event.keyCode == SDLK_SPACE) {
+                for (auto entity: GetSystemEntities()) {
+                    if (entity.HasComponent<KeyboardControlledComponent>()) {
+                        auto& projectileEmitter = entity.GetComponent<ProjectileEmitterComponent>();
+                        
+                    }
+                }       
             }
         }
 
@@ -38,7 +41,7 @@ class ProjectileEmitSystem: public System {
                 const auto transform = entity.GetComponent<TransformComponent>();
 
                 // Check if its time to re-emit a new projectile
-                if (SDL_GetTicks() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency) {
+                if (SDL_GetTicks() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency && projectileEmitter.repeatFrequency > 0) {
                     glm::vec2 projectilePosition = transform.position;
                     if (entity.HasComponent<SpriteComponent>()) {
                         const auto sprite = entity.GetComponent<SpriteComponent>();
