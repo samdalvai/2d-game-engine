@@ -216,6 +216,9 @@ class Registry {
         // that are interested in it
         void AddEntityToSystems(Entity entity);
         void RemoveEntityFromSystems(Entity entity);
+
+        void AddEntityTag(const std::string& tag, Entity& entity);
+        void RemoveEntityTag(const std::string& tag, Entity& entity);
 };
 
 template <typename TComponent>

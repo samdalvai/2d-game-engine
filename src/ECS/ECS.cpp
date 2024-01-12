@@ -99,3 +99,12 @@ void Registry::Update() {
     }
     entitiesToBeKilled.clear();
 }
+
+void Registry::AddEntityTag(const std::string& tag, Entity& entity) {
+            tagPerEntity.insert(std::make_pair(tag, entity));
+            entityPerTag.insert(std::make_pair(entity.GetId(), tag));
+        }
+
+void Registry::RemoveEntityTag(const std::string& tag, Entity& entity) {
+    
+}
