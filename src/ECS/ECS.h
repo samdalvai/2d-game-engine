@@ -62,6 +62,12 @@ class Entity {
         template <typename TComponent> TComponent& GetComponent() const;
 
         void Kill();
+
+        void Tag(const std::string& tag);
+        bool HasTag(const std::string& tag) const;
+
+        void Group(const std::string& groupName);
+        bool BelongsToGroup(const std::string& groupName) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
