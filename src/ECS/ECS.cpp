@@ -101,10 +101,18 @@ void Registry::Update() {
 }
 
 void Registry::AddEntityTag(const std::string& tag, Entity& entity) {
-            tagPerEntity.insert(std::make_pair(tag, entity));
-            entityPerTag.insert(std::make_pair(entity.GetId(), tag));
-        }
+    tagPerEntity.insert(std::make_pair(tag, entity));
+    entityPerTag.insert(std::make_pair(entity.GetId(), tag));
+}
 
 void Registry::RemoveEntityTag(const std::string& tag, Entity& entity) {
-    
+    auto tagIt = tagPerEntity.find(tag);
+    if (tagIt != tagPerEntity.end()) {
+        tagPerEntity.erase(tagIt);
+    }
+
+    auto entityIt = entityPerTag.find(entity.GetId());
+    if (entityIt != entityPerTag.end()) {
+        entityPerTag.erase(entityIt);
+    }
 }
