@@ -178,7 +178,7 @@ class Registry {
         // List of available free ids previously removed
         std::deque<int> freeIds;
 
-        std::unordered_map<int, Entity> tagPerEntity;
+        std::unordered_map<std::string, Entity> tagPerEntity;
         std::unordered_map<int, std::string> entityPerTag;
 
         std::unordered_map<std::string, std::set<Entity>> entitiesPerGroup;
