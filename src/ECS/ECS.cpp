@@ -14,6 +14,10 @@ int Entity::GetId() const {
     return id;
 }
 
+void Entity::Tag(const std::string& tag) {
+    registry->AddEntityTag(tag, *this);
+}
+
 void System::AddEntityToSystem(Entity entity) {
     entities.push_back(entity);
 }
@@ -103,6 +107,7 @@ void Registry::Update() {
 void Registry::AddEntityTag(const std::string& tag, Entity& entity) {
     tagPerEntity.insert(std::make_pair(tag, entity));
     entityPerTag.insert(std::make_pair(entity.GetId(), tag));
+    Logger::Log("Added new tag " + tag + " for entity: " + std::to_string(entity.GetId()));
 }
 
 void Registry::RemoveEntityTag(const std::string& tag, Entity& entity) {
@@ -115,4 +120,6 @@ void Registry::RemoveEntityTag(const std::string& tag, Entity& entity) {
     if (entityIt != entityPerTag.end()) {
         entityPerTag.erase(entityIt);
     }
+
+    Logger::Log("Removed " + tag + " for entity: " + std::to_string(entity.GetId()));
 }
