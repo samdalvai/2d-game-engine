@@ -178,6 +178,9 @@ class Registry {
         // List of available free ids previously removed
         std::deque<int> freeIds;
 
+        std::unordered_map<int, std::string> tagPerEntity;
+        std::unordered_map<std::string, std::set<Entity>> entitiesPerGroup;
+
     public:
         Registry() {
             Logger::Log("Registry constructor called");
