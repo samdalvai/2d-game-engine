@@ -28,15 +28,13 @@ struct IComponent {
 // Used to assign a unique id to a component type
 template <typename TComponent>
 class Component: public IComponent {
-    // Returns the unique id of Component<T>
     public:
+        // Returns the unique id of Component<T>
         static int GetId() {
             static auto id = nextId++;
             return id;
         }
 };
-
-class Registry;
 
 class Entity {
     private:
@@ -45,29 +43,30 @@ class Entity {
     public:
         Entity(int id): id(id) {};
         Entity(const Entity& entity) = default;
+        void Kill();
         int GetId() const;
+
+        // Manage entity tags and groups
+		void Tag(const std::string& tag);
+    	bool HasTag(const std::string& tag) const;
+    	void Group(const std::string& group);
+    	bool BelongsToGroup(const std::string& group) const;
        
+        // Manage entity components
+        template <typename TComponent, typename ...TArgs> void AddComponent(TArgs&& ...args);
+        template <typename TComponent> void RemoveComponent();
+        template <typename TComponent> bool HasComponent() const;
+        template <typename TComponent> TComponent& GetComponent() const;
+
+        // Operator overloading for entity objects
         Entity& operator =(const Entity& other) = default;
         bool operator ==(const Entity& other) const { return id == other.id; }
         bool operator !=(const Entity& other) const { return id != other.id; }
         bool operator >(const Entity& other) const { return id > other.id; }
         bool operator <(const Entity& other) const { return id < other.id; }
 
-        // Pointer to entity's owner registry
-        Registry* registry;
-
-        template <typename TComponent, typename ...TArgs> void AddComponent(TArgs&& ...args);
-        template <typename TComponent> void RemoveComponent();
-		template <typename TComponent> bool HasComponent() const;
-        template <typename TComponent> TComponent& GetComponent() const;
-
-        void Kill();
-
-        void Tag(const std::string& tag);
-        bool HasTag(const std::string& tag) const;
-
-        void Group(const std::string& groupName);
-        bool BelongsToGroup(const std::string& groupName) const;
+        // Hold a pointer to the entity's owner registry
+        class Registry* registry;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,14 +174,16 @@ class Registry {
         std::set<Entity> entitiesToBeAdded;
         std::set<Entity> entitiesToBeKilled;
 
-        // List of available free ids previously removed
-        std::deque<int> freeIds;
+        // Entity tags (one tag name per entity)
+		std::unordered_map<std::string, Entity> entityPerTag;
+        std::unordered_map<int, std::string> tagPerEntity;
 
-        std::unordered_map<std::string, Entity> tagPerEntity;
-        std::unordered_map<int, std::string> entityPerTag;
-
-        std::unordered_map<std::string, std::set<Entity>> entitiesPerGroup;
+		// Entity groups (a set of entities per group name)
+		std::unordered_map<std::string, std::set<Entity>> entitiesPerGroup;
         std::unordered_map<int, std::string> groupPerEntity;
+
+        // List of free entity ids that were previously removed
+        std::deque<int> freeIds;
 
     public:
         Registry() {
@@ -200,6 +201,18 @@ class Registry {
         Entity CreateEntity();
         void KillEntity(Entity entity);
 
+        // Tag management
+		void TagEntity(Entity entity, const std::string& tag);
+		bool EntityHasTag(Entity entity, const std::string& tag) const;
+		Entity GetEntityByTag(const std::string& tag) const;
+		void RemoveEntityTag(Entity entity);
+
+        // Group management
+		void GroupEntity(Entity entity, const std::string& group);
+		bool EntityBelongsToGroup(Entity entity, const std::string& group) const;
+		std::vector<Entity> GetEntitiesByGroup(const std::string& group) const;
+		void RemoveEntityGroup(Entity entity);
+
         // Component management
         template <typename TComponent, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args);
         template <typename TComponent> void RemoveComponent(Entity entity);
@@ -212,13 +225,9 @@ class Registry {
         template <typename TSystem> bool HasSystem() const;
         template <typename TSystem> TSystem& GetSystem() const;
 
-        // Checks the component signature of an entity and add the entity to the systems
-        // that are interested in it
+        // Add and remove entities from their systems
         void AddEntityToSystems(Entity entity);
         void RemoveEntityFromSystems(Entity entity);
-
-        void AddEntityTag(const std::string& tag, Entity& entity);
-        void RemoveEntityTag(const std::string& tag, Entity& entity);
 };
 
 template <typename TComponent>
@@ -260,7 +269,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
     }
 
     if (!componentPools[componentId]) {
-        std::shared_ptr<Pool<TComponent>> newComponentPool = std::make_shared<Pool<TComponent>>();
+        std::shared_ptr<Pool<TComponent>> newComponentPool(new Pool<TComponent>());
         componentPools[componentId] = newComponentPool;
     }
 
@@ -276,7 +285,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
 
     entityComponentSignatures[entityId].set(componentId);
 
-    Logger::Log("Component with id: " + std::to_string(componentId) + " was added to entity with id: " + std::to_string(entityId));
+    Logger::Log("Component id = " + std::to_string(componentId) + " was added to entity id " + std::to_string(entityId));
 }
 
 template <typename TComponent>
@@ -284,8 +293,8 @@ void Registry::RemoveComponent(Entity entity) {
 	const auto componentId = Component<TComponent>::GetId();
 	const auto entityId = entity.GetId();
 	entityComponentSignatures[entityId].set(componentId, false);
-
-    Logger::Log("Component with id: " + std::to_string(componentId) + " was removed from entity with id: " + std::to_string(entityId));
+    
+    Logger::Log("Component id = " + std::to_string(componentId) + " was removed from entity id " + std::to_string(entityId));
 }
 
 template <typename TComponent>
@@ -297,13 +306,13 @@ bool Registry::HasComponent(Entity entity) const {
 
 template <typename TComponent>
 TComponent& Registry::GetComponent(Entity entity) const {
-    const auto componentId = Component<TComponent>::GetId();
+	const auto componentId = Component<TComponent>::GetId();
 	const auto entityId = entity.GetId();
     auto componentPool = std::static_pointer_cast<Pool<TComponent>>(componentPools[componentId]);
     return componentPool->Get(entityId);
 }
 
-template <typename TComponent, typename ...TArgs> 
+template <typename TComponent, typename ...TArgs>
 void Entity::AddComponent(TArgs&& ...args) {
     registry->AddComponent<TComponent>(*this, std::forward<TArgs>(args)...);
 }
@@ -318,7 +327,7 @@ bool Entity::HasComponent() const {
     return registry->HasComponent<TComponent>(*this);
 }
 
-template <typename TComponent> 
+template <typename TComponent>
 TComponent& Entity::GetComponent() const {
     return registry->GetComponent<TComponent>(*this);
 }
