@@ -3,7 +3,6 @@
 
 #include "../ECS/ECS.h"
 #include "../Components/ProjectileComponent.h"
-#include <SDL2/SDL.h>
 
 class ProjectileLifecycleSystem: public System {
     public:
@@ -15,7 +14,8 @@ class ProjectileLifecycleSystem: public System {
             for (auto entity: GetSystemEntities()) {
                 auto projectile = entity.GetComponent<ProjectileComponent>();
 
-                if (SDL_GetTicks() - projectile.startTime > projectile.projectileDuration) {
+                // Kill projectiles after they reach their duration limit
+                if (SDL_GetTicks() - projectile.startTime > projectile.duration) {
                     entity.Kill();
                 }
             }

@@ -12,7 +12,7 @@ struct BoxColliderComponent {
         this->width = width;
         this->height = height;
         this->offset = offset;
-    }   
+    }
 };
 
 #endif

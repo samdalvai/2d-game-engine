@@ -6,7 +6,7 @@
 #include "../Components/ProjectileComponent.h"
 #include "../Components/HealthComponent.h"
 #include "../EventBus/EventBus.h"
-#include "../Event/CollisionEvent.h"
+#include "../Events/CollisionEvent.h"
 
 class DamageSystem: public System {
     public:
@@ -50,7 +50,7 @@ class DamageSystem: public System {
                 // Subtract the health of the player
                 health.healthPercentage -= projectileComponent.hitPercentDamage;
 
-                Logger::Log("Projectile hit, entity's remaining health: " + std::to_string(health.healthPercentage));
+                Logger::Log("Projectile hit, remaining entity health: " + std::to_string(health.healthPercentage) + " %");
 
                 // Kills the player when health reaches zero
                 if (health.healthPercentage <= 0) {

@@ -2,10 +2,8 @@
 #define ANIMATIONSYSTEM_H
 
 #include "../ECS/ECS.h"
-#include "../AssetStore/AssetStore.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/AnimationComponent.h"
-
 #include <SDL2/SDL.h>
 
 class AnimationSystem: public System {
@@ -16,12 +14,11 @@ class AnimationSystem: public System {
         }
 
         void Update() {
-            // Loop all entities that the system is interested in
-            for (Entity entity: GetSystemEntities()) {
-                SpriteComponent& sprite = entity.GetComponent<SpriteComponent>();
-                AnimationComponent& animation = entity.GetComponent<AnimationComponent>();
-                
-                animation.currentFrame = ((SDL_GetTicks() - animation.startTime) * animation.frameRateSpeed / 1000) % animation.numFrames;
+            for (auto entity: GetSystemEntities()) {
+                auto& animation = entity.GetComponent<AnimationComponent>();
+                auto& sprite = entity.GetComponent<SpriteComponent>();
+
+                animation.currentFrame = ((SDL_GetTicks() - animation.startTime) * animation.frameSpeedRate / 1000) % animation.numFrames;
                 sprite.srcRect.x = animation.currentFrame * sprite.width;
             }
         }

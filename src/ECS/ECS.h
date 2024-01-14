@@ -26,7 +26,7 @@ struct IComponent {
 };
 
 // Used to assign a unique id to a component type
-template <typename TComponent>
+template <typename T>
 class Component: public IComponent {
     public:
         // Returns the unique id of Component<T>

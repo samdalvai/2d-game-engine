@@ -2,20 +2,19 @@
 #define ANIMATIONCOMPONENT_H
 
 #include <SDL2/SDL.h>
-#include <string>
 
 struct AnimationComponent {
     int numFrames;
     int currentFrame;
-    int frameRateSpeed;
-    bool shouldLoop;
+    int frameSpeedRate;
+    bool isLoop;
     int startTime;
 
-    AnimationComponent(int numFrames = 1, int frameRateSpeed = 1, bool shouldLoop = true) {
+    AnimationComponent(int numFrames = 1, int frameSpeedRate = 1, bool isLoop = true) {
         this->numFrames = numFrames;
         this->currentFrame = 1;
-        this->frameRateSpeed = frameRateSpeed;
-        this->shouldLoop = shouldLoop;
+        this->frameSpeedRate = frameSpeedRate;
+        this->isLoop = isLoop;
         this->startTime = SDL_GetTicks();
     }
 };

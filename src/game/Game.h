@@ -27,8 +27,8 @@ class Game {
         ~Game();
         void Initialize();
         void Run();
-        void LoadLevel(int level);
         void Setup();
+        void LoadLevel(int level);
         void ProcessInput();
         void Update();
         void Render();

@@ -14,12 +14,13 @@ class MovementSystem: public System {
 
         void Update(double deltaTime) {
             // Loop all entities that the system is interested in
-            for (Entity entity: GetSystemEntities()) {
-                TransformComponent& transform = entity.GetComponent<TransformComponent>();
-                const RigidBodyComponent& rigidBody = entity.GetComponent<RigidBodyComponent>();
+            for (auto entity: GetSystemEntities()) {
+                // Update entity position based on its velocity
+                auto& transform = entity.GetComponent<TransformComponent>();
+                const auto rigidbody = entity.GetComponent<RigidBodyComponent>();
 
-                transform.position.x += rigidBody.velocity.x * deltaTime;
-                transform.position.y += rigidBody.velocity.y * deltaTime;
+                transform.position.x += rigidbody.velocity.x * deltaTime; 
+                transform.position.y += rigidbody.velocity.y * deltaTime; 
             }
         }
 };

@@ -15,7 +15,7 @@
 #include "../Systems/RenderSystem.h"
 #include "../Systems/AnimationSystem.h"
 #include "../Systems/CollisionSystem.h"
-#include "../Systems/RenderCollisionSystem.h"
+#include "../Systems/RenderColliderSystem.h"
 #include "../Systems/DamageSystem.h"
 #include "../Systems/ProjectileEmitSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
@@ -107,7 +107,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<RenderSystem>();
     registry->AddSystem<AnimationSystem>();
     registry->AddSystem<CollisionSystem>();
-    registry->AddSystem<RenderCollisionSystem>();
+    registry->AddSystem<RenderColliderSystem>();
     registry->AddSystem<DamageSystem>();
     registry->AddSystem<KeyboardControlSystem>();
     registry->AddSystem<CameraMovementSystem>();
@@ -175,7 +175,7 @@ void Game::LoadLevel(int level) {
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);
     tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 3000, 10, false);
+    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 3000, 25, false);
     tank.AddComponent<HealthComponent>(100);
 
     Entity truck = registry->CreateEntity();
@@ -184,7 +184,7 @@ void Game::LoadLevel(int level) {
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 2);
     truck.AddComponent<BoxColliderComponent>(32, 32);
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 10, false);
+    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 25, false);
     truck.AddComponent<HealthComponent>(100);
 }
 
@@ -232,7 +232,7 @@ void Game::Render() {
     // Invoke all the systems that need to render 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {
-        registry->GetSystem<RenderCollisionSystem>().Update(renderer, camera);
+        registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
     SDL_RenderPresent(renderer);
 }

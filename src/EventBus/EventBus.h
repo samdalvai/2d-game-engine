@@ -56,6 +56,7 @@ class EventBus {
             Logger::Log("EventBus destructor called!");
         }
 
+        // Clears the subscribers list
         void Reset() {
             subscribers.clear();
         }

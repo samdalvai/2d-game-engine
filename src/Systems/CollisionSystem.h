@@ -3,9 +3,9 @@
 
 #include "../ECS/ECS.h"
 #include "../EventBus/EventBus.h"
+#include "../Events/CollisionEvent.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/TransformComponent.h"
-#include "../Event/CollisionEvent.h"
 
 class CollisionSystem: public System {
     public:
@@ -18,45 +18,49 @@ class CollisionSystem: public System {
             auto entities = GetSystemEntities();
 
             // Loop all the entities that the system is interested in
-            for (int i = 0; i < entities.size() - 1 && !entities.empty(); i++) {
-                Entity a = entities[i];
+            for (auto i = entities.begin(); i != entities.end(); i++) {
+                Entity a = *i;
                 auto aTransform = a.GetComponent<TransformComponent>();
-                BoxColliderComponent& aCollider = a.GetComponent<BoxColliderComponent>();
+                auto aCollider = a.GetComponent<BoxColliderComponent>();
 
                 // Loop all the entities that still need to be checked (to the right of i)
-                for (int j = i + 1; j < entities.size(); j++) {
-                    Entity b = entities[j];
+                for (auto j = i; j != entities.end(); j++) {
+                    Entity b = *j;
+
+                    // Bypass if we are trying to test the same entity
+                    if (a == b) {
+                        continue;
+                    }
 
                     auto bTransform = b.GetComponent<TransformComponent>();
-                    BoxColliderComponent& bCollider = b.GetComponent<BoxColliderComponent>();
+                    auto bCollider = b.GetComponent<BoxColliderComponent>();
                  
                     // Perform the AABB collision check between entities a and b
                     bool collisionHappened = CheckAABBCollision(
                         aTransform.position.x + aCollider.offset.x,
                         aTransform.position.y + aCollider.offset.y,
-                        aCollider.width * aTransform.scale.x,
-                        aCollider.height* aTransform.scale.y,
+                        aCollider.width,
+                        aCollider.height,
                         bTransform.position.x + bCollider.offset.x,
                         bTransform.position.y + bCollider.offset.y,
-                        bCollider.width * bTransform.scale.x,
-                        bCollider.height * bTransform.scale.y
+                        bCollider.width,
+                        bCollider.height
                     );
 
                     if (collisionHappened) {
-                        Logger::Log("Entity " + std::to_string(a.GetId()) + " is colliding with entity " + std::to_string(b.GetId()));
-                        
+                        Logger::Log("Entity " + std::to_string(a.GetId()) + " collided wih entity " + std::to_string(b.GetId()));
                         eventBus->EmitEvent<CollisionEvent>(a, b);
                     }
                 }
             }
         }
 
-        bool CheckAABBCollision(double aX, double aY, double aWidth, double aHeight, double bX, double bY, double bWidth, double bHeight) {
+        bool CheckAABBCollision(double aX, double aY, double aW, double aH, double bX, double bY, double bW, double bH) {
             return (
-                aX < bX + bWidth &&
-                aX + aWidth > bX &&
-                aY < bY + bHeight &&
-                aY + aHeight > bY
+                aX < bX + bW &&
+                aX + aW > bX &&
+                aY < bY + bH &&
+                aY + aH > bY
             );
         }
 };
