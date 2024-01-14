@@ -37,43 +37,7 @@ void AssetStore::AddTexture(SDL_Renderer* renderer, const std::string& assetId, 
     Logger::Log("New texture added to the asset store with id: " + assetId);
 }
 
-void AssetStore::AddTileMap(const std::string& assetId, const std::string filePath) {
-    std::ifstream mapFile(filePath);
-
-    if (!mapFile.is_open()) {
-        Logger::Err("Error: Unable to open file: " + filePath);
-    }
-
-    std::vector<std::vector<int>>* mapData = new std::vector<std::vector<int>>();
-
-    std::string line;
-    while (std::getline(mapFile, line)) {
-        std::vector<int> rowData;
-
-        std::istringstream iss(line);
-        std::string token;
-    
-        while (std::getline(iss, token, ',')) {
-            int value;
-            std::istringstream(token) >> value;
-            rowData.push_back(value);
-        }
-
-        mapData->push_back(rowData);
-    }
-
-    mapFile.close();
-
-    tileMaps.emplace(assetId, mapData);
-
-    Logger::Log("New tile map added to the asset store with id: " + assetId);
-}
-
 SDL_Texture* AssetStore::GetTexture(const std::string& assetId) {
     return textures[assetId];
-}
-
-std::vector<std::vector<int>>* AssetStore::GetTileMap(const std::string& assetId) {
-    return tileMaps[assetId];
 }
 
