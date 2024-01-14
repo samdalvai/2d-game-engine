@@ -32,11 +32,11 @@ class DamageSystem: public System {
             }
 
             if (a.BelongsToGroup("projectiles") && b.BelongsToGroup("enemies")) {
-                // TODO: OnProjectileHitsEnemy(...);
+                OnProjectileHitsEnemy(a, b);
             }
             
             if (b.BelongsToGroup("projectiles") && a.BelongsToGroup("enemies")) {
-                // TODO: OnProjectileHitsEnemy(...);
+                OnProjectileHitsEnemy(b, a);
             }
         }
 
@@ -50,11 +50,33 @@ class DamageSystem: public System {
                 // Subtract the health of the player
                 health.healthPercentage -= projectileComponent.hitPercentDamage;
 
-                Logger::Log("Projectile hit, remaining entity health: " + std::to_string(health.healthPercentage) + " %");
+                Logger::Log("Projectile hit, player remaining entity health: " + std::to_string(health.healthPercentage) + " %");
 
                 // Kills the player when health reaches zero
                 if (health.healthPercentage <= 0) {
                     player.Kill();
+                }
+
+                // Kill the projectile
+                projectile.Kill();
+            }
+        }
+
+        void OnProjectileHitsEnemy(Entity projectile, Entity enemy) {
+            const auto projectileComponent = projectile.GetComponent<ProjectileComponent>();
+
+            if (projectileComponent.isFriendly) {
+                // Reduce the health of the player by the projectile hitPercentDamage
+                auto& health = enemy.GetComponent<HealthComponent>();
+
+                // Subtract the health of the player
+                health.healthPercentage -= projectileComponent.hitPercentDamage;
+
+                Logger::Log("Projectile hit, enemy remaining entity health: " + std::to_string(health.healthPercentage) + " %");
+
+                // Kills the player when health reaches zero
+                if (health.healthPercentage <= 0) {
+                    enemy.Kill();
                 }
 
                 // Kill the projectile
