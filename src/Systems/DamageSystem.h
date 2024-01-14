@@ -44,21 +44,7 @@ class DamageSystem: public System {
             const auto projectileComponent = projectile.GetComponent<ProjectileComponent>();
 
             if (!projectileComponent.isFriendly) {
-                // Reduce the health of the player by the projectile hitPercentDamage
-                auto& health = player.GetComponent<HealthComponent>();
-
-                // Subtract the health of the player
-                health.healthPercentage -= projectileComponent.hitPercentDamage;
-
-                Logger::Log("Projectile hit, player remaining entity health: " + std::to_string(health.healthPercentage) + " %");
-
-                // Kills the player when health reaches zero
-                if (health.healthPercentage <= 0) {
-                    player.Kill();
-                }
-
-                // Kill the projectile
-                projectile.Kill();
+                HitEntityWithProjectile(player, projectile, projectileComponent);
             }
         }
 
@@ -66,22 +52,22 @@ class DamageSystem: public System {
             const auto projectileComponent = projectile.GetComponent<ProjectileComponent>();
 
             if (projectileComponent.isFriendly) {
-                // Reduce the health of the player by the projectile hitPercentDamage
-                auto& health = enemy.GetComponent<HealthComponent>();
-
-                // Subtract the health of the player
-                health.healthPercentage -= projectileComponent.hitPercentDamage;
-
-                Logger::Log("Projectile hit, enemy remaining entity health: " + std::to_string(health.healthPercentage) + " %");
-
-                // Kills the player when health reaches zero
-                if (health.healthPercentage <= 0) {
-                    enemy.Kill();
-                }
-
-                // Kill the projectile
-                projectile.Kill();
+                HitEntityWithProjectile(enemy, projectile, projectileComponent);
             }
+        }
+
+        void HitEntityWithProjectile(Entity entity, Entity projectile, const ProjectileComponent projectileComponent) {
+            auto& health = entity.GetComponent<HealthComponent>();
+
+            health.healthPercentage -= projectileComponent.hitPercentDamage;
+
+            Logger::Log("Projectile hit, entity remaining entity health: " + std::to_string(health.healthPercentage) + " %");
+
+            if (health.healthPercentage <= 0) {
+                entity.Kill();
+            }
+
+            projectile.Kill();
         }
 };
 
