@@ -212,7 +212,7 @@ void Game::LoadLevel(int level) {
     label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font-large", white, true);
 
     Entity fpsLabel = registry->CreateEntity();
-    fpsLabel.AddComponent<FPSComponent>("charriot-font-large");
+    fpsLabel.AddComponent<FPSComponent>(glm::vec2(100, windowHeight - 100), "charriot-font-large", white);
 }
 
 void Game::Setup() {
