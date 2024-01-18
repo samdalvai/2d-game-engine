@@ -23,9 +23,11 @@
 #include "../Systems/ProjectileEmitSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
 #include "../Systems/ProjectileLifecycleSystem.h"
+#include "../Systems/RenderTextSystem.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <fstream>
@@ -53,6 +55,12 @@ void Game::Initialize() {
         Logger::Err("Error initializing SDL.");
         return;
     }
+
+    if (TTF_Init() != 0) {
+        Logger::Err("Error initializing TTF.");
+        return;
+    }
+
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
     windowWidth = displayMode.w;
@@ -117,6 +125,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<CameraMovementSystem>();
     registry->AddSystem<ProjectileEmitSystem>();
     registry->AddSystem<ProjectileLifecycleSystem>();
+    registry->AddSystem<RenderTextSystem>();
 
     // Adding assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -240,6 +249,7 @@ void Game::Render() {
 
     // Invoke all the systems that need to render 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
+    registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
