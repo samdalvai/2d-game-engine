@@ -252,7 +252,7 @@ void Game::Render() {
     // Invoke all the systems that need to render 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
-    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore);
+    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
