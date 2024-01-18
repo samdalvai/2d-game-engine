@@ -136,7 +136,8 @@ void Game::LoadLevel(int level) {
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");
     assetStore->AddTexture(renderer, "tilemap-image", "./assets/tilemaps/jungle.png");
     assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png");
-    assetStore->AddFont("charriot-font", "./assets/fonts/charriot.ttf", 14);
+    assetStore->AddFont("charriot-font-medium", "./assets/fonts/charriot.ttf", 14);
+    assetStore->AddFont("charriot-font-large", "./assets/fonts/charriot.ttf", 20);
 
     // Load the tilemap
     int tileSize = 32;
@@ -205,7 +206,7 @@ void Game::LoadLevel(int level) {
 
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
-    label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font", white, true);    
+    label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font-large", white, true);
 }
 
 void Game::Setup() {
@@ -252,7 +253,7 @@ void Game::Render() {
     // Invoke all the systems that need to render 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
-    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font");
+    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
