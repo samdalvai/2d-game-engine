@@ -121,6 +121,7 @@ void Game::LoadLevel(int level) {
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");
     assetStore->AddTexture(renderer, "tilemap-image", "./assets/tilemaps/jungle.png");
     assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png");
+    assetStore->AddFont("charriot-font", "./assets/fonts/charriot.ttf", 14);
 
     // Load the tilemap
     int tileSize = 32;
@@ -186,6 +187,10 @@ void Game::LoadLevel(int level) {
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 25, false);
     truck.AddComponent<HealthComponent>(100);
+
+    Entity label = registry->CreateEntity();
+    // TODO: CREATE TEXT LABEL COMPONENT
+    //label.AddComponent<TextLabelComponent>(<position>, "My text", "charriot-font");    
 }
 
 void Game::Setup() {

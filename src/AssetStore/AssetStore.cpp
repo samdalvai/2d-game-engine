@@ -17,7 +17,10 @@ void AssetStore::ClearAssets() {
     }
     textures.clear();
 
-    // TODO: clear all the fonts
+    for (auto font: fonts) {
+        TTF_CloseFont(font.second);
+    }
+    fonts.clear();
 }
 
 void AssetStore::AddTexture(SDL_Renderer* renderer, const std::string& assetId, const std::string& filePath) {
