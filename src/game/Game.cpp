@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "../Logger/Logger.h"
 #include "../ECS/ECS.h"
+
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
@@ -10,6 +11,8 @@
 #include "../Components/CameraFollowComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
+#include "../Components/TextLabelComponent.h"
+
 #include "../Systems/MovementSystem.h"
 #include "../Systems/CameraMovementSystem.h"
 #include "../Systems/RenderSystem.h"
@@ -20,6 +23,7 @@
 #include "../Systems/ProjectileEmitSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
 #include "../Systems/ProjectileLifecycleSystem.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
@@ -189,8 +193,8 @@ void Game::LoadLevel(int level) {
     truck.AddComponent<HealthComponent>(100);
 
     Entity label = registry->CreateEntity();
-    // TODO: CREATE TEXT LABEL COMPONENT
-    //label.AddComponent<TextLabelComponent>(<position>, "My text", "charriot-font");    
+    SDL_Color white = { 255, 255, 255};
+    label.AddComponent<TextLabelComponent>(glm::vec2(100, 100), "This is a label!!!", "charriot-font", white, true);    
 }
 
 void Game::Setup() {
