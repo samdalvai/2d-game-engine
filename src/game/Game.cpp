@@ -173,7 +173,7 @@ void Game::LoadLevel(int level) {
     chopper.AddComponent<AnimationComponent>(2, 15, true);
     chopper.AddComponent<BoxColliderComponent>(32, 32);
     chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(150.0, 150.0), 0, 10000, 10, true);
-    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -50), glm::vec2(50, 0), glm::vec2(0, 50), glm::vec2(-50, 0));
+    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -100), glm::vec2(100, 0), glm::vec2(0, 100), glm::vec2(-100, 0));
     chopper.AddComponent<CameraFollowComponent>();
     chopper.AddComponent<HealthComponent>(100);
     
@@ -203,7 +203,7 @@ void Game::LoadLevel(int level) {
 
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
-    label.AddComponent<TextLabelComponent>(glm::vec2(100, 100), "This is a label!!!", "charriot-font", white, true);    
+    label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font", white, true);    
 }
 
 void Game::Setup() {
