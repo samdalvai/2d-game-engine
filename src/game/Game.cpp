@@ -262,7 +262,7 @@ void Game::Render() {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-        registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
+        registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera, millisecsPreviousFrame);
     }
     SDL_RenderPresent(renderer);
 }

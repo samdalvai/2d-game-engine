@@ -13,11 +13,11 @@ class RenderFPSSystem: public System {
             RequireComponent<FPSComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera) {
+        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera, int millisecsPreviousFrame) {
             for (auto entity : GetSystemEntities()) {
                 const auto fps = entity.GetComponent<FPSComponent>();
 
-                std::string text = "FPS";
+                std::string text = "FPS: " + std::to_string(SDL_GetTicks() - millisecsPreviousFrame);
                 
                 SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont(fps.assetId), text.c_str(), fps.color);
 
