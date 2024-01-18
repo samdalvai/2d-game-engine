@@ -23,9 +23,15 @@ class RenderHealthBarSystem: public System {
                 auto sprite = entity.GetComponent<SpriteComponent>();
 
                 std::string percentage = std::to_string(health.healthPercentage) + "%";
-                SDL_Color white = { 255, 255, 255};
+                SDL_Color color = { 255, 255, 255}; // white
 
-                SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont(assetId), percentage.c_str(), white);
+                if (health.healthPercentage <= 35) {
+                    color = { 255, 0, 0}; // red
+                } else if (health.healthPercentage <= 75) {
+                    color = { 255, 255, 0}; // yellow
+                }
+
+                SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont(assetId), percentage.c_str(), color);
 
                 SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                 SDL_FreeSurface(surface);
