@@ -38,6 +38,7 @@
 #include <glm/glm.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_sdl.h>
+#include <imgui/imgui_impl_sdl.h>
 #include <iostream>
 #include <fstream>
 
@@ -284,6 +285,7 @@ void Game::Render() {
 
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
+        ImGui::Render();
         ImGuiSDL::Render(ImGui::GetDrawData());
     }
     SDL_RenderPresent(renderer);
