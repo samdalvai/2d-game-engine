@@ -233,7 +233,7 @@ void Game::LoadLevel(int level) {
 
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
-    label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font-large", white, true);
+    label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "CHOPPER 1.0", "charriot-font-large", white, true);
 
     Entity fpsLabel = registry->CreateEntity();
     fpsLabel.AddComponent<TextLabelComponent>(glm::vec2(100, windowHeight - 100), "", "charriot-font-large", white, true);
