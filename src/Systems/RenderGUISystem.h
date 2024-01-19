@@ -11,9 +11,15 @@ class RenderGUISystem: public System {
     public:
         RenderGUISystem() {}
 
-        void Update() {
+        void Update(std::unique_ptr<Registry>& registry) {
             ImGui::NewFrame();
-            ImGui::ShowDemoWindow();
+            
+            if (ImGui::Begin("Spawn enemies")) {
+                ImGui::Text("Here you can spawn enemies");
+            }
+            ImGui::End();
+
+
             ImGui::Render();
             ImGuiSDL::Render(ImGui::GetDrawData());
         }
