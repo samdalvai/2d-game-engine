@@ -26,6 +26,7 @@
 #include "../Systems/ProjectileLifecycleSystem.h"
 #include "../Systems/RenderTextSystem.h"
 #include "../Systems/RenderHealthBarSystem.h"
+#include "../Systems/FPSSystem.h"
 #include "../Systems/RenderFPSSystem.h"
 
 #include <SDL2/SDL.h>
@@ -131,6 +132,7 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
     registry->AddSystem<RenderFPSSystem>();
+    registry->AddSystem<FPSSystem>();
 
     // Adding assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -231,7 +233,7 @@ void Game::Update() {
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 
     if (isDebug) {
-        registry->GetSystem<RenderFPSSystem>().Update(millisecsPreviousFrame, SDL_GetTicks());
+        registry->GetSystem<FPSSystem>().Update(millisecsPreviousFrame, SDL_GetTicks());
     }
 
     // Store the "previous" frame time
@@ -267,6 +269,7 @@ void Game::Render() {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
+        registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
     }
     SDL_RenderPresent(renderer);
 }

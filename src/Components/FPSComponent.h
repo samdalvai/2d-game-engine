@@ -6,10 +6,10 @@
 #include <string>
 
 struct FPSComponent {
-    int millisecsPreviousMeasurement;
+    int currentFPS;
 
-    FPSComponent(int millisecsPreviousMeasurement = 0) {
-        this->millisecsPreviousMeasurement = millisecsPreviousMeasurement;
+    FPSComponent(int currentFPS = 0) {
+        this->currentFPS = currentFPS;
     };
 };
 
