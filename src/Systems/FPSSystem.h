@@ -17,9 +17,12 @@ class FPSSystem: public System {
             for (auto entity : GetSystemEntities()) {
                 auto& fpsComponent = entity.GetComponent<FPSComponent>();
 
-                int computedFps = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
+                if (millisecsCurrentFrame - fpsComponent.millisecsPreviousFrame >= fpsComponent.millisecsUpdateFrequency) {
+                    int computedFps = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
 
-                fpsComponent.currentFPS = computedFps;
+                    fpsComponent.currentFPS = computedFps;
+                    fpsComponent.millisecsPreviousFrame = millisecsCurrentFrame;
+                }
             }          
         }
 };

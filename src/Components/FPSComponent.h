@@ -7,9 +7,13 @@
 
 struct FPSComponent {
     int currentFPS;
+    int millisecsPreviousFrame;
+    int millisecsUpdateFrequency;
 
-    FPSComponent(int currentFPS = 0) {
+    FPSComponent(int currentFPS = 0, int millisecsPreviousFrame = 0, int millisecsUpdateFrequency = 1000) {
         this->currentFPS = currentFPS;
+        this->millisecsPreviousFrame = millisecsPreviousFrame;
+        this->millisecsUpdateFrequency = millisecsUpdateFrequency;
     };
 };
 
