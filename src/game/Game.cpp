@@ -28,6 +28,7 @@
 #include "../Systems/RenderHealthBarSystem.h"
 #include "../Systems/FPSSystem.h"
 #include "../Systems/RenderFPSSystem.h"
+#include "../Systems/RenderGUISystem.h"
 
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/KeyReleasedEvent.h"
@@ -153,8 +154,9 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<ProjectileLifecycleSystem>();
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
-    registry->AddSystem<RenderFPSSystem>();
     registry->AddSystem<FPSSystem>();
+    registry->AddSystem<RenderFPSSystem>();
+    registry->AddSystem<RenderGUISystem>();
 
     // Adding assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
@@ -293,10 +295,7 @@ void Game::Render() {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
         registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
 
-        ImGui::NewFrame();
-        ImGui::ShowDemoWindow();
-        ImGui::Render();
-        ImGuiSDL::Render(ImGui::GetDrawData());
+        registry->GetSystem<RenderGUISystem>().Update();
     }
     SDL_RenderPresent(renderer);
 }
