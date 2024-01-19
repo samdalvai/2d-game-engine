@@ -36,6 +36,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <glm/glm.hpp>
+#include <imgui/imgui.h>
+#include <imgui/imgui_sdl.h>
 #include <iostream>
 #include <fstream>
 
@@ -89,6 +91,9 @@ void Game::Initialize() {
         Logger::Err("Error creating SDL renderer.");
         return;
     }
+
+    ImGui::CreateContext();
+    ImGuiSDL::Initialize(renderer, windowWidth, windowHeight);
 
     // Initialize the camera view with the entire screen area
     camera.x = 0;
@@ -276,6 +281,10 @@ void Game::Render() {
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
         registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
+
+        ImGui::NewFrame();
+        ImGui::ShowDemoWindow();
+        ImGuiSDL::Render(ImGui::GetDrawData());
     }
     SDL_RenderPresent(renderer);
 }
@@ -290,6 +299,8 @@ void Game::Run() {
 }
 
 void Game::Destroy() {
+    ImGui::DestroyContext();
+    ImGuiSDL::Deinitialize();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
