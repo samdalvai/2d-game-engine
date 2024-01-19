@@ -22,11 +22,24 @@ class RenderGUISystem: public System {
                 static int enemyPositionY = 100;
                 ImGui::InputInt("Enemy position y", &enemyPositionY);
 
+                static double enemyscale = 1.0;
+                ImGui::InputDouble("Enemy scale", &enemyscale);
+
+                static float enemyRotation = 0.0;
+                static float enemyRotationMin = 0.0;
+                static float enemmyRotationMax = 360.00;
+                ImGui::SliderFloat("Enemy rotation", &enemyRotation, enemyRotationMin, enemmyRotationMax);
+
+                static int enemyVelocityX = 0;
+                static int enemyVelocityY = 0;
+                ImGui::InputInt("Enemy velocity x", &enemyVelocityX);
+                ImGui::InputInt("Enemy velocity y", &enemyVelocityY);
+
                 if (ImGui::Button("Click to create enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
-                    enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(1.0, 1.0), 0.0);
-                    enemy.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
+                    enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(enemyscale, enemyscale), enemyRotation);
+                    enemy.AddComponent<RigidBodyComponent>(glm::vec2(enemyVelocityX, enemyVelocityY));
                     enemy.AddComponent<SpriteComponent>("truck-image", 32, 32, 2);
                     enemy.AddComponent<BoxColliderComponent>(32, 32);
                     enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 25, false);
