@@ -1,21 +1,23 @@
 # 2d-game-engine-course
-2D Game Engine with C++ and Lua from the pikuma.com course
+2D Game Engine from the pikuma.com course made with C++, SDL2, glm and Lua.
 
 # Libraries and dependencies
+In order for the project to run you need to install the following packages on your machine:
 
-## How to compile cpp file
-g++ Main.cpp -o Main
+* Make
+...
 
-## Compile with c++ 17
-g++ -Wall -std=c++17  Main.cpp -o Main
-
-## Execute Main file
-./Main
-
-## Link implementation of libraries
-g++ -Wall -std=c++17  Main.cpp -lSDL2 -lSDL2_image -lSDL2_ttf -llua -o Main
-
-# Build, run and clean with Makefile
+# Build the game
+```
 make build
+```
+
+# Run the game
+```
 make run
+```
+
+# Clean game executable file
+```
 make build
+```
