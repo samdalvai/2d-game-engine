@@ -35,12 +35,33 @@ class RenderGUISystem: public System {
                 ImGui::InputInt("Enemy velocity x", &enemyVelocityX);
                 ImGui::InputInt("Enemy velocity y", &enemyVelocityY);
 
+                std::vector<std::string> enemySpriteList = { "truck-image", "tank-image" };
+                static int selectedSpriteIndex = 0;
+                static bool showDropdown = false;
+
+                if (ImGui::Button("Select enemy sprite")){
+                    showDropdown = !showDropdown;
+                }
+
+                if (showDropdown){
+                    ImGui::Begin("Enemy sprite dropdown");
+                    for (int i = 0; i < enemySpriteList.size(); ++i)
+                    {
+                        if (ImGui::Selectable(enemySpriteList[i].c_str())) {
+                            selectedSpriteIndex = i;
+                            showDropdown = false;
+                        }
+                    }
+                    ImGui::End();
+                }
+                ImGui::Text("Selected sprite: %s", enemySpriteList[selectedSpriteIndex].c_str());
+
                 if (ImGui::Button("Click to create enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
                     enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(enemyscale, enemyscale), enemyRotation);
                     enemy.AddComponent<RigidBodyComponent>(glm::vec2(enemyVelocityX, enemyVelocityY));
-                    enemy.AddComponent<SpriteComponent>("truck-image", 32, 32, 2);
+                    enemy.AddComponent<SpriteComponent>(enemySpriteList[selectedSpriteIndex], 32, 32, 2);
                     enemy.AddComponent<BoxColliderComponent>(32, 32);
                     enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 25, false);
                     enemy.AddComponent<HealthComponent>(100);
