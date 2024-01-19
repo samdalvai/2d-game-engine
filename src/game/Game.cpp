@@ -301,8 +301,8 @@ void Game::Run() {
 }
 
 void Game::Destroy() {
-    ImGui::DestroyContext();
     ImGuiSDL::Deinitialize();
+    ImGui::DestroyContext();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
