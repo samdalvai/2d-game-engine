@@ -212,7 +212,8 @@ void Game::LoadLevel(int level) {
     label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "This is a label!!!", "charriot-font-large", white, true);
 
     Entity fpsLabel = registry->CreateEntity();
-    fpsLabel.AddComponent<FPSComponent>(glm::vec2(100, windowHeight - 100), "charriot-font-large", white);
+    fpsLabel.AddComponent<TextLabelComponent>(glm::vec2(100, windowHeight - 100), "", "charriot-font-large", white, true);
+    fpsLabel.AddComponent<FPSComponent>();
 }
 
 void Game::Setup() {
@@ -228,6 +229,10 @@ void Game::Update() {
 
     // The difference in ticks since the last frame, converted to seconds
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
+
+    if (isDebug) {
+        registry->GetSystem<RenderFPSSystem>().Update(millisecsPreviousFrame, SDL_GetTicks());
+    }
 
     // Store the "previous" frame time
     millisecsPreviousFrame = SDL_GetTicks();
@@ -262,7 +267,6 @@ void Game::Render() {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-        registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera, millisecsPreviousFrame);
     }
     SDL_RenderPresent(renderer);
 }

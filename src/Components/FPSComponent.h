@@ -6,14 +6,10 @@
 #include <string>
 
 struct FPSComponent {
-    glm::vec2 position;
-    std::string assetId;
-    SDL_Color color;
+    int millisecsPreviousMeasurement;
 
-    FPSComponent(glm::vec2 position = glm::vec2(0), std::string assetId = "", const SDL_Color& color = { 0, 0, 0}) {
-        this->position = position;
-        this->assetId = assetId;
-        this->color = color;
+    FPSComponent(int millisecsPreviousMeasurement = 0) {
+        this->millisecsPreviousMeasurement = millisecsPreviousMeasurement;
     };
 };
 
