@@ -4,8 +4,9 @@
 # Libraries and dependencies
 In order for the project to run you need to install the following packages on your machine:
 
-* Make
-...
+* **Make** -> for building and running the game
+* **Lua** -> for the scripting system. Please note, you need to update the `LINKER_FLAGS` section with the specific version you are installing, e.g. 5.2. On the other hand if you are on Mac OS you need to remove the version from the flag, e.g. instead of `-llua5.3` you have to set it to `-llua`.
+* ...
 
 # Build the game
 ```
