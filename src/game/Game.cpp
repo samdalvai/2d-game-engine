@@ -249,7 +249,11 @@ void Game::Update() {
 
     if (isDebug) {
         int millisecsCurrentFrame = SDL_GetTicks();
-        currentFPS = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
+
+        if (millisecsCurrentFrame - millisecondsLastFPSUpdate >= 1000) {
+            currentFPS = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
+            millisecondsLastFPSUpdate = millisecsCurrentFrame;
+        }
     }
 
     // Store the "previous" frame time

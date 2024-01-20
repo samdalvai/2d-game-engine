@@ -15,6 +15,7 @@ class Game {
         bool isDebug;
         int millisecsPreviousFrame = 0;
         int currentFPS = 0;
+        int millisecondsLastFPSUpdate = 0;
         SDL_Window* window;
         SDL_Renderer* renderer;
         SDL_Rect camera;
