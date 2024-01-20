@@ -15,7 +15,7 @@ class RenderGUISystem: public System {
     public:
         RenderGUISystem() = default;
 
-        void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
+        void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera, int currentFPS) {
             ImGui::NewFrame();
 
             if (ImGui::Begin("Spawn enemies")) {
@@ -102,6 +102,14 @@ class RenderGUISystem: public System {
                     ImGui::GetIO().MousePos.y + camera.y
                 );
             }
+            ImGui::End();
+
+            ImGui::SetNextWindowPos(ImVec2(10, 50), ImGuiCond_Always, ImVec2(0, 0));
+            ImGui::SetNextWindowBgAlpha(0.9f);
+            if (ImGui::Begin("FPS Counter", NULL, windowFlags)) {
+                ImGui::Text("Current FPS: (%i) frames/second", currentFPS);
+            }
+            Logger::Log("FPS: " + std::to_string(currentFPS));
             ImGui::End();
 
             ImGui::Render();

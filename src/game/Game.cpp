@@ -12,7 +12,6 @@
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
 #include "../Components/TextLabelComponent.h"
-#include "../Components/FPSComponent.h"
 
 #include "../Systems/MovementSystem.h"
 #include "../Systems/CameraMovementSystem.h"
@@ -26,8 +25,6 @@
 #include "../Systems/ProjectileLifecycleSystem.h"
 #include "../Systems/RenderTextSystem.h"
 #include "../Systems/RenderHealthBarSystem.h"
-#include "../Systems/FPSSystem.h"
-#include "../Systems/RenderFPSSystem.h"
 #include "../Systems/RenderGUISystem.h"
 
 #include "../Events/KeyPressedEvent.h"
@@ -154,8 +151,6 @@ void Game::LoadLevel(int level) {
     registry->AddSystem<ProjectileLifecycleSystem>();
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderHealthBarSystem>();
-    registry->AddSystem<FPSSystem>();
-    registry->AddSystem<RenderFPSSystem>();
     registry->AddSystem<RenderGUISystem>();
 
     // Adding assets to the asset store
@@ -236,10 +231,6 @@ void Game::LoadLevel(int level) {
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
     label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth - 200, windowHeight - 100), "CHOPPER 1.0", "charriot-font-large", white, true);
-
-    Entity fpsLabel = registry->CreateEntity();
-    fpsLabel.AddComponent<TextLabelComponent>(glm::vec2(100, windowHeight - 100), "", "charriot-font-large", white, true);
-    fpsLabel.AddComponent<FPSComponent>(0, 0, 500);
 }
 
 void Game::Setup() {
@@ -257,7 +248,8 @@ void Game::Update() {
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 
     if (isDebug) {
-        registry->GetSystem<FPSSystem>().Update(millisecsPreviousFrame, SDL_GetTicks());
+        int millisecsCurrentFrame = SDL_GetTicks();
+        currentFPS = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
     }
 
     // Store the "previous" frame time
@@ -293,9 +285,7 @@ void Game::Render() {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-        registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
-
-        registry->GetSystem<RenderGUISystem>().Update(registry, camera);
+        registry->GetSystem<RenderGUISystem>().Update(registry, camera, currentFPS);
     }
     SDL_RenderPresent(renderer);
 }
