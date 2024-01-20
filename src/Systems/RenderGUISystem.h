@@ -31,8 +31,6 @@ class RenderGUISystem: public System {
                 ImGui::SliderAngle("Enemy rotation angle", &enemyRotationRadians);
                 float enemyRotationDegrees = enemyRotationRadians * 180.0 / M_PI;
 
-                //M_PI
-
                 static int enemyVelocityX = 0;
                 static int enemyVelocityY = 0;
                 ImGui::InputInt("Enemy velocity x", &enemyVelocityX);
