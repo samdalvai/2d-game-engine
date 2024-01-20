@@ -58,17 +58,13 @@ class RenderGUISystem: public System {
                 }
                 ImGui::Text("Selected sprite: %s", enemySpriteList[selectedSpriteIndex].c_str());
 
-                static float enemyProjectileAngle = 0.0;
-                static float enemyProjectileMinAngle = 0.0;
-                static float enemyProjectileMaxAngle = 360.00;
-                ImGui::SliderFloat("Enemy projectile angle", &enemyProjectileAngle, enemyProjectileMinAngle, enemyProjectileMaxAngle);
+                static float enemyProjectileRadians = 0.0;
+                ImGui::SliderAngle("Enemy projectile angle", &enemyProjectileRadians);
                 static int enemyProjectileSpeed = 100;
                 ImGui::InputInt("Enemy projectile speed", &enemyProjectileSpeed);
 
-                double projectileRadians = enemyProjectileAngle * M_PI / 180.0;
-
-                double enemyProjectileVelocityX = std::cos(projectileRadians) * enemyProjectileSpeed;
-                double enemyProjectileVelocityY = std::sin(projectileRadians) * enemyProjectileSpeed;
+                double enemyProjectileVelocityX = std::cos(enemyProjectileRadians) * enemyProjectileSpeed;
+                double enemyProjectileVelocityY = std::sin(enemyProjectileRadians) * enemyProjectileSpeed;
 
                 static int enemyProjectileFrequency = 1000;
                 ImGui::InputInt("Enemy projectile frequency", &enemyProjectileFrequency);
