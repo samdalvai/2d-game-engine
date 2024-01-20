@@ -128,7 +128,7 @@ void Game::ProcessInput() {
                 if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
                     isRunning = false;
                 }
-                if (sdlEvent.key.keysym.sym == SDLK_d) {
+                if (sdlEvent.key.keysym.sym == SDLK_F12) {
                     isDebug = !isDebug;
                 }
                 eventBus->EmitEvent<KeyPressedEvent>(sdlEvent.key.keysym.sym);
