@@ -58,22 +58,29 @@ class RenderGUISystem: public System {
                 }
                 ImGui::Text("Selected sprite: %s", enemySpriteList[selectedSpriteIndex].c_str());
 
-                // TODO: fix this formula
                 static float enemyProjectileAngle = 0.0;
                 static float enemyProjectileMinAngle = 0.0;
                 static float enemyProjectileMaxAngle = 360.00;
                 ImGui::SliderFloat("Enemy projectile angle", &enemyProjectileAngle, enemyProjectileMinAngle, enemyProjectileMaxAngle);
                 static int enemyProjectileSpeed = 100;
                 ImGui::InputInt("Enemy projectile speed", &enemyProjectileSpeed);
-                Logger::Log("enemyProjectileAngle: " + std::to_string(enemyProjectileAngle));
 
-                static double projectileRadians = enemyProjectileAngle * M_PI / 180.0;
-                Logger::Log("projectileRadians: " + std::to_string(projectileRadians));
+                double projectileRadians = enemyProjectileAngle * M_PI / 180.0;
 
-                static double enemyProjectileVelocityX = std::cos(projectileRadians) * enemyProjectileSpeed;
-                static double enemyProjectileVelocityY = std::sin(projectileRadians) * enemyProjectileSpeed;
-                Logger::Log("enemyProjectileVelocityX: " + std::to_string(enemyProjectileVelocityX));
-                Logger::Log("enemyProjectileVelocityX: " + std::to_string(enemyProjectileVelocityX));
+                double enemyProjectileVelocityX = std::cos(projectileRadians) * enemyProjectileSpeed;
+                double enemyProjectileVelocityY = std::sin(projectileRadians) * enemyProjectileSpeed;
+
+                static int enemyProjectileFrequency = 1000;
+                ImGui::InputInt("Enemy projectile frequency", &enemyProjectileFrequency);
+
+                static int enemyProjectileDuration = 5000;
+                ImGui::InputInt("Enemy projectile duration", &enemyProjectileDuration);
+
+                //static int enemyProjectileDuration = 5000;
+                static int enemyHealthPercentageMin = 10;
+                static int enemyHealthPercentageMax = 100;
+                static int enemyHealthPercentage = 50;
+                ImGui::SliderInt("Enemy health percentage", &enemyHealthPercentage, enemyHealthPercentageMin, enemyHealthPercentageMax);
 
                 if (ImGui::Button("Click to create enemy")) {
                     Entity enemy = registry->CreateEntity();
@@ -82,8 +89,8 @@ class RenderGUISystem: public System {
                     enemy.AddComponent<RigidBodyComponent>(glm::vec2(enemyVelocityX, enemyVelocityY));
                     enemy.AddComponent<SpriteComponent>(enemySpriteList[selectedSpriteIndex], 32, 32, 2);
                     enemy.AddComponent<BoxColliderComponent>(32, 32);
-                    enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(enemyProjectileVelocityX, enemyProjectileVelocityY), 2000, 5000, 25, false);
-                    enemy.AddComponent<HealthComponent>(100);
+                    enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(enemyProjectileVelocityX, enemyProjectileVelocityY), enemyProjectileFrequency, enemyProjectileDuration, 25, false);
+                    enemy.AddComponent<HealthComponent>(enemyHealthPercentage);
                 }
             }
             ImGui::End();
