@@ -2,91 +2,105 @@
 #define RENDERGUISYSTEM_H
 
 #include "../ECS/ECS.h"
+#include "../Components/TransformComponent.h"
+#include "../Components/RigidBodyComponent.h"
+#include "../Components/SpriteComponent.h"
+#include "../Components/BoxColliderComponent.h"
+#include "../Components/ProjectileEmitterComponent.h"
+#include "../Components/HealthComponent.h"
 #include <imgui/imgui.h>
 #include <imgui/imgui_sdl.h>
-#include <imgui/imgui_impl_sdl.h>
-#include <SDL2/SDL.h>
-#include <cmath>
-#include <string>
 
 class RenderGUISystem: public System {
     public:
-        RenderGUISystem() {}
+        RenderGUISystem() = default;
 
-        void Update(std::unique_ptr<Registry>& registry) {
+        void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
             ImGui::NewFrame();
-            
+
             if (ImGui::Begin("Spawn enemies")) {
-                ImGui::Text("Spawn new enemy");
-                static int enemyPositionX = 100;
-                ImGui::InputInt("Enemey position x", &enemyPositionX);
-
-                static int enemyPositionY = 100;
-                ImGui::InputInt("Enemy position y", &enemyPositionY);
-
-                static double enemyscale = 1.0;
-                ImGui::InputDouble("Enemy scale", &enemyscale);
-
-                static float enemyRotationRadians = 0.0;
-                ImGui::SliderAngle("Enemy rotation angle", &enemyRotationRadians);
-                float enemyRotationDegrees = enemyRotationRadians * 180.0 / M_PI;
-
-                static int enemyVelocityX = 0;
-                static int enemyVelocityY = 0;
-                ImGui::InputInt("Enemy velocity x", &enemyVelocityX);
-                ImGui::InputInt("Enemy velocity y", &enemyVelocityY);
-
-                std::vector<std::string> enemySpriteList = { "truck-image", "tank-image" };
+                static int posX = camera.x + 100;
+                static int posY = camera.y + 100;
+                static int scaleX = 1;
+                static int scaleY = 1;
+                static int velX = 0;
+                static int velY = 0;
+                static int health = 100;
+                static float rotation = 0.0;
+                static float projAngle = 0.0;
+                static float projSpeed = 100.0;
+                static int projRepeat = 1;
+                static int projDuration = 10;
+                const char* sprites[] = {"tank-image", "truck-image"};
                 static int selectedSpriteIndex = 0;
-                static bool showDropdown = false;
 
-                if (ImGui::Button("Select enemy sprite")){
-                    showDropdown = !showDropdown;
+                if (ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::Combo("texture id", &selectedSpriteIndex, sprites, IM_ARRAYSIZE(sprites));
+                }
+                ImGui::Spacing();
+
+                if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::InputInt("position x", &posX);
+                    ImGui::InputInt("position y", &posY);
+                    ImGui::SliderInt("scale x", &scaleX, 1, 10);
+                    ImGui::SliderInt("scale y", &scaleY, 1, 10);
+                    ImGui::SliderAngle("rotation (deg)", &rotation, 0, 360);
+                }
+                ImGui::Spacing();
+
+                if (ImGui::CollapsingHeader("Rigid body", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::InputInt("velocity x", &velX);
+                    ImGui::InputInt("velocity y", &velY);
+                }
+                ImGui::Spacing();
+
+                if (ImGui::CollapsingHeader("Projectile emitter", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::SliderAngle("angle (deg)", &projAngle, 0, 360);
+                    ImGui::SliderFloat("speed (px/sec)", &projSpeed, 10, 500);
+                    ImGui::InputInt("repeat (sec)", &projRepeat);
+                    ImGui::InputInt("duration (sec)", &projDuration);
+                }
+                ImGui::Spacing();
+
+                if (ImGui::CollapsingHeader("Health", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::SliderInt("%", &health, 0, 100);
                 }
 
-                if (showDropdown){
-                    ImGui::Begin("Enemy sprite dropdown");
-                    for (int i = 0; i < enemySpriteList.size(); ++i)
-                    {
-                        if (ImGui::Selectable(enemySpriteList[i].c_str())) {
-                            selectedSpriteIndex = i;
-                            showDropdown = false;
-                        }
-                    }
-                    ImGui::End();
-                }
-                ImGui::Text("Selected sprite: %s", enemySpriteList[selectedSpriteIndex].c_str());
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
 
-                static float enemyProjectileRadians = 0.0;
-                ImGui::SliderAngle("Enemy projectile angle", &enemyProjectileRadians);
-                static int enemyProjectileSpeed = 100;
-                ImGui::InputInt("Enemy projectile speed", &enemyProjectileSpeed);
-
-                double enemyProjectileVelocityX = std::cos(enemyProjectileRadians) * enemyProjectileSpeed;
-                double enemyProjectileVelocityY = std::sin(enemyProjectileRadians) * enemyProjectileSpeed;
-
-                static int enemyProjectileFrequency = 1000;
-                ImGui::InputInt("Enemy projectile frequency", &enemyProjectileFrequency);
-
-                static int enemyProjectileDuration = 5000;
-                ImGui::InputInt("Enemy projectile duration", &enemyProjectileDuration);
-
-                //static int enemyProjectileDuration = 5000;
-                static int enemyHealthPercentageMin = 10;
-                static int enemyHealthPercentageMax = 100;
-                static int enemyHealthPercentage = 50;
-                ImGui::SliderInt("Enemy health percentage", &enemyHealthPercentage, enemyHealthPercentageMin, enemyHealthPercentageMax);
-
-                if (ImGui::Button("Click to create enemy")) {
+                if (ImGui::Button("Spawn new enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
-                    enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(enemyscale, enemyscale), enemyRotationDegrees);
-                    enemy.AddComponent<RigidBodyComponent>(glm::vec2(enemyVelocityX, enemyVelocityY));
-                    enemy.AddComponent<SpriteComponent>(enemySpriteList[selectedSpriteIndex], 32, 32, 2);
+                    enemy.AddComponent<TransformComponent>(glm::vec2(posX, posY), glm::vec2(scaleX, scaleY), glm::degrees(rotation));
+                    enemy.AddComponent<RigidBodyComponent>(glm::vec2(velX, velY));
+                    enemy.AddComponent<SpriteComponent>(sprites[selectedSpriteIndex], 32, 32, 2);
                     enemy.AddComponent<BoxColliderComponent>(32, 32);
-                    enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(enemyProjectileVelocityX, enemyProjectileVelocityY), enemyProjectileFrequency, enemyProjectileDuration, 25, false);
-                    enemy.AddComponent<HealthComponent>(enemyHealthPercentage);
+                    double projVelX = cos(projAngle) * projSpeed; // convert from angle-speed to x-value
+                    double projVelY = sin(projAngle) * projSpeed; // convert from angle-speed to y-value
+                    enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(projVelX, projVelY), projRepeat * 1000, projDuration * 1000, 10, false);
+                    enemy.AddComponent<HealthComponent>(health);
+
+                    // Reset all input values after we create a new enemy
+                    posX = posY = rotation = projAngle = 0;
+                    scaleX = scaleY = 1;
+                    projRepeat = projDuration = 10;
+                    projSpeed = 100;
+                    health = 100;
                 }
+            }
+            ImGui::End();
+
+            ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNav;
+            ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always, ImVec2(0, 0));
+            ImGui::SetNextWindowBgAlpha(0.9f);
+            if (ImGui::Begin("Map coordinates", NULL, windowFlags)) {
+                ImGui::Text(
+                    "Map coordinates (x=%.1f, y=%.1f)",
+                    ImGui::GetIO().MousePos.x + camera.x,
+                    ImGui::GetIO().MousePos.y + camera.y
+                );
             }
             ImGui::End();
 

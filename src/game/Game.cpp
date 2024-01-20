@@ -295,7 +295,7 @@ void Game::Render() {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
         registry->GetSystem<RenderFPSSystem>().Update(renderer, assetStore, camera);
 
-        registry->GetSystem<RenderGUISystem>().Update(registry);
+        registry->GetSystem<RenderGUISystem>().Update(registry, camera);
     }
     SDL_RenderPresent(renderer);
 }
