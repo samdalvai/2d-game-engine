@@ -27,10 +27,11 @@ class RenderGUISystem: public System {
                 static double enemyscale = 1.0;
                 ImGui::InputDouble("Enemy scale", &enemyscale);
 
-                static float enemyRotation = 0.0;
-                static float enemyRotationMin = 0.0;
-                static float enemmyRotationMax = 360.00;
-                ImGui::SliderFloat("Enemy rotation", &enemyRotation, enemyRotationMin, enemmyRotationMax);
+                static float enemyRotationRadians = 0.0;
+                ImGui::SliderAngle("Enemy rotation angle", &enemyRotationRadians);
+                float enemyRotationDegrees = enemyRotationRadians * 180.0 / M_PI;
+
+                //M_PI
 
                 static int enemyVelocityX = 0;
                 static int enemyVelocityY = 0;
@@ -81,7 +82,7 @@ class RenderGUISystem: public System {
                 if (ImGui::Button("Click to create enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
-                    enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(enemyscale, enemyscale), enemyRotation);
+                    enemy.AddComponent<TransformComponent>(glm::vec2(enemyPositionX, enemyPositionY), glm::vec2(enemyscale, enemyscale), enemyRotationDegrees);
                     enemy.AddComponent<RigidBodyComponent>(glm::vec2(enemyVelocityX, enemyVelocityY));
                     enemy.AddComponent<SpriteComponent>(enemySpriteList[selectedSpriteIndex], 32, 32, 2);
                     enemy.AddComponent<BoxColliderComponent>(32, 32);
