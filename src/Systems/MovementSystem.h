@@ -55,7 +55,7 @@ public:
         for (auto entity : GetSystemEntities()) {
             // Update entity position based on its velocity
             auto &transform = entity.GetComponent<TransformComponent>();
-            const auto rigidbody = entity.GetComponent<RigidBodyComponent>();
+            auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
 
             transform.position.x += rigidbody.velocity.x * deltaTime;
             transform.position.y += rigidbody.velocity.y * deltaTime;
@@ -67,6 +67,26 @@ public:
 
             if (isEntityOutsideMap && !entity.HasTag("player")) {
                 entity.Kill();
+            }
+
+            if (isEntityOutsideMap && entity.HasTag("player")) {
+                rigidbody.velocity = glm::vec2(0);
+
+                if (transform.position.x < 0) {
+                    transform.position.x = 0;
+                }
+
+                if (transform.position.x > Game::mapWidth) {
+                    transform.position.x = Game::mapWidth;
+                }
+
+                if (transform.position.y < 0) {
+                    transform.position.y = 0;
+                }
+
+                if (transform.position.y > Game::mapHeight) {
+                    transform.position.y = Game::mapHeight ;
+                }
             }
         }
     }
