@@ -160,6 +160,7 @@ void Game::LoadLevel(int level) {
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");
     assetStore->AddTexture(renderer, "tilemap-image", "./assets/tilemaps/jungle.png");
     assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png");
+    assetStore->AddTexture(renderer, "tree-image", "./assets/images/tree.png");
     assetStore->AddFont("charriot-font-medium", "./assets/fonts/charriot.ttf", 14);
     assetStore->AddFont("charriot-font-large", "./assets/fonts/charriot.ttf", 20);
 
@@ -213,7 +214,7 @@ void Game::LoadLevel(int level) {
     Entity truck = registry->CreateEntity();
     truck.Group("enemies");
     truck.AddComponent<TransformComponent>(glm::vec2(10.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
-    truck.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
+    truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 2);
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 2000, 5000, 25, false);
@@ -222,11 +223,23 @@ void Game::LoadLevel(int level) {
     Entity tank = registry->CreateEntity();
     tank.Group("enemies");
     tank.AddComponent<TransformComponent>(glm::vec2(500.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(-50.0, 0.0));
+    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);
     tank.AddComponent<BoxColliderComponent>(32, 32);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 3000, 25, false);
     tank.AddComponent<HealthComponent>(100);
+
+    Entity treeA = registry->CreateEntity();
+    treeA.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
+    treeA.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
+    treeA.AddComponent<SpriteComponent>("tree-image", 32, 32, 1);
+    treeA.AddComponent<BoxColliderComponent>(32, 32);
+
+    Entity treeB = registry->CreateEntity();
+    treeB.AddComponent<TransformComponent>(glm::vec2(400.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
+    treeB.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
+    treeB.AddComponent<SpriteComponent>("tree-image", 32, 32, 1);
+    treeB.AddComponent<BoxColliderComponent>(32, 32);
 
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
