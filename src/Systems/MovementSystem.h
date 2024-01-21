@@ -69,8 +69,8 @@ public:
                 if (entity.HasComponent<SpriteComponent>()) {
                     const auto sprite = entity.GetComponent<SpriteComponent>();
 
-                    spritePaddingX = sprite.width;
-                    spritePaddingY = sprite.height;
+                    spritePaddingX = sprite.width * transform.scale.x;
+                    spritePaddingY = sprite.height * transform.scale.y;
                 }
                 
                 transform.position.x = transform.position.x < padding ? padding : transform.position.x;
