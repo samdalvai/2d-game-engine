@@ -60,6 +60,25 @@ public:
             transform.position.x += rigidbody.velocity.x * deltaTime;
             transform.position.y += rigidbody.velocity.y * deltaTime;
 
+            // Prevent the main player from moving outside the map boundaries
+            if (entity.HasTag("player")) {
+                int padding = 10;
+
+                int spritePaddingX = 0;
+                int spritePaddingY = 0;
+                if (entity.HasComponent<SpriteComponent>()) {
+                    const auto sprite = entity.GetComponent<SpriteComponent>();
+
+                    spritePaddingX = sprite.width;
+                    spritePaddingY = sprite.height;
+                }
+                
+                transform.position.x = transform.position.x < padding ? padding : transform.position.x;
+                transform.position.x = transform.position.x > Game::mapWidth - (padding + spritePaddingX) ? Game::mapWidth - (padding + spritePaddingX) : transform.position.x;
+                transform.position.y = transform.position.y < padding ? padding : transform.position.y;
+                transform.position.y = transform.position.y > Game::mapHeight - (padding + spritePaddingY) ? Game::mapHeight - (padding + spritePaddingY) : transform.position.y;
+            }
+
             bool isEntityOutsideMap = transform.position.x < 0 ||
                                       transform.position.x > Game::mapWidth ||
                                       transform.position.y < 0 ||
@@ -67,26 +86,6 @@ public:
 
             if (isEntityOutsideMap && !entity.HasTag("player")) {
                 entity.Kill();
-            }
-
-            if (isEntityOutsideMap && entity.HasTag("player")) {
-                rigidbody.velocity = glm::vec2(0);
-
-                if (transform.position.x < 0) {
-                    transform.position.x = 0;
-                }
-
-                if (transform.position.x > Game::mapWidth) {
-                    transform.position.x = Game::mapWidth;
-                }
-
-                if (transform.position.y < 0) {
-                    transform.position.y = 0;
-                }
-
-                if (transform.position.y > Game::mapHeight) {
-                    transform.position.y = Game::mapHeight ;
-                }
             }
         }
     }
