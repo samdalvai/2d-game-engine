@@ -44,6 +44,7 @@ int Game::windowWidth;
 int Game::windowHeight;
 int Game::mapWidth;
 int Game::mapHeight;
+int Game::currentFPS = 0;
 
 Game::Game() {
     isRunning = false;
@@ -232,14 +233,14 @@ void Game::LoadLevel(int level) {
     Entity treeA = registry->CreateEntity();
     treeA.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     treeA.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
-    treeA.AddComponent<SpriteComponent>("tree-image", 32, 32, 1);
-    treeA.AddComponent<BoxColliderComponent>(32, 32);
+    treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);
+    treeA.AddComponent<BoxColliderComponent>(16, 32);
 
     Entity treeB = registry->CreateEntity();
     treeB.AddComponent<TransformComponent>(glm::vec2(400.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     treeB.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
-    treeB.AddComponent<SpriteComponent>("tree-image", 32, 32, 1);
-    treeB.AddComponent<BoxColliderComponent>(32, 32);
+    treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);
+    treeB.AddComponent<BoxColliderComponent>(16, 32);
 
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
@@ -302,7 +303,7 @@ void Game::Render() {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-medium");
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-        registry->GetSystem<RenderGUISystem>().Update(registry, camera, currentFPS);
+        registry->GetSystem<RenderGUISystem>().Update(registry, camera);
     }
     SDL_RenderPresent(renderer);
 }
