@@ -33,15 +33,18 @@ public:
     }
 
     void OnEnemyHitsObstacle(Entity enemy) {
-        if (enemy.HasComponent<RigidBodyComponent>()) {
+        if (enemy.HasComponent<RigidBodyComponent>() && enemy.HasComponent<SpriteComponent>()) {
             auto& rigidBody = enemy.GetComponent<RigidBodyComponent>();
+            auto& sprite = enemy.GetComponent<SpriteComponent>();
 
             if (rigidBody.velocity.x != 0) {
                 rigidBody.velocity.x *= -1;
+                sprite.flip = sprite.flip == SDL_FLIP_NONE ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
             }
 
             if (rigidBody.velocity.y != 0) {
                 rigidBody.velocity.y *= -1;
+                sprite.flip = sprite.flip == SDL_FLIP_NONE ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
             }
         }
 
