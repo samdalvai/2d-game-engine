@@ -4,12 +4,47 @@
 #include "../ECS/ECS.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
+#include "../EventBus/EventBus.h"
+#include "../Events/CollisionEvent.h"
 
 class MovementSystem : public System {
 public:
     MovementSystem() {
         RequireComponent<TransformComponent>();
         RequireComponent<RigidBodyComponent>();
+    }
+
+    void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
+        eventBus->SubscribeToEvent<CollisionEvent>(this, &MovementSystem::OnCollision);
+    }
+
+    void OnCollision(CollisionEvent& event) {
+        Entity a = event.a;
+        Entity b = event.b;
+        Logger::Log("Collision event emitted: " + std::to_string(a.GetId()) + " and " + std::to_string(b.GetId()));
+    
+        if (a.BelongsToGroup("enemies") && b.BelongsToGroup("obstacles")) {
+            OnEnemyHitsObstacle(a);
+        }
+
+        if (a.BelongsToGroup("obstacles") && b.BelongsToGroup("enemies")) {
+            OnEnemyHitsObstacle(b);
+        }
+    }
+
+    void OnEnemyHitsObstacle(Entity enemy) {
+        if (enemy.HasComponent<RigidBodyComponent>()) {
+            auto& rigidBody = enemy.GetComponent<RigidBodyComponent>();
+
+            if (rigidBody.velocity.x != 0) {
+                rigidBody.velocity.x *= -1;
+            }
+
+            if (rigidBody.velocity.y != 0) {
+                rigidBody.velocity.y *= -1;
+            }
+        }
+
     }
 
     void Update(double deltaTime) {

@@ -224,19 +224,21 @@ void Game::LoadLevel(int level) {
     Entity tank = registry->CreateEntity();
     tank.Group("enemies");
     tank.AddComponent<TransformComponent>(glm::vec2(500.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));
+    tank.AddComponent<RigidBodyComponent>(glm::vec2(40.0, 0.0));
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);
     tank.AddComponent<BoxColliderComponent>(32, 32);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 5000, 3000, 25, false);
     tank.AddComponent<HealthComponent>(100);
 
     Entity treeA = registry->CreateEntity();
+    treeA.Group("obstacles");
     treeA.AddComponent<TransformComponent>(glm::vec2(600.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     treeA.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);
     treeA.AddComponent<BoxColliderComponent>(16, 32);
 
     Entity treeB = registry->CreateEntity();
+    treeB.Group("obstacles");
     treeB.AddComponent<TransformComponent>(glm::vec2(400.0, 100.0), glm::vec2(1.0, 1.0), 0.0);
     treeB.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));
     treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);
@@ -278,6 +280,7 @@ void Game::Update() {
 
     // Perform the subscription of the events for all systems
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<MovementSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);
 
