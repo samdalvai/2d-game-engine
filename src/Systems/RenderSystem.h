@@ -25,7 +25,18 @@ class RenderSystem: public System {
                 RenderableEntity renderableEntity;
                 renderableEntity.spriteComponent = entity.GetComponent<SpriteComponent>();
                 renderableEntity.transformComponent = entity.GetComponent<TransformComponent>();
-                renderableEntities.emplace_back(renderableEntity);
+
+                bool isEntityInsideCameraView = (
+                    renderableEntity.transformComponent.position.x + (renderableEntity.transformComponent.scale.x * renderableEntity.spriteComponent.width) >= camera.x &&
+                    renderableEntity.transformComponent.position.x <= camera.x + camera.w &&
+                    renderableEntity.transformComponent.position.y + (renderableEntity.transformComponent.scale.y * renderableEntity.spriteComponent.height) >= camera.y &&
+                    renderableEntity.transformComponent.position.y <= camera.y + camera.h
+                );
+
+                // Bypass entities outside camera view
+                if (isEntityInsideCameraView) {
+                    renderableEntities.emplace_back(renderableEntity);
+                }
             }
 
             // Sort the vector by the z-index value
