@@ -3,12 +3,13 @@
 
 void TestLua() {
     sol::state lua;
+    lua.open_libraries(sol::lib::base);
 
     lua.script_file("assets/scripts/myscript.lua");
 
     int someVariable = lua["some_variable"];
 
-    std::cout << "This is the value" << std::to_string(someVariable) << std::endl;
+    std::cout << "This is the value in C++: " << std::to_string(someVariable) << std::endl;
 }
 
 int main(int argc, char* argv[]) {
