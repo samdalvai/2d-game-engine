@@ -13,7 +13,13 @@ void TestLua() {
 
     bool fullScreen = lua["config"]["fullScreen"];
 
-    std::cout << "Fullscreen? " << std::to_string(fullScreen) << std::endl;
+    std::cout << "Fullscreen? " << fullScreen << std::endl;
+
+    sol::table config = lua["config"];
+    int width = config["resolution"]["width"];
+    int height = config["resolution"]["height"];
+
+    std::cout << "Height: " << std::to_string(width) << " Width: " << std::to_string(height) << std::endl;
 }
 
 int main(int argc, char* argv[]) {
