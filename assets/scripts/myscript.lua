@@ -22,7 +22,24 @@ end
 -- Example usage
 local number = 5
 local result = factorial_tail_recursive(number)
-print("The factorial of " .. number .. " is " .. result)
+print("factorial_tail_recursive of " .. number .. " is " .. result)
+
+function factorial_recursive(n)
+    return factorial_recursive_internal(n, 1)
+end
+
+function factorial_recursive_internal(n, res)
+    if n == 0 then
+        return res
+    end
+
+    return factorial_recursive_internal(n - 1, res * n)
+end
+
+-- Example usage
+local number = 5
+local result = factorial_recursive(number)
+print("factorial_recursive of " .. number .. " is " .. result)
 
 function factorial_loop(n)
     factorial = 1
@@ -37,5 +54,5 @@ end
 
 -- Example usage
 local number = 5
-result = factorial_loop(number)
-print("The factorial of " .. number .. " is " .. result)
+local result = factorial_loop(number)
+print("factorial_loop of " .. number .. " is " .. result)
