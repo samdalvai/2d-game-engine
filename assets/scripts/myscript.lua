@@ -56,3 +56,6 @@ end
 local number = 5
 local result = factorial_loop(number)
 print("factorial_loop of " .. number .. " is " .. result)
+
+
+print("Native cube of 6 = "..cube(6))
