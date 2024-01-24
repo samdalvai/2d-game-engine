@@ -11,31 +11,31 @@ config = {
     }
 }
 
-function factorial_recursive(n)
+function factorial_tail_recursive(n)
     if n == 0 then
         return 1
     else
-        return n * factorial_recursive(n - 1)
+        return n * factorial_tail_recursive(n - 1)
     end
 end
 
 -- Example usage
 local number = 5
-local result = factorial_recursive(number)
+local result = factorial_tail_recursive(number)
 print("The factorial of " .. number .. " is " .. result)
 
 function factorial_loop(n)
-    result = 1
+    factorial = 1
     current = n
-    while current >= 0 do
-        result = result * current
+    while current > 0 do
+        factorial = result * current
         current = current -1
     end
 
-    return result
+    return factorial
 end
 
 -- Example usage
 local number = 5
-local result = factorial_recursive(number)
+result = factorial_loop(number)
 print("The factorial of " .. number .. " is " .. result)
