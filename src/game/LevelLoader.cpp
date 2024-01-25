@@ -29,6 +29,9 @@ void LevelLoader::LoadLevel(const std::unique_ptr<Registry>& registry, const std
     sol::state lua;
     lua.open_libraries(sol::lib::base);
 
+    lua.script_file("./assets/scripts/Level" + std::to_string(level) + ".lua");
+
+    /*
     // Adding assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");
@@ -122,4 +125,5 @@ void LevelLoader::LoadLevel(const std::unique_ptr<Registry>& registry, const std
     Entity label = registry->CreateEntity();
     SDL_Color white = { 255, 255, 255};
     label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth - 200, Game::windowHeight - 100), "CHOPPER 1.0", "charriot-font-large", white, true);
+    */
 }
