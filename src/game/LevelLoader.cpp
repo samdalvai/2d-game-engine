@@ -12,6 +12,7 @@
 #include "../Components/HealthComponent.h"
 #include "../Components/TextLabelComponent.h"
 
+#include <sol/sol.hpp>
 #include <fstream>
 #include <glm/glm.hpp>
 
@@ -24,6 +25,10 @@ LevelLoader::~LevelLoader() {
 }
 
 void LevelLoader::LoadLevel(const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int level) {
+    // Load everything from lua
+    sol::state lua;
+    lua.open_libraries(sol::lib::base);
+
     // Adding assets to the asset store
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");
