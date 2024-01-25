@@ -17,18 +17,15 @@
 #include <glm/glm.hpp>
 
 LevelLoader::LevelLoader() {
-
+    Logger::Log("LevelLoader constructor called!");   
 }
 
 LevelLoader::~LevelLoader() {
-
+    Logger::Log("LevelLoader destructor called!");   
 }
 
-void LevelLoader::LoadLevel(const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int level) {
+void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int level) {
     // Load everything from lua
-    sol::state lua;
-    lua.open_libraries(sol::lib::base);
-
     lua.script_file("./assets/scripts/Level" + std::to_string(level) + ".lua");
 
     /*
