@@ -24,8 +24,8 @@ LevelLoader::~LevelLoader() {
     Logger::Log("LevelLoader destructor called!");   
 }
 
-void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int level) {
-    const std::string fileName = "./assets/scripts/Level" + std::to_string(level) + ".lua";
+void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int levelNumber) {
+    const std::string fileName = "./assets/scripts/Level" + std::to_string(levelNumber) + ".lua";
 
     sol::load_result script = lua.load_file(fileName);
 
@@ -41,7 +41,10 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 
     sol::table level = lua["level"];
 
+    sol::table assets = level["assets"];
+
     
+
 
     /*
     // Adding assets to the asset store
