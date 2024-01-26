@@ -21,8 +21,8 @@ class RenderGUISystem: public System {
             // Display a window to customize and create new enemies
             if (ImGui::Begin("Spawn enemies")) {
                 // Static variables to hold input values
-                static int posX = 0;
-                static int posY = 0;
+                static int posX = camera.x + 100;
+                static int posY = camera.y + 100;
                 static int scaleX = 1;
                 static int scaleY = 1;
                 static int velX = 0;
@@ -31,9 +31,9 @@ class RenderGUISystem: public System {
                 static float rotation = 0.0;
                 static float projAngle = 0.0;
                 static float projSpeed = 100.0;
-                static int projRepeat = 10;
+                static int projRepeat = 1;
                 static int projDuration = 10;
-                const char* sprites[] = {"tank-image", "truck-image"};
+                const char* sprites[] = {"tank-tiger-right-texture", "truck-ford-right-texture"};
                 static int selectedSpriteIndex = 0;
 
                 // Section to input enemy sprite texture id 
