@@ -2,14 +2,18 @@
 #define RENDERGUISYSTEM_H
 
 #include "../ECS/ECS.h"
+#include "../Logger/Logger.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_sdl.h>
+#include <vector>
+#include <iostream>
 
 class RenderGUISystem: public System {
     public:
@@ -118,6 +122,23 @@ class RenderGUISystem: public System {
             if (ImGui::Begin("FPS Counter", NULL, windowFlags)) {
                 ImGui::Text("Current FPS: (%i) frames/second", Game::currentFPS);
             }
+            ImGui::End();
+
+            ImGui::Begin("Message Log", nullptr, ImGuiWindowFlags_HorizontalScrollbar);
+
+            // Get the vector of messages from the MessageManager
+            const std::vector<LogEntry>& logEntries = Logger::messages;
+
+            // Iterate through messages and display them
+            for (const auto& logEntry : logEntries) {
+                std::cout << "FROM IMGUI - " << logEntry.message << std::endl;
+                ImGui::TextUnformatted(logEntry.message.c_str());
+            }
+
+            // Ensure the scroll is at the bottom when adding new messages
+            if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+                ImGui::SetScrollHereY(1.0f);
+
             ImGui::End();
 
             ImGui::Render();
