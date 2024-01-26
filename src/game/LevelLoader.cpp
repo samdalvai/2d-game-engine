@@ -1,5 +1,6 @@
 #include "./LevelLoader.h"
 #include "./Game.h"
+
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
@@ -11,6 +12,7 @@
 #include "../Components/HealthComponent.h"
 #include "../Components/TextLabelComponent.h"
 #include "../Components/ScriptComponent.h"
+
 #include <fstream>
 #include <string>
 #include <sol/sol.hpp>
@@ -21,6 +23,23 @@ LevelLoader::LevelLoader() {
 
 LevelLoader::~LevelLoader() {
     Logger::Log("LevelLoader destructor called!");    
+}
+
+void LevelLoader::Start(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer) {
+    sol::load_result script = lua.load_file("./assets/configuration/Configuration.lua");
+    if (!script.valid()) {
+        sol::error err = script;
+        std::string errorMessage = err.what();
+        Logger::Err("Error loading the lua script: " + errorMessage);
+        return;
+    }
+
+    lua.script_file("./assets/configuration/Configuration.lua");
+
+    sol::table config = lua["Config"];
+    int level = config["level"];
+
+    LoadLevel(lua, registry, assetStore, renderer, level);
 }
 
 void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int levelNumber) {

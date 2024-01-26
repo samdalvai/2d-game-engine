@@ -2,6 +2,7 @@
 #include "./LevelLoader.h"
 #include "../Logger/Logger.h"
 #include "../ECS/ECS.h"
+
 #include "../Systems/MovementSystem.h"
 #include "../Systems/CameraMovementSystem.h"
 #include "../Systems/RenderSystem.h"
@@ -16,6 +17,7 @@
 #include "../Systems/RenderHealthBarSystem.h"
 #include "../Systems/RenderGUISystem.h"
 #include "../Systems/ScriptSystem.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -137,7 +139,7 @@ void Game::Setup() {
     // Load the first level
     LevelLoader loader;
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::os);
-    loader.LoadLevel(lua, registry, assetStore, renderer, 2);
+    loader.Start(lua, registry, assetStore, renderer);
 }
 
 void Game::Update() {

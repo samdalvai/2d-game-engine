@@ -1,0 +1,3 @@
+Config = {
+    level = 1
+}
