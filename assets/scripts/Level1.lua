@@ -1,24 +1,23 @@
--- Define a table with the start values of the first level
-
+-- Load a different tilemap image depending on the current system time
 local current_system_hour = os.date("*t").hour
 
+-- Use a day-map or night-map texture (9am - 6pm)
 local map_texture_asset_id
-
-if current_system_hour >= 9 and current_system_hour <= 18 then
+if current_system_hour >= 9 and current_system_hour < 18 then
     map_texture_asset_id = "tilemap-texture-day"
 else
     map_texture_asset_id = "tilemap-texture-night"
 end
 
+-- Define a table with the start values of the first level
 Level = {
     ----------------------------------------------------
     -- Table to define the list of assets
     ----------------------------------------------------
     assets = {
         [0] =
-        { type = "texture", id = "tilemap-texture-day",             file = "./assets/tilemaps/jungle.png" },
-        { type = "texture", id = "tilemap-texture-night",             file = "./assets/tilemaps/jungle-night.png" },
-        { type = "texture", id = "tilemap-texture-desert",             file = "./assets/tilemaps/jungle-desert.png" },
+        { type = "texture", id = "tilemap-texture-day",         file = "./assets/tilemaps/jungle.png" },
+        { type = "texture", id = "tilemap-texture-night",       file = "./assets/tilemaps/jungle-night.png" },
         { type = "texture", id = "chopper-texture",             file = "./assets/images/chopper-green-spritesheet.png" },
         { type = "texture", id = "su27-texture",                file = "./assets/images/su27-spritesheet.png" },
         { type = "texture", id = "f22-texture",                 file = "./assets/images/f22-spritesheet.png" },
@@ -270,7 +269,7 @@ Level = {
                     health_percentage = 100
                 },
                 projectile_emitter = {
-                    projectile_velocity = { x = 100, y = 0 },
+                    projectile_velocity = { x = math.random(10, 200), y = 0 },
                     projectile_duration = 2, -- seconds
                     repeat_frequency = 1, -- seconds
                     hit_percentage_damage = 20,
@@ -2756,7 +2755,6 @@ Level = {
                 }
             }
         },
-        --[[
         {
             -- SU-27 fighter jet
             group = "enemies",
@@ -2796,14 +2794,12 @@ Level = {
                 on_update_script = {
                     [0] =
                     function(entity, delta_time, ellapsed_time)
-                        -- print("Executing the SU-27 fighter jet Lua script!")
-
                         -- this function makes the fighter jet move up and down the map shooting projectiles
                         local current_position_x, current_position_y = get_position(entity)
                         local current_velocity_x, current_velocity_y = get_velocity(entity)
 
                         -- if it reaches the top or the bottom of the map
-                        if current_position_y < 10  or current_position_y > map_height - 32 then
+                        if current_position_y < 10 or current_position_y > map_height - 32 then
                             set_velocity(entity, 0, current_velocity_y * -1); -- flip the entity y-velocity
                         else
                             set_velocity(entity, 0, current_velocity_y); -- do not flip y-velocity
@@ -2860,8 +2856,6 @@ Level = {
                 on_update_script = {
                     [0] =
                     function(entity, delta_time, ellapsed_time)
-                        -- print("Executing BF-109 Lua script!")
-
                         -- change the position of the the airplane to follow a sine wave movement
                         local new_x = ellapsed_time * 0.09
                         local new_y = 200 + (math.sin(ellapsed_time * 0.001) * 50)
@@ -2870,7 +2864,6 @@ Level = {
                 }
             }
         }
-        --]]
     }
 }
 
