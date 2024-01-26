@@ -30,6 +30,7 @@ int Game::windowWidth;
 int Game::windowHeight;
 int Game::mapWidth;
 int Game::mapHeight;
+int Game::currentFPS;
 
 Game::Game() {
     isRunning = false;
@@ -151,6 +152,15 @@ void Game::Update() {
 
     // The difference in ticks since the last frame, converted to seconds
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
+
+    if (isDebug) {
+        int millisecsCurrentFrame = SDL_GetTicks();
+
+        if (millisecsCurrentFrame - millisecondsLastFPSUpdate >= 1000) {
+            currentFPS = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
+            millisecondsLastFPSUpdate = millisecsCurrentFrame;
+        }
+    }
 
     // Store the "previous" frame time
     millisecsPreviousFrame = SDL_GetTicks();

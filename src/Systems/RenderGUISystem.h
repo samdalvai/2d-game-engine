@@ -113,6 +113,13 @@ class RenderGUISystem: public System {
             }
             ImGui::End();
 
+            ImGui::SetNextWindowPos(ImVec2(10, 50), ImGuiCond_Always, ImVec2(0, 0));
+            ImGui::SetNextWindowBgAlpha(0.9f);
+            if (ImGui::Begin("FPS Counter", NULL, windowFlags)) {
+                ImGui::Text("Current FPS: (%i) frames/second", Game::currentFPS);
+            }
+            ImGui::End();
+
             ImGui::Render();
             ImGuiSDL::Render(ImGui::GetDrawData());
         }
