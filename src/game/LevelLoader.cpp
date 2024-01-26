@@ -1,5 +1,6 @@
 #include "LevelLoader.h"
 #include "Game.h"
+#include "../Logger/Logger.h"
 
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
