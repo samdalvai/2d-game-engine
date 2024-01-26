@@ -31,7 +31,7 @@ class RenderGUISystem: public System {
                 static float projSpeed = 100.0;
                 static int projRepeat = 1;
                 static int projDuration = 10;
-                const char* sprites[] = {"tank-image", "truck-image"};
+                const char* sprites[] = {"tank-texture", "truck-texture"};
                 static int selectedSpriteIndex = 0;
 
                 if (ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen)) {
