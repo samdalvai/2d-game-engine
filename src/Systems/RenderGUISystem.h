@@ -127,11 +127,10 @@ class RenderGUISystem: public System {
             ImGui::Begin("Message Log", nullptr, ImGuiWindowFlags_HorizontalScrollbar);
 
             // Get the vector of messages from the MessageManager
-            const std::vector<LogEntry>& logEntries = Logger::messages;
+            const std::vector<LogEntry>& logEntries = Logger::GetLastMessages(50);
 
             // Iterate through messages and display them
             for (const auto& logEntry : logEntries) {
-                std::cout << "FROM IMGUI - " << logEntry.message << std::endl;
                 ImGui::TextUnformatted(logEntry.message.c_str());
             }
 

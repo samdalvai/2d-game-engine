@@ -28,3 +28,11 @@ void Logger::Err(const std::string& message) {
     messages.push_back(logEntry);
     std::cerr << "\x1B[91m"<< logEntry.message << "\033[0m" << std::endl;
 }
+
+std::vector<LogEntry> Logger::GetLastMessages(int numberOfMessages) {
+    if (numberOfMessages >= messages.size()) {
+        return messages;
+    } else {
+        return std::vector<LogEntry>(messages.end() - numberOfMessages, messages.end());
+    }
+}

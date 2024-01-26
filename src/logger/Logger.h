@@ -20,6 +20,7 @@ class Logger {
         static std::vector<LogEntry> messages;
         static void Log(const std::string& message);
         static void Err(const std::string& message);
+        static std::vector<LogEntry> GetLastMessages(int numberOfMessages);
 };
 
 #endif
