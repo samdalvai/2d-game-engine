@@ -88,7 +88,8 @@ Level = {
         { type = "texture", id = "bullet-texture",              file = "./assets/images/bullet.png" },
         { type = "texture", id = "radar-texture",               file = "./assets/images/radar-spritesheet.png" },
         { type = "font",    id = "pico8-font-5",                file = "./assets/fonts/pico8.ttf",                      font_size = 5 },
-        { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 }
+        { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 },
+        { type = "font",    id = "charriot-font-14",            file = "./assets/fonts/charriot.ttf",                   font_size = 14 }
     },
 
     ----------------------------------------------------
@@ -238,7 +239,8 @@ Level = {
                     friendly = false
                 }
             }
-        },    }
+        },
+    }
 }
 
 -- Define some useful global variables

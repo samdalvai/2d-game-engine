@@ -4,7 +4,7 @@ Level = {
     ----------------------------------------------------
     assets = {
         [0] =
-        { type = "texture", id = "tilemap-texture",             file = "./assets/tilemaps/desert.png" },
+        { type = "texture", id = "tilemap-texture", file = "./assets/tilemaps/desert.png" },
         { type = "texture", id = "tank-texture",                file = "./assets/images/tank-panther-spritesheet.png" },
         { type = "texture", id = "su27-texture",                file = "./assets/images/su27-spritesheet.png" },
         { type = "texture", id = "f22-texture",                 file = "./assets/images/f22-spritesheet.png" },
@@ -74,8 +74,9 @@ Level = {
         { type = "texture", id = "tree20-texture",              file = "./assets/images/tree-20.png" },
         { type = "texture", id = "bullet-texture",              file = "./assets/images/bullet.png" },
         { type = "texture", id = "radar-texture",               file = "./assets/images/radar-spritesheet.png" },
-        { type = "font"   , id = "pico8-font-5",                file = "./assets/fonts/pico8.ttf", font_size = 5 },
-        { type = "font"   , id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf", font_size = 10 }
+        { type = "font",    id = "pico8-font-5",                file = "./assets/fonts/pico8.ttf",                      font_size = 5 },
+        { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 },
+        { type = "font",    id = "charriot-font-14",            file = "./assets/fonts/charriot.ttf",                   font_size = 14 }
     },
 
     ----------------------------------------------------
@@ -127,7 +128,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 200, y = 200 },
                     projectile_duration = 10, -- seconds
-                    repeat_frequency = 0, -- seconds
+                    repeat_frequency = 0,     -- seconds
                     hit_percentage_damage = 10,
                     friendly = true
                 },
@@ -354,7 +355,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = -50 },
                     projectile_duration = 1, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -390,7 +391,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = -50 },
                     projectile_duration = 1, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -426,7 +427,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -462,7 +463,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -498,7 +499,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -534,7 +535,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -570,13 +571,13 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
             }
         },
-        
+
         {
             -- SAM Tank
             group = "enemies",
@@ -607,7 +608,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 100, y = -100 },
                     projectile_duration = 3, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -639,7 +640,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -671,7 +672,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -703,7 +704,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -735,7 +736,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -767,7 +768,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -799,7 +800,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 50, y = 0 },
                     projectile_duration = 5, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -831,7 +832,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -863,7 +864,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -895,7 +896,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -927,7 +928,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = -100 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 2, -- seconds
+                    repeat_frequency = 2,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -959,7 +960,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = -100 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 2, -- seconds
+                    repeat_frequency = 2,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -991,7 +992,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = -100 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 2, -- seconds
+                    repeat_frequency = 2,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1023,7 +1024,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = -100 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 2, -- seconds
+                    repeat_frequency = 2,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1055,7 +1056,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1087,7 +1088,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1119,7 +1120,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -50, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 3, -- seconds
+                    repeat_frequency = 3,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1166,7 +1167,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 100, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1197,7 +1198,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 100, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1276,7 +1277,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 80, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1307,7 +1308,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1402,7 +1403,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = -100, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1433,7 +1434,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 100, y = 0 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1464,7 +1465,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = -80 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -1495,7 +1496,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = 80 },
                     projectile_duration = 2, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -2110,7 +2111,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = 300 },
                     projectile_duration = 1, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -2133,7 +2134,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = 300 },
                     projectile_duration = 1, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -2156,7 +2157,7 @@ Level = {
                 projectile_emitter = {
                     projectile_velocity = { x = 0, y = 300 },
                     projectile_duration = 1, -- seconds
-                    repeat_frequency = 1, -- seconds
+                    repeat_frequency = 1,    -- seconds
                     hit_percentage_damage = 5,
                     friendly = false
                 }
@@ -2220,7 +2221,7 @@ Level = {
                     rotation = 90.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 20 , y = 0.0 }
+                    velocity = { x = 20, y = 0.0 }
                 },
                 sprite = {
                     texture_asset_id = "su27-texture",
@@ -2252,7 +2253,7 @@ Level = {
                     rotation = 90.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 20 , y = 0.0 }
+                    velocity = { x = 20, y = 0.0 }
                 },
                 sprite = {
                     texture_asset_id = "fw190-texture",
@@ -2284,7 +2285,7 @@ Level = {
                     rotation = 45.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 45 , y = -45.0 }
+                    velocity = { x = 45, y = -45.0 }
                 },
                 sprite = {
                     texture_asset_id = "fw190-texture",
@@ -2316,7 +2317,7 @@ Level = {
                     rotation = 45.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 45 , y = -45.0 }
+                    velocity = { x = 45, y = -45.0 }
                 },
                 sprite = {
                     texture_asset_id = "fw190-texture",
@@ -2348,7 +2349,7 @@ Level = {
                     rotation = 45.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 45 , y = -45.0 }
+                    velocity = { x = 45, y = -45.0 }
                 },
                 sprite = {
                     texture_asset_id = "fw190-texture",
@@ -2392,7 +2393,7 @@ Level = {
                 boxcollider = {
                     width = 20,
                     height = 25,
-                    offset = { x = 5, y = 5}
+                    offset = { x = 5, y = 5 }
                 },
                 health = {
                     health_percentage = 100
@@ -2438,7 +2439,7 @@ Level = {
                     rotation = -10.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = -5.5 , y = -35.0 }
+                    velocity = { x = -5.5, y = -35.0 }
                 },
                 sprite = {
                     texture_asset_id = "su27-texture",
@@ -2470,7 +2471,7 @@ Level = {
                     rotation = -10.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = -5.5 , y = -35.0 }
+                    velocity = { x = -5.5, y = -35.0 }
                 },
                 sprite = {
                     texture_asset_id = "su27-texture",
@@ -2523,25 +2524,25 @@ Level = {
                 },
                 on_update_script = {
                     [0] =
-                    function(entity, delta_time, ellapsed_time)
-                        -- this function makes the fighter jet move up and down the map shooting projectiles
-                        local current_position_x, current_position_y = get_position(entity)
-                        local current_velocity_x, current_velocity_y = get_velocity(entity)
+                        function(entity, delta_time, ellapsed_time)
+                            -- this function makes the fighter jet move up and down the map shooting projectiles
+                            local current_position_x, current_position_y = get_position(entity)
+                            local current_velocity_x, current_velocity_y = get_velocity(entity)
 
-                        -- if it reaches the top or the bottom of the map
-                        if current_position_y < 10  or current_position_y > map_height - 32 then
-                            set_velocity(entity, 0, current_velocity_y * -1); -- flip the entity y-velocity
-                        else
-                            set_velocity(entity, 0, current_velocity_y); -- do not flip y-velocity
-                        end
+                            -- if it reaches the top or the bottom of the map
+                            if current_position_y < 10 or current_position_y > map_height - 32 then
+                                set_velocity(entity, 0, current_velocity_y * -1); -- flip the entity y-velocity
+                            else
+                                set_velocity(entity, 0, current_velocity_y);  -- do not flip y-velocity
+                            end
 
-                        -- set the transform rotation to match going up or down
-                        if (current_velocity_y < 0) then
-                            set_rotation(entity, 0) -- point up
-                        else
-                            set_rotation(entity, 180) -- point down
+                            -- set the transform rotation to match going up or down
+                            if (current_velocity_y < 0) then
+                                set_rotation(entity, 0) -- point up
+                            else
+                                set_rotation(entity, 180) -- point down
+                            end
                         end
-                    end
                 }
             }
         },
@@ -2576,22 +2577,22 @@ Level = {
                 },
                 on_update_script = {
                     [0] =
-                    function(entity, delta_time, ellapsed_time)
-                        -- change the position of the the airplane to follow a circular path
-                        local radius = 170
-                        local distance_from_origin = 500
+                        function(entity, delta_time, ellapsed_time)
+                            -- change the position of the the airplane to follow a circular path
+                            local radius = 170
+                            local distance_from_origin = 500
 
-                        local angle = ellapsed_time * 0.0009
+                            local angle = ellapsed_time * 0.0009
 
-                        -- calculate the new x-y cartesian position using polar coordinates
-                        local new_x = (math.cos(angle) * radius) + distance_from_origin
-                        local new_y = (math.sin(angle) * radius) + distance_from_origin
-                        set_position(entity, new_x, new_y)
+                            -- calculate the new x-y cartesian position using polar coordinates
+                            local new_x = (math.cos(angle) * radius) + distance_from_origin
+                            local new_y = (math.sin(angle) * radius) + distance_from_origin
+                            set_position(entity, new_x, new_y)
 
-                        -- change the rotation of the sprite to match the circular motion
-                        local angle_in_degrees = 180 + angle * 180 / math.pi
-                        set_rotation(entity, angle_in_degrees)
-                    end
+                            -- change the rotation of the sprite to match the circular motion
+                            local angle_in_degrees = 180 + angle * 180 / math.pi
+                            set_rotation(entity, angle_in_degrees)
+                        end
                 }
             }
         }

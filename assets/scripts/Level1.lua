@@ -88,7 +88,8 @@ Level = {
         { type = "texture", id = "bullet-texture",              file = "./assets/images/bullet.png" },
         { type = "texture", id = "radar-texture",               file = "./assets/images/radar-spritesheet.png" },
         { type = "font",    id = "pico8-font-5",                file = "./assets/fonts/pico8.ttf",                      font_size = 5 },
-        { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 }
+        { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 },
+        { type = "font",    id = "charriot-font-14",            file = "./assets/fonts/charriot.ttf",                   font_size = 14 }
     },
 
     ----------------------------------------------------
@@ -2802,16 +2803,16 @@ Level = {
                             if current_position_y < 10 or current_position_y > map_height - 32 then
                                 set_velocity(entity, 0, current_velocity_y * -1); -- flip the entity y-velocity
                             else
-                                set_velocity(entity, 0, current_velocity_y);  -- do not flip y-velocity
+                                set_velocity(entity, 0, current_velocity_y);      -- do not flip y-velocity
                             end
 
                             -- set the transform rotation to match going up or down
                             if (current_velocity_y < 0) then
-                                set_rotation(entity, 0)              -- point up
+                                set_rotation(entity, 0)                  -- point up
                                 set_projectile_velocity(entity, 0, -200) -- shoot projectiles up
                             else
-                                set_rotation(entity, 180)            -- point down
-                                set_projectile_velocity(entity, 0, 200) -- shoot projectiles down
+                                set_rotation(entity, 180)                -- point down
+                                set_projectile_velocity(entity, 0, 200)  -- shoot projectiles down
                             end
                         end
                 }
