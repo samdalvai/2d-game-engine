@@ -131,7 +131,6 @@ class RenderGUISystem: public System {
 
             // Iterate through messages and display them
             for (const auto& logEntry : logEntries) {
-                // TODO: fix c-string wrong conversion
                 ImGui::TextUnformatted(logEntry.message.c_str());
             }
 

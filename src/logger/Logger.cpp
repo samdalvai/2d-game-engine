@@ -1,17 +1,18 @@
 #include "Logger.h"
 #include <iostream>
-#include <string>
-#include <chrono>
+#include <iomanip>
 #include <ctime>
+#include <string>
 
 std::vector<LogEntry> Logger::messages;
 
 std::string CurrentDateTimeToString() {
-    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::string output(30, '\0');
-    std::strftime(&output[0], output.size(), "%d-%b-%Y %H:%M:%S", std::localtime(&now));
-    // TODO: this creates problems when converting to c-string
-    return output;
+    std::time_t currentTime = std::time(nullptr);
+    std::tm* localTime = std::localtime(&currentTime);
+    char formattedTime[100];
+    std::strftime(formattedTime, sizeof(formattedTime), "%d-%b-%Y %H:%M:%S", localTime);
+    std::string formattedTimeString(formattedTime);
+    return formattedTimeString;
 }
 
 void Logger::Log(const std::string& message) {
