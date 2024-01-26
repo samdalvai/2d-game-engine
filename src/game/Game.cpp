@@ -1,19 +1,7 @@
-#include "Game.h"
+#include "./Game.h"
+#include "./LevelLoader.h"
 #include "../Logger/Logger.h"
 #include "../ECS/ECS.h"
-#include "LevelLoader.h"
-
-#include "../Components/TransformComponent.h"
-#include "../Components/RigidBodyComponent.h"
-#include "../Components/SpriteComponent.h"
-#include "../Components/AnimationComponent.h"
-#include "../Components/BoxColliderComponent.h"
-#include "../Components/KeyboardControlledComponent.h"
-#include "../Components/CameraFollowComponent.h"
-#include "../Components/ProjectileEmitterComponent.h"
-#include "../Components/HealthComponent.h"
-#include "../Components/TextLabelComponent.h"
-
 #include "../Systems/MovementSystem.h"
 #include "../Systems/CameraMovementSystem.h"
 #include "../Systems/RenderSystem.h"
@@ -27,10 +15,6 @@
 #include "../Systems/RenderTextSystem.h"
 #include "../Systems/RenderHealthBarSystem.h"
 #include "../Systems/RenderGUISystem.h"
-
-#include "../Events/KeyPressedEvent.h"
-#include "../Events/KeyReleasedEvent.h"
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -38,13 +22,11 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_sdl.h>
 #include <imgui/imgui_impl_sdl.h>
-#include <iostream>
 
 int Game::windowWidth;
 int Game::windowHeight;
 int Game::mapWidth;
 int Game::mapHeight;
-int Game::currentFPS = 0;
 
 Game::Game() {
     isRunning = false;
@@ -64,12 +46,10 @@ void Game::Initialize() {
         Logger::Err("Error initializing SDL.");
         return;
     }
-
     if (TTF_Init() != 0) {
-        Logger::Err("Error initializing TTF.");
+        Logger::Err("Error initializing SDL TTF.");
         return;
     }
-
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
     windowWidth = displayMode.w;
@@ -92,14 +72,12 @@ void Game::Initialize() {
         return;
     }
 
+    // Initialize the ImGui context
     ImGui::CreateContext();
     ImGuiSDL::Initialize(renderer, windowWidth, windowHeight);
 
     // Initialize the camera view with the entire screen area
-    camera.x = 0;
-    camera.y = 0;
-    camera.w = windowWidth;
-    camera.h = windowHeight;
+    camera = {0, 0, windowWidth, windowHeight};
 
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
@@ -108,16 +86,16 @@ void Game::Initialize() {
 void Game::ProcessInput() {
     SDL_Event sdlEvent;
     while (SDL_PollEvent(&sdlEvent)) {
-        if (isDebug) {
-            ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
-            ImGuiIO& io = ImGui::GetIO();
-            int mouseX, mouseY;
-            const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
-            io.MousePos = ImVec2(mouseX, mouseY);
-            io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
-            io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
-        }
+        // ImGui SDL input
+        ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+        ImGuiIO& io = ImGui::GetIO();
+        int mouseX, mouseY;
+        const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
+        io.MousePos = ImVec2(mouseX, mouseY);
+        io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
+        io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
 
+        // Handle core SDL events (close window, key pressed, etc.)
         switch (sdlEvent.type) {
             case SDL_QUIT:
                 isRunning = false;
@@ -130,9 +108,6 @@ void Game::ProcessInput() {
                     isDebug = !isDebug;
                 }
                 eventBus->EmitEvent<KeyPressedEvent>(sdlEvent.key.keysym.sym);
-                break;
-            case SDL_KEYUP:
-                eventBus->EmitEvent<KeyReleasedEvent>(sdlEvent.key.keysym.sym);
                 break;
         }
     }
@@ -154,6 +129,7 @@ void Game::Setup() {
     registry->AddSystem<RenderHealthBarSystem>();
     registry->AddSystem<RenderGUISystem>();
 
+    // Load the first level
     LevelLoader loader;
     lua.open_libraries(sol::lib::base, sol::lib::math);
     loader.LoadLevel(lua, registry, assetStore, renderer, 1);
@@ -169,15 +145,6 @@ void Game::Update() {
     // The difference in ticks since the last frame, converted to seconds
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
 
-    if (isDebug) {
-        int millisecsCurrentFrame = SDL_GetTicks();
-
-        if (millisecsCurrentFrame - millisecondsLastFPSUpdate >= 1000) {
-            currentFPS = 1000 / (millisecsCurrentFrame - millisecsPreviousFrame);
-            millisecondsLastFPSUpdate = millisecsCurrentFrame;
-        }
-    }
-
     // Store the "previous" frame time
     millisecsPreviousFrame = SDL_GetTicks();
    
@@ -185,8 +152,8 @@ void Game::Update() {
     eventBus->Reset();
 
     // Perform the subscription of the events for all systems
-    registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<MovementSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
     registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);
 
@@ -209,11 +176,12 @@ void Game::Render() {
     // Invoke all the systems that need to render 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
-    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera, "charriot-font-15");
+    registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
         registry->GetSystem<RenderGUISystem>().Update(registry, camera);
     }
+
     SDL_RenderPresent(renderer);
 }
 

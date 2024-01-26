@@ -4,7 +4,6 @@
 #include "../ECS/ECS.h"
 #include "../EventBus/EventBus.h"
 #include "../Events/KeyPressedEvent.h"
-#include "../Events/KeyReleasedEvent.h"
 #include "../Components/KeyboardControlledComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
@@ -19,7 +18,6 @@ class KeyboardControlSystem: public System {
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
             eventBus->SubscribeToEvent<KeyPressedEvent>(this, &KeyboardControlSystem::OnKeyPressed);
-            eventBus->SubscribeToEvent<KeyReleasedEvent>(this, &KeyboardControlSystem::OnKeyReleased);
         }
 
         void OnKeyPressed(KeyPressedEvent& event) {
@@ -49,36 +47,9 @@ class KeyboardControlSystem: public System {
             }
         }
 
-        void OnKeyReleased(KeyReleasedEvent& event) {
-            for (auto entity: GetSystemEntities()) {
-                auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
-
-                switch (event.symbol) {
-                    case SDLK_UP:
-                        if (rigidbody.velocity.y < 0) {
-                            rigidbody.velocity.y = 0;
-                        }
-                        break;
-                    case SDLK_RIGHT:
-                        if (rigidbody.velocity.x > 0) {
-                            rigidbody.velocity.x = 0;
-                        }
-                        break;
-                    case SDLK_DOWN:
-                        if (rigidbody.velocity.y > 0) {
-                            rigidbody.velocity.y = 0;
-                        }
-                        break;
-                    case SDLK_LEFT:
-                        if (rigidbody.velocity.x < 0) {
-                            rigidbody.velocity.x = 0;
-                        }
-                        break;
-                }
-            }
+        void Update() {
+                
         }
-
-        void Update() {}
 };
 
 #endif

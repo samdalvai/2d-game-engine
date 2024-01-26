@@ -1,6 +1,5 @@
 #include "./LevelLoader.h"
 #include "./Game.h"
-
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
@@ -11,7 +10,6 @@
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
 #include "../Components/TextLabelComponent.h"
-
 #include <fstream>
 #include <string>
 #include <sol/sol.hpp>

@@ -5,7 +5,6 @@
 #include "Event.h"
 #include <map>
 #include <typeindex>
-#include <functional>
 #include <list>
 
 class IEventCallback {

@@ -26,17 +26,20 @@ class RenderSystem: public System {
                 renderableEntity.spriteComponent = entity.GetComponent<SpriteComponent>();
                 renderableEntity.transformComponent = entity.GetComponent<TransformComponent>();
 
-                bool isEntityInsideCameraView = (
-                    renderableEntity.transformComponent.position.x + (renderableEntity.transformComponent.scale.x * renderableEntity.spriteComponent.width) >= camera.x &&
-                    renderableEntity.transformComponent.position.x <= camera.x + camera.w &&
-                    renderableEntity.transformComponent.position.y + (renderableEntity.transformComponent.scale.y * renderableEntity.spriteComponent.height) >= camera.y &&
-                    renderableEntity.transformComponent.position.y <= camera.y + camera.h
+                // Check if the entity sprite is outside the camera view
+                bool isOutsideCameraView = (
+                    renderableEntity.transformComponent.position.x + (renderableEntity.transformComponent.scale.x * renderableEntity.spriteComponent.width) < camera.x ||
+                    renderableEntity.transformComponent.position.x > camera.x + camera.w ||
+                    renderableEntity.transformComponent.position.y + (renderableEntity.transformComponent.scale.y * renderableEntity.spriteComponent.height) < camera.y ||
+                    renderableEntity.transformComponent.position.y > camera.y + camera.h
                 );
 
-                // Bypass entities outside camera view
-                if (isEntityInsideCameraView) {
-                    renderableEntities.emplace_back(renderableEntity);
+                // Cull sprites that are outside the camera viww (and are not fixed)
+                if (isOutsideCameraView && !renderableEntity.spriteComponent.isFixed) {
+                    continue;
                 }
+
+                renderableEntities.emplace_back(renderableEntity);
             }
 
             // Sort the vector by the z-index value

@@ -8,7 +8,6 @@
 #include <deque>
 #include <unordered_map>
 #include <typeindex>
-#include <memory>
 
 const unsigned int MAX_COMPONENTS = 32;
 
@@ -229,11 +228,11 @@ class Registry {
 
     public:
         Registry() {
-            Logger::Log("Registry constructor called");
+            Logger::Log("Registry constructor called!");
         }
         
         ~Registry() {
-            Logger::Log("Registry destructor called");
+            Logger::Log("Registry destructor called!");
         }
 
         // The registry Update() finally processes the entities that are waiting to be added/killed to the systems

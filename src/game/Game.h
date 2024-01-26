@@ -15,13 +15,12 @@ class Game {
         bool isRunning;
         bool isDebug;
         int millisecsPreviousFrame = 0;
-        int millisecondsLastFPSUpdate = 0;
         SDL_Window* window;
         SDL_Renderer* renderer;
         SDL_Rect camera;
-        
-        sol::state lua;
 
+        sol::state lua;
+        
         std::unique_ptr<Registry> registry;
         std::unique_ptr<AssetStore> assetStore;
         std::unique_ptr<EventBus> eventBus;
@@ -41,7 +40,6 @@ class Game {
         static int windowHeight;
         static int mapWidth;
         static int mapHeight;
-        static int currentFPS;
 };
 
 #endif
