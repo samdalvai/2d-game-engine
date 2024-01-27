@@ -22,9 +22,20 @@ class RenderGUISystem: public System {
         void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
             ImGui::NewFrame();
 
-            // Display a window to customize and create new enemies
+            RenderSpawnEnemiesMenu(registry, camera);
+
+            RenderMapsPositionMenu(camera);
+
+            RenderFPSMenu();
+
+            RenderLogsMenu();
+
+            ImGui::Render();
+            ImGuiSDL::Render(ImGui::GetDrawData());
+        }
+
+        void RenderSpawnEnemiesMenu(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
             if (ImGui::Begin("Spawn enemies")) {
-                // Static variables to hold input values
                 static int posX = camera.x + 100;
                 static int posY = camera.y + 100;
                 static int scaleX = 1;
@@ -40,13 +51,11 @@ class RenderGUISystem: public System {
                 const char* sprites[] = {"tank-tiger-right-texture", "truck-ford-right-texture"};
                 static int selectedSpriteIndex = 0;
 
-                // Section to input enemy sprite texture id 
                 if (ImGui::CollapsingHeader("Sprite", ImGuiTreeNodeFlags_DefaultOpen)) {
                     ImGui::Combo("texture id", &selectedSpriteIndex, sprites, IM_ARRAYSIZE(sprites));
                 }
                 ImGui::Spacing();
 
-                // Section to input enemy transform values
                 if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
                     ImGui::InputInt("position x", &posX);
                     ImGui::InputInt("position y", &posY);
@@ -56,14 +65,12 @@ class RenderGUISystem: public System {
                 }
                 ImGui::Spacing();
 
-                // Section to input enemy rigid body values
                 if (ImGui::CollapsingHeader("Rigid body", ImGuiTreeNodeFlags_DefaultOpen)) {
                     ImGui::InputInt("velocity x", &velX);
                     ImGui::InputInt("velocity y", &velY);
                 }
                 ImGui::Spacing();
 
-                // Section to input enemy projectile emitter values
                 if (ImGui::CollapsingHeader("Projectile emitter", ImGuiTreeNodeFlags_DefaultOpen)) {
                     ImGui::SliderAngle("angle (deg)", &projAngle, 0, 360);
                     ImGui::SliderFloat("speed (px/sec)", &projSpeed, 10, 500);
@@ -72,7 +79,6 @@ class RenderGUISystem: public System {
                 }
                 ImGui::Spacing();
 
-                // Section to input enemy health values
                 if (ImGui::CollapsingHeader("Health", ImGuiTreeNodeFlags_DefaultOpen)) {
                     ImGui::SliderInt("%", &health, 0, 100);
                 }
@@ -81,7 +87,6 @@ class RenderGUISystem: public System {
                 ImGui::Separator();
                 ImGui::Spacing();
 
-                // Enemy creation button
                 if (ImGui::Button("Spawn new enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
@@ -94,17 +99,20 @@ class RenderGUISystem: public System {
                     enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(projVelX, projVelY), projRepeat * 1000, projDuration * 1000, 10, false);
                     enemy.AddComponent<HealthComponent>(health);
 
-                    // Reset all input values after we create a new enemy
-                    posX = posY = rotation = projAngle = 0;
+                    posX = camera.x + 100;
+                    posY = camera.y + 100;
+                    rotation = projAngle = 0;
                     scaleX = scaleY = 1;
-                    projRepeat = projDuration = 10;
+                    projRepeat = 1;
+                    projDuration = 10;
                     projSpeed = 100;
                     health = 100;
                 }
             }
             ImGui::End();
+        }
 
-            // Display a small overlay window to display the map position using the mouse
+        void RenderMapsPositionMenu(const SDL_Rect& camera) {
             ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNav;
             ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always, ImVec2(0, 0));
             ImGui::SetNextWindowBgAlpha(0.9f);
@@ -116,14 +124,19 @@ class RenderGUISystem: public System {
                 );
             }
             ImGui::End();
+        }
 
+        void RenderFPSMenu() {
+            ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNav;
             ImGui::SetNextWindowPos(ImVec2(10, 50), ImGuiCond_Always, ImVec2(0, 0));
             ImGui::SetNextWindowBgAlpha(0.9f);
             if (ImGui::Begin("FPS Counter", NULL, windowFlags)) {
                 ImGui::Text("Current FPS: (%i) frames/second", Game::currentFPS);
             }
             ImGui::End();
+        }
 
+        void RenderLogsMenu() { 
             ImGui::Begin("Message Log", nullptr, ImGuiWindowFlags_HorizontalScrollbar);
 
             const std::vector<LogEntry>& logEntries = Logger::GetLastMessages(50);
@@ -142,9 +155,6 @@ class RenderGUISystem: public System {
                 ImGui::SetScrollHereY(1.0f);
 
             ImGui::End();
-
-            ImGui::Render();
-            ImGuiSDL::Render(ImGui::GetDrawData());
         }
 };
 
