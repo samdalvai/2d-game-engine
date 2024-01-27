@@ -185,6 +185,7 @@ void Game::Update() {
     
     // Invoke all the systems that need to update 
     registry->GetSystem<MovementSystem>().Update(deltaTime);
+    registry->GetSystem<KeyboardControlSystem>().Update();
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update(eventBus);
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);
