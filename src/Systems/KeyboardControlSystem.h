@@ -31,15 +31,19 @@ class KeyboardControlSystem: public System {
         void OnKeyPressed(KeyPressedEvent& event) {
             switch (event.symbol) {
                 case SDLK_UP:
+                case SDLK_w:
                     keysPressed.push_back(SDLK_UP);
                     break;
                 case SDLK_RIGHT:
+                case SDLK_d:
                     keysPressed.push_back(SDLK_RIGHT);
                     break;
                 case SDLK_DOWN:
+                case SDLK_s:
                     keysPressed.push_back(SDLK_DOWN);
                     break;
                 case SDLK_LEFT:
+                case SDLK_a:
                     keysPressed.push_back(SDLK_LEFT);
                     break;
             }
@@ -61,18 +65,22 @@ class KeyboardControlSystem: public System {
                 } else {
                     switch (keysPressed.back()) {
                         case SDLK_UP:
+                        case SDLK_w:
                             rigidbody.velocity = keyboardcontrol.upVelocity;
                             sprite.srcRect.y = sprite.height * 0;
                             break;
                         case SDLK_RIGHT:
+                        case SDLK_d:
                             rigidbody.velocity = keyboardcontrol.rightVelocity;
                             sprite.srcRect.y = sprite.height * 1;
                             break;
                         case SDLK_DOWN:
+                        case SDLK_s:
                             rigidbody.velocity = keyboardcontrol.downVelocity;
                             sprite.srcRect.y = sprite.height * 2;
                             break;
                         case SDLK_LEFT:
+                        case SDLK_a:
                             rigidbody.velocity = keyboardcontrol.leftVelocity;
                             sprite.srcRect.y = sprite.height * 3;
                             break;
