@@ -273,8 +273,8 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 
                 newEntity.AddComponent<TextLabelComponent>(
                     glm::vec2(
-                        Game::windowWidth - static_cast<int>(entity["components"]["text_label"]["position"]["x"]),
-                        Game::windowHeight - static_cast<int>(entity["components"]["text_label"]["position"]["y"])
+                        static_cast<int>(entity["components"]["text_label"]["position"]["x"]),
+                        static_cast<int>(entity["components"]["text_label"]["position"]["y"])
                     ),
                     entity["components"]["text_label"]["text"],
                     entity["components"]["text_label"]["font_asset_id"],

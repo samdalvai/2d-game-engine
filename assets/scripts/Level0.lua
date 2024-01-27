@@ -242,8 +242,8 @@ Level = {
         {
             components = {
                 text_label = {
-                    position = { x = 200, y = 100 },
-                    text = "THIS IS A TEST",
+                    position = { x = 100, y = 25 },
+                    text = "CHOPPER 1.0",
                     font_asset_id = "charriot-font-20",
                     color = {
                         r = 255,
@@ -251,6 +251,28 @@ Level = {
                         b = 255
                     },
                     fixed = true
+                }
+            }
+        },
+        {
+            -- Radar UI animation
+            group = "ui",
+            components = {
+                transform = {
+                    position = { x = 10, y = 10 },
+                    scale = { x = 1.0, y = 1.0 },
+                    rotation = 0.0, -- degrees
+                },
+                sprite = {
+                    texture_asset_id = "radar-texture",
+                    width = 64,
+                    height = 64,
+                    z_index = 10,
+                    fixed = true
+                },
+                animation = {
+                    num_frames = 8,
+                    speed_rate = 7 -- fps
                 }
             }
         }
