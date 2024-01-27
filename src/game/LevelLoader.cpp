@@ -264,18 +264,22 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 
             // Text label
             sol::optional<sol::table> textLabel = entity["components"]["text_label"];
-            SDL_Color white = { 255, 255, 255};
             if (textLabel != sol::nullopt) {
-                /*newEntity.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth - 200, Game::windowHeight - 100), "CHOPPER 1.0", "charriot-font-20", white, true);*/
+                SDL_Color color = { 
+                    static_cast<Uint8>(entity["components"]["text_label"]["color"]["r"].get_or(255)), 
+                    static_cast<Uint8>(entity["components"]["text_label"]["color"]["g"].get_or(255)),
+                    static_cast<Uint8>(entity["components"]["text_label"]["color"]["b"].get_or(255))
+                };
+
                 newEntity.AddComponent<TextLabelComponent>(
                     glm::vec2(
                         Game::windowWidth - static_cast<int>(entity["components"]["text_label"]["position"]["x"]),
                         Game::windowHeight - static_cast<int>(entity["components"]["text_label"]["position"]["y"])
                     ),
                     entity["components"]["text_label"]["text"],
-                    entity["components"]["text_label"]["font_asset_id"], 
-                    white, 
-                    true
+                    entity["components"]["text_label"]["font_asset_id"],
+                    color,
+                    entity["components"]["text_label"]["fixed"].get_or(false)
                 );
             }
 
