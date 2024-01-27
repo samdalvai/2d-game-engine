@@ -1,13 +1,9 @@
 -- Load a different tilemap image depending on the current system time
 local current_system_hour = os.date("*t").hour
 
--- Use a day-map or night-map texture (9am - 6pm)
-local map_texture_asset_id
-if current_system_hour >= 9 and current_system_hour < 18 then
-    map_texture_asset_id = "tilemap-texture-day"
-else
-    map_texture_asset_id = "tilemap-texture-night"
-end
+--local map_texture_asset_id = "tilemap-texture-day"
+--local map_texture_asset_id = "tilemap-texture-night"
+local map_texture_asset_id = "tilemap-texture-desert"
 
 -- Define a table with the start values of the first level
 Level = {
@@ -18,6 +14,7 @@ Level = {
         [0] =
         { type = "texture", id = "tilemap-texture-day", file = "./assets/tilemaps/jungle.png" },
         { type = "texture", id = "tilemap-texture-night",       file = "./assets/tilemaps/jungle-night.png" },
+        { type = "texture", id = "tilemap-texture-desert", file = "./assets/tilemaps/desert.png" },
         { type = "texture", id = "chopper-texture",             file = "./assets/images/chopper-green-spritesheet.png" },
         { type = "texture", id = "su27-texture",                file = "./assets/images/su27-spritesheet.png" },
         { type = "texture", id = "f22-texture",                 file = "./assets/images/f22-spritesheet.png" },
