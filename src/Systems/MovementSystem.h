@@ -24,14 +24,21 @@ class MovementSystem: public System {
             Entity a = event.a;
             Entity b = event.b;
             if (a.BelongsToGroup("enemies") && b.BelongsToGroup("obstacles")) {
-                OnEnemyHitsObstacle(a, b); // "a" is the enemy, "b" is the obstacle
+                OnEnemyHitsObstacle(a);
             }
             if (a.BelongsToGroup("obstacles") && b.BelongsToGroup("enemies")) {
-                OnEnemyHitsObstacle(b, a); // "b" is the enemy, "a" is the obstacle
+                OnEnemyHitsObstacle(b);
+            }
+
+            if (a.HasTag("player") && (b.BelongsToGroup("enemies") || (b.BelongsToGroup("obstacles")))) {
+                OnPlayerHitsEnemyOrObstacle(a);
+            }
+            if ((a.BelongsToGroup("enemies") || a.BelongsToGroup("obstacles")) && b.HasTag("player")) {
+                OnPlayerHitsEnemyOrObstacle(b);
             }
         }
 
-        void OnEnemyHitsObstacle(Entity enemy, Entity obstacle) {
+        void OnEnemyHitsObstacle(Entity enemy) {
             if (enemy.HasComponent<RigidBodyComponent>() && enemy.HasComponent<SpriteComponent>()) {
                 auto& rigidbody = enemy.GetComponent<RigidBodyComponent>();
                 auto& sprite = enemy.GetComponent<SpriteComponent>();
@@ -45,6 +52,32 @@ class MovementSystem: public System {
                     rigidbody.velocity.y *= -1;
                     sprite.flip = (sprite.flip == SDL_FLIP_NONE) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
                 }
+            }
+        }
+
+        void OnPlayerHitsEnemyOrObstacle(Entity player) {
+            if (player.HasComponent<RigidBodyComponent>() && player.HasComponent<TransformComponent>()) {
+                auto& rigidbody = player.GetComponent<RigidBodyComponent>();
+                auto& transform = player.GetComponent<TransformComponent>();
+                
+                // Move player some pixels back on collision to avoid being stuck
+                if (rigidbody.velocity.x > 0) {
+                    transform.position.x -= 10.0;
+                }
+
+                if (rigidbody.velocity.x < 0) {
+                    transform.position.x += 10.0;
+                }
+
+                if (rigidbody.velocity.y > 0) {
+                    transform.position.y -= 10.0;
+                }
+
+                if (rigidbody.velocity.y < 0) {
+                    transform.position.y += 10.0;
+                }
+
+                rigidbody.velocity = glm::vec2(0);
             }
         }
 
