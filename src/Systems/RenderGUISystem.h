@@ -126,15 +126,18 @@ class RenderGUISystem: public System {
 
             ImGui::Begin("Message Log", nullptr, ImGuiWindowFlags_HorizontalScrollbar);
 
-            // Get the vector of messages from the MessageManager
             const std::vector<LogEntry>& logEntries = Logger::GetLastMessages(50);
 
-            // Iterate through messages and display them
             for (const auto& logEntry : logEntries) {
+                if (logEntry.type == LOG_ERROR) {
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+                } else {
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+                }
                 ImGui::TextUnformatted(logEntry.message.c_str());
+                ImGui::PopStyleColor();
             }
 
-            // Ensure the scroll is at the bottom when adding new messages
             if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
                 ImGui::SetScrollHereY(1.0f);
 
