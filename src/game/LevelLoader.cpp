@@ -262,6 +262,23 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
                 );
             }
 
+            // Text label
+            sol::optional<sol::table> textLabel = entity["components"]["text_label"];
+            SDL_Color white = { 255, 255, 255};
+            if (textLabel != sol::nullopt) {
+                /*newEntity.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth - 200, Game::windowHeight - 100), "CHOPPER 1.0", "charriot-font-20", white, true);*/
+                newEntity.AddComponent<TextLabelComponent>(
+                    glm::vec2(
+                        Game::windowWidth - static_cast<int>(entity["components"]["text_label"]["position"]["x"]),
+                        Game::windowHeight - static_cast<int>(entity["components"]["text_label"]["position"]["y"])
+                    ),
+                    entity["components"]["text_label"]["text"],
+                    entity["components"]["text_label"]["font_asset_id"], 
+                    white, 
+                    true
+                );
+            }
+
             // Script
             sol::optional<sol::table> script = entity["components"]["on_update_script"];
             if (script != sol::nullopt) {

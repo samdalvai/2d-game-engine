@@ -86,7 +86,8 @@ Level = {
         { type = "texture", id = "radar-texture",               file = "./assets/images/radar-spritesheet.png" },
         { type = "font",    id = "pico8-font-5",                file = "./assets/fonts/pico8.ttf",                      font_size = 5 },
         { type = "font",    id = "pico8-font-10",               file = "./assets/fonts/pico8.ttf",                      font_size = 10 },
-        { type = "font",    id = "charriot-font-14",            file = "./assets/fonts/charriot.ttf",                   font_size = 14 }
+        { type = "font",    id = "charriot-font-14",            file = "./assets/fonts/charriot.ttf",                   font_size = 14 },
+        { type = "font",    id = "charriot-font-20",            file = "./assets/fonts/charriot.ttf",                   font_size = 20 }
     },
 
     ----------------------------------------------------
@@ -238,6 +239,21 @@ Level = {
                 }
             }
         },
+        {
+            components = {
+                text_label = {
+                    position = { x = 200, y = 100 },
+                    text = "THIS IS A TEST",
+                    font_asset_id = "charriot-font-20",
+                    color = {
+                        r = 255,
+                        g = 255,
+                        b = 255
+                    },
+                    fixed = true
+                }
+            }
+        }
     }
 }
 
