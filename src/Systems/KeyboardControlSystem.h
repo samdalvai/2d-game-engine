@@ -67,21 +67,25 @@ class KeyboardControlSystem: public System {
                         case SDLK_UP:
                         case SDLK_w:
                             rigidbody.velocity = keyboardcontrol.upVelocity;
+                            rigidbody.direction = glm::vec2(0.0, -1.0);
                             sprite.srcRect.y = sprite.height * 0;
                             break;
                         case SDLK_RIGHT:
                         case SDLK_d:
                             rigidbody.velocity = keyboardcontrol.rightVelocity;
+                            rigidbody.direction = glm::vec2(1.0, 0.0);
                             sprite.srcRect.y = sprite.height * 1;
                             break;
                         case SDLK_DOWN:
                         case SDLK_s:
                             rigidbody.velocity = keyboardcontrol.downVelocity;
+                            rigidbody.direction = glm::vec2(0.0, 1.0);
                             sprite.srcRect.y = sprite.height * 2;
                             break;
                         case SDLK_LEFT:
                         case SDLK_a:
                             rigidbody.velocity = keyboardcontrol.leftVelocity;
+                            rigidbody.direction = glm::vec2(-1.0, 0.0);
                             sprite.srcRect.y = sprite.height * 3;
                             break;
                         default:

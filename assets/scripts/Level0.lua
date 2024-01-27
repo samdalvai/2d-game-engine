@@ -116,7 +116,8 @@ Level = {
                     rotation = 0.0, -- degrees
                 },
                 rigidbody = {
-                    velocity = { x = 0.0, y = 0.0 }
+                    velocity = { x = 0.0, y = 0.0 },
+                    direction = { x = 0.0, y = -1.0 }
                 },
                 sprite = {
                     texture_asset_id = "chopper-texture",
