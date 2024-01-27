@@ -18,6 +18,9 @@
 #include "../Systems/RenderGUISystem.h"
 #include "../Systems/ScriptSystem.h"
 
+#include "../Events/KeyPressedEvent.h"
+#include "../Events/KeyReleasedEvent.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -112,6 +115,9 @@ void Game::ProcessInput() {
                     isDebug = !isDebug;
                 }
                 eventBus->EmitEvent<KeyPressedEvent>(sdlEvent.key.keysym.sym);
+                break;
+            case SDL_KEYUP:
+                eventBus->EmitEvent<KeyReleasedEvent>(sdlEvent.key.keysym.sym);
                 break;
         }
     }
