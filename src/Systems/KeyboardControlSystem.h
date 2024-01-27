@@ -13,6 +13,14 @@
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 
+
+enum MovementKey {
+    KEY_UP = SDLK_UP,
+    KEY_RIGHT = SDLK_RIGHT,
+    KEY_DOWN = SDLK_DOWN,
+    KEY_LEFT = SDLK_LEFT
+};
+
 class KeyboardControlSystem: public System {
     public:
         std::vector<SDL_KeyCode> keysPressed;
@@ -68,36 +76,30 @@ class KeyboardControlSystem: public System {
                 auto& sprite = entity.GetComponent<SpriteComponent>();
                 auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
 
-                /*
-                if (keyUpPressed) {
-                    rigidbody.velocity = keyboardcontrol.upVelocity;
-                    sprite.srcRect.y = sprite.height * 0;
-                } else if (rigidbody.velocity.y < 0) {
-                    rigidbody.velocity.y = 0;
+                if (keysPressed.size() == 0) {
+                    rigidbody.velocity = glm::vec2(0);
+                } else {
+                    switch (keysPressed.back()) {
+                        case SDLK_UP:
+                            rigidbody.velocity = keyboardcontrol.upVelocity;
+                            sprite.srcRect.y = sprite.height * 0;
+                            break;
+                        case SDLK_RIGHT:
+                            rigidbody.velocity = keyboardcontrol.rightVelocity;
+                            sprite.srcRect.y = sprite.height * 1;
+                            break;
+                        case SDLK_DOWN:
+                            rigidbody.velocity = keyboardcontrol.downVelocity;
+                            sprite.srcRect.y = sprite.height * 2;
+                            break;
+                        case SDLK_LEFT:
+                            rigidbody.velocity = keyboardcontrol.leftVelocity;
+                            sprite.srcRect.y = sprite.height * 3;
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                
-                if (keyRightPressed) {
-                    rigidbody.velocity = keyboardcontrol.rightVelocity;
-                    sprite.srcRect.y = sprite.height * 1;
-                } else if (rigidbody.velocity.x > 0) {
-                    rigidbody.velocity.x = 0;
-                }
-                
-                if (keyDownPressed) {
-                    rigidbody.velocity = keyboardcontrol.downVelocity;
-                    sprite.srcRect.y = sprite.height * 2;
-                } else if (rigidbody.velocity.y > 0) {
-                    rigidbody.velocity.y = 0;
-                }
-                
-                if (keyLeftPressed) {
-                    rigidbody.velocity = keyboardcontrol.leftVelocity;
-                    sprite.srcRect.y = sprite.height * 3;
-                } else if (rigidbody.velocity.x < 0) {
-                    rigidbody.velocity.x = 0;
-                }
-                */
-                
             }
         }
 };
