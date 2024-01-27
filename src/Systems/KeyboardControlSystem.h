@@ -13,14 +13,6 @@
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 
-
-enum MovementKey {
-    KEY_UP = SDLK_UP,
-    KEY_RIGHT = SDLK_RIGHT,
-    KEY_DOWN = SDLK_DOWN,
-    KEY_LEFT = SDLK_LEFT
-};
-
 class KeyboardControlSystem: public System {
     public:
         std::vector<SDL_KeyCode> keysPressed;
@@ -54,20 +46,8 @@ class KeyboardControlSystem: public System {
         }
 
         void OnKeyReleased(KeyReleasedEvent& event) {
-            /*switch (event.symbol) {
-                case SDLK_UP:
-                    keyUpPressed = false;
-                    break;
-                case SDLK_RIGHT:
-                    keyRightPressed = false;
-                    break;
-                case SDLK_DOWN:
-                    keyDownPressed = false;
-                    break;
-                case SDLK_LEFT:
-                    keyLeftPressed = false;
-                    break;
-            }*/
+            const auto keyCode = event.symbol;
+            keysPressed.erase(std::remove(keysPressed.begin(), keysPressed.end(), keyCode), keysPressed.end());
         }
 
         void Update() {
