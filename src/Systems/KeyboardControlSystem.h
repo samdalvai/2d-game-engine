@@ -9,24 +9,18 @@
 #include "../Components/RigidBodyComponent.h"
 #include "../Components/SpriteComponent.h"
 
+#include <vector>
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 class KeyboardControlSystem: public System {
     public:
-        bool keyUpPressed;
-        bool keyRightPressed;
-        bool keyDownPressed;
-        bool keyLeftPressed;
+        std::vector<SDL_KeyCode> keysPressed;
 
         KeyboardControlSystem() {
             RequireComponent<KeyboardControlledComponent>();
             RequireComponent<SpriteComponent>();
             RequireComponent<RigidBodyComponent>();
-
-            this->keyUpPressed = false;
-            this->keyRightPressed = false;
-            this->keyDownPressed = false;
-            this->keyLeftPressed = false;
         }
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
@@ -37,22 +31,22 @@ class KeyboardControlSystem: public System {
         void OnKeyPressed(KeyPressedEvent& event) {
             switch (event.symbol) {
                 case SDLK_UP:
-                    keyUpPressed = true;
+                    keysPressed.push_back(SDLK_UP);
                     break;
                 case SDLK_RIGHT:
-                    keyRightPressed = true;
+                    keysPressed.push_back(SDLK_RIGHT);
                     break;
                 case SDLK_DOWN:
-                    keyDownPressed = true;
+                    keysPressed.push_back(SDLK_DOWN);
                     break;
                 case SDLK_LEFT:
-                    keyLeftPressed = true;
+                    keysPressed.push_back(SDLK_LEFT);
                     break;
             }
         }
 
         void OnKeyReleased(KeyReleasedEvent& event) {
-            switch (event.symbol) {
+            /*switch (event.symbol) {
                 case SDLK_UP:
                     keyUpPressed = false;
                     break;
@@ -65,7 +59,7 @@ class KeyboardControlSystem: public System {
                 case SDLK_LEFT:
                     keyLeftPressed = false;
                     break;
-            }
+            }*/
         }
 
         void Update() {
@@ -74,6 +68,7 @@ class KeyboardControlSystem: public System {
                 auto& sprite = entity.GetComponent<SpriteComponent>();
                 auto& rigidbody = entity.GetComponent<RigidBodyComponent>();
 
+                /*
                 if (keyUpPressed) {
                     rigidbody.velocity = keyboardcontrol.upVelocity;
                     sprite.srcRect.y = sprite.height * 0;
@@ -101,6 +96,8 @@ class KeyboardControlSystem: public System {
                 } else if (rigidbody.velocity.x < 0) {
                     rigidbody.velocity.x = 0;
                 }
+                */
+                
             }
         }
 };
