@@ -17,6 +17,7 @@
 #include "../Systems/RenderHealthBarSystem.h"
 #include "../Systems/RenderGUISystem.h"
 #include "../Systems/ScriptSystem.h"
+#include "../Systems/GameEndSystem.h"
 
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/KeyReleasedEvent.h"
@@ -142,6 +143,7 @@ void Game::Setup() {
     registry->AddSystem<RenderHealthBarSystem>();
     registry->AddSystem<RenderGUISystem>();
     registry->AddSystem<ScriptSystem>();
+    registry->AddSystem<GameEndSystem>();
 
     // Create the bindings between C++ and Lua
     registry->GetSystem<ScriptSystem>().CreateLuaBindings(lua);
@@ -195,6 +197,7 @@ void Game::Update() {
     registry->GetSystem<CameraMovementSystem>().Update(camera);
     registry->GetSystem<ProjectileLifecycleSystem>().Update();
     registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
+    registry->GetSystem<GameEndSystem>().Update(registry, Game::windowWidth, Game::windowHeight);
 }
 
 void Game::Render() {
