@@ -12,7 +12,7 @@ class GameEndSystem: public System {
             RequireComponent<HealthComponent>();
         }
 
-        void Update(std::unique_ptr<Registry>& registry, int windowWidth, int windowHeight) {
+        void Update(std::unique_ptr<Registry>& registry) {
             int numberOfEnemies = 0;
             bool isPlayerAlive = false;
             
@@ -29,14 +29,14 @@ class GameEndSystem: public System {
             if (numberOfEnemies == 0) {
                 Entity label = registry->CreateEntity();
                 SDL_Color color = { 100, 255, 100};
-                label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth / 2 - 50, windowHeight / 2), "Game won!!", "charriot-font-xl", color, true);
+                label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game won!!", "charriot-font-xl", color, true);
                 return;
             }
 
             if (!isPlayerAlive) {
                 Entity label = registry->CreateEntity();
                 SDL_Color color = { 255, 50, 50};
-                label.AddComponent<TextLabelComponent>(glm::vec2(windowWidth / 2 - 50, windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);
+                label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);
             }
         }
 };

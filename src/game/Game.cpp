@@ -197,7 +197,7 @@ void Game::Update() {
     registry->GetSystem<CameraMovementSystem>().Update(camera);
     registry->GetSystem<ProjectileLifecycleSystem>().Update();
     registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
-    registry->GetSystem<GameEndSystem>().Update(registry, Game::windowWidth, Game::windowHeight);
+    registry->GetSystem<GameEndSystem>().Update(registry);
 }
 
 void Game::Render() {
