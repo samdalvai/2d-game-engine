@@ -124,6 +124,9 @@ void Game::ProcessInput() {
 }
 
 void Game::Setup() {
+    // Load default game assets
+    assetStore->AddFont("charriot-font-xl", "./assets/fonts/charriot.ttf", 30);
+
     // Add the sytems that need to be processed in our game
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
