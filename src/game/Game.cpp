@@ -35,6 +35,7 @@ int Game::windowHeight;
 int Game::mapWidth;
 int Game::mapHeight;
 int Game::currentFPS;
+GameStatus Game::gameStatus;
 
 Game::Game() {
     isRunning = false;

@@ -10,6 +10,12 @@
 const int FPS = 60;
 const int MILLISECS_PER_FRAME = 1000 / FPS;
 
+enum GameStatus {
+    PLAYING,
+    WON,
+    LOST
+};
+
 class Game {
     private:
         bool isRunning;
@@ -42,6 +48,8 @@ class Game {
         static int mapWidth;
         static int mapHeight;
         static int currentFPS;
+
+        static GameStatus gameStatus;
 };
 
 #endif

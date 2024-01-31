@@ -27,16 +27,16 @@ class GameEndSystem: public System {
             }
 
             if (numberOfEnemies == 0) {
-                Entity label = registry->CreateEntity();
+                /*Entity label = registry->CreateEntity();
                 SDL_Color color = { 100, 255, 100};
                 label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game won!!", "charriot-font-xl", color, true);
-                return;
+                return;*/
             }
 
             if (!isPlayerAlive) {
-                Entity label = registry->CreateEntity();
+                /*Entity label = registry->CreateEntity();
                 SDL_Color color = { 255, 50, 50};
-                label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);
+                label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);*/
             }
         }
 };
