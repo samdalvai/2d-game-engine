@@ -322,8 +322,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
 
     entityComponentSignatures[entityId].set(componentId);
 
-    std::string typeName = typeid(TComponent).name();
-    Logger::Log("Component " + typeName + " with id = " + std::to_string(componentId) + " was added to entity id " + std::to_string(entityId));
+    Logger::Log("Component with id = " + std::to_string(componentId) + " was added to entity id " + std::to_string(entityId));
 }
 
 template <typename TComponent>
@@ -338,8 +337,7 @@ void Registry::RemoveComponent(Entity entity) {
     // Set this component signature for that entity to false
 	entityComponentSignatures[entityId].set(componentId, false);
     
-    std::string typeName = typeid(TComponent).name();
-    Logger::Log("Component " + typeName + " with id = " + std::to_string(componentId) + " was removed from entity id " + std::to_string(entityId));
+    Logger::Log("Component with id = " + std::to_string(componentId) + " was removed from entity id " + std::to_string(entityId));
 }
 
 template <typename TComponent>

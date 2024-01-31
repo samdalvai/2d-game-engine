@@ -19,7 +19,7 @@ void Logger::Log(const std::string& message) {
     LogEntry logEntry;
     logEntry.type = LOG_INFO;
     logEntry.message = "LOG: [" + CurrentDateTimeToString() + "]: " + message;
-    std::cout << "\x1B[32m" << logEntry.message << "\033[0m" << std::endl;
+    //std::cout << "\x1B[32m" << logEntry.message << "\033[0m" << std::endl;
     messages.push_back(logEntry);
 }
 

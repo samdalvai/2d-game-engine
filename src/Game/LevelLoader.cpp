@@ -112,6 +112,32 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
     mapFile.close();
     Game::mapWidth = mapNumCols * tileSize * mapScale;
     Game::mapHeight = mapNumRows * tileSize * mapScale;
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /// load tilemap dinamically
+    ////////////////////////////////////////////////////////////////////////////
+    std::ifstream mapFileTest(mapFilePath);
+
+    if (!mapFileTest.is_open()) {
+        Logger::Err("Error: Unable to open file: " + mapFilePath);
+    }
+
+    std::vector<std::vector<int>>* mapData = new std::vector<std::vector<int>>();
+
+    std::string line;
+    while (std::getline(mapFileTest, line)) {
+        std::vector<int> rowData;
+
+        std::istringstream iss(line);
+        int value;
+        while (iss >> value) {
+            rowData.push_back(value);
+        }
+
+        mapData->push_back(rowData);
+    }
+
+    mapFileTest.close();
 
     ////////////////////////////////////////////////////////////////////////////
     // Read the level entities and their components
