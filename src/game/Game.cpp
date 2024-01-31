@@ -181,25 +181,27 @@ void Game::Update() {
     // Reset all event handlers for the current frame
     eventBus->Reset();
 
-    // Perform the subscription of the events for all systems
-    registry->GetSystem<MovementSystem>().SubscribeToEvents(eventBus);
-    registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
-    registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
-    registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);
+    if (gameStatus == PLAYING) {
+        // Perform the subscription of the events for all systems
+        registry->GetSystem<MovementSystem>().SubscribeToEvents(eventBus);
+        registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);
+        registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);
+        registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);
 
-    // Update the registry to process the entities that are waiting to be created/deleted
-    registry->Update();
-    
-    // Invoke all the systems that need to update 
-    registry->GetSystem<MovementSystem>().Update(deltaTime);
-    registry->GetSystem<KeyboardControlSystem>().Update();
-    registry->GetSystem<AnimationSystem>().Update();
-    registry->GetSystem<CollisionSystem>().Update(eventBus);
-    registry->GetSystem<ProjectileEmitSystem>().Update(registry);
-    registry->GetSystem<CameraMovementSystem>().Update(camera);
-    registry->GetSystem<ProjectileLifecycleSystem>().Update();
-    registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
-    registry->GetSystem<GameEndSystem>().Update(registry);
+        // Update the registry to process the entities that are waiting to be created/deleted
+        registry->Update();
+        
+        // Invoke all the systems that need to update 
+        registry->GetSystem<MovementSystem>().Update(deltaTime);
+        registry->GetSystem<KeyboardControlSystem>().Update();
+        registry->GetSystem<AnimationSystem>().Update();
+        registry->GetSystem<CollisionSystem>().Update(eventBus);
+        registry->GetSystem<ProjectileEmitSystem>().Update(registry);
+        registry->GetSystem<CameraMovementSystem>().Update(camera);
+        registry->GetSystem<ProjectileLifecycleSystem>().Update();
+        registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());
+        registry->GetSystem<GameEndSystem>().Update(registry);
+    }
 }
 
 void Game::Render() {
@@ -234,3 +236,20 @@ void Game::Destroy() {
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
+
+
+/*
+if (numberOfEnemies == 0) {
+    Entity label = registry->CreateEntity();
+    SDL_Color color = { 100, 255, 100};
+    label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game won!!", "charriot-font-xl", color, true);
+    return;
+}
+
+if (!isPlayerAlive) {
+    Entity label = registry->CreateEntity();
+    SDL_Color color = { 255, 50, 50};
+    label.AddComponent<TextLabelComponent>(glm::vec2(Game::windowWidth / 2 - 50, Game::windowHeight / 2), "Game lost!", "charriot-font-xl", color, true);
+}
+
+*/

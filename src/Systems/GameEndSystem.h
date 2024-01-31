@@ -28,10 +28,12 @@ class GameEndSystem: public System {
 
             if (numberOfEnemies == 0 && Game::gameStatus != WON) {
                 Game::gameStatus = WON;
+                Logger::Log("Player has won!");
             }
 
             if (!isPlayerAlive && Game::gameStatus != LOST) {
                 Game::gameStatus = LOST;
+                Logger::Log("Player has lost!");
             }
         }
 };
