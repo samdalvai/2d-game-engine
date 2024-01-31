@@ -90,6 +90,7 @@ void Game::Initialize() {
 
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     isRunning = true;
+    gameStatus = PLAYING;
 }
 
 void Game::ProcessInput() {
