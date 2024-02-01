@@ -58,6 +58,14 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
     // Read the big table for the current level
     sol::table level = lua["Level"];
 
+    LoadAssets(level, assetStore, renderer);
+
+    LoadTileMap(level, registry);
+
+    LoadEntities(level, registry);
+}
+
+void LevelLoader::LoadAssets(sol::table level, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer) {
     ////////////////////////////////////////////////////////////////////////////
     // Read the level assets
     ////////////////////////////////////////////////////////////////////////////
@@ -82,14 +90,57 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
         }
         i++;
     }
+}
 
-    LoadTileMap(level, registry);
+void LevelLoader::LoadTileMap(sol::table level, const std::unique_ptr<Registry>& registry) {
+    sol::table map = level["tilemap"];
+    std::string mapFilePath = map["map_file"];
+    std::string mapTextureAssetId = map["texture_asset_id"];
+    int tileSize = map["tile_size"];
+    double mapScale = map["scale"];
+
+    std::ifstream mapFile(mapFilePath);
+
+    if (!mapFile.is_open()) {
+        Logger::Err("Error: Unable to open file: " + mapFilePath);
+    }
+
+    std::string line;
+
+    int rowNumber = 0;
+    int columnNumber = 0;
+    while (std::getline(mapFile, line)) {
+        std::istringstream ss(line);
+        std::string value;
+
+        columnNumber = 0;
+        while (std::getline(ss, value, ',')) {
+            int tileNumber = std::stoi(value);
+
+            int srcRectX = tileNumber % 10 * tileSize;
+            int srcRectY = tileNumber / 10 * tileSize;
+
+            Entity tile = registry->CreateEntity();
+            tile.AddComponent<TransformComponent>(glm::vec2(columnNumber * (mapScale * tileSize), rowNumber * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
+            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
+            columnNumber++;
+        }
+
+        rowNumber++;
+    }
+
+    Game::mapWidth = columnNumber * tileSize * mapScale;
+    Game::mapHeight = rowNumber * tileSize * mapScale;
+    mapFile.close();
+}
+
+void LevelLoader::LoadEntities(sol::table level, const std::unique_ptr<Registry>& registry) {
 
     ////////////////////////////////////////////////////////////////////////////
     // Read the level entities and their components
     ////////////////////////////////////////////////////////////////////////////
     sol::table entities = level["entities"];
-    i = 0;
+    int i = 0;
     while (true) {
         sol::optional<sol::table> hasEntity = entities[i];
         if (hasEntity == sol::nullopt) {
@@ -264,47 +315,4 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
         }
         i++;
     }
-}
-
-
-void LevelLoader::LoadTileMap(sol::table level, const std::unique_ptr<Registry>& registry) {
-    sol::table map = level["tilemap"];
-    std::string mapFilePath = map["map_file"];
-    std::string mapTextureAssetId = map["texture_asset_id"];
-    int tileSize = map["tile_size"];
-    double mapScale = map["scale"];
-
-    std::ifstream mapFile(mapFilePath);
-
-    if (!mapFile.is_open()) {
-        Logger::Err("Error: Unable to open file: " + mapFilePath);
-    }
-
-    std::string line;
-
-    int rowNumber = 0;
-    int columnNumber = 0;
-    while (std::getline(mapFile, line)) {
-        std::istringstream ss(line);
-        std::string value;
-
-        columnNumber = 0;
-        while (std::getline(ss, value, ',')) {
-            int tileNumber = std::stoi(value);
-
-            int srcRectX = tileNumber % 10 * tileSize;
-            int srcRectY = tileNumber / 10 * tileSize;
-
-            Entity tile = registry->CreateEntity();
-            tile.AddComponent<TransformComponent>(glm::vec2(columnNumber * (mapScale * tileSize), rowNumber * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
-            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
-            columnNumber++;
-        }
-
-        rowNumber++;
-    }
-
-    Game::mapWidth = columnNumber * tileSize * mapScale;
-    Game::mapHeight = rowNumber * tileSize * mapScale;
-    mapFile.close();
 }

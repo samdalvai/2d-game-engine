@@ -15,6 +15,8 @@ class LevelLoader {
     private:
         void LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& registry, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer, int level);
         void LoadTileMap(sol::table level, const std::unique_ptr<Registry>& registry);
+        void LoadAssets(sol::table level, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer);
+        void LoadEntities(sol::table level, const std::unique_ptr<Registry>& registry);
 };
 
 #endif
