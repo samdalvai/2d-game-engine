@@ -83,52 +83,7 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
         i++;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Read the level tilemap information
-    ////////////////////////////////////////////////////////////////////////////
-    sol::table map = level["tilemap"];
-    std::string mapFilePath = map["map_file"];
-    std::string mapTextureAssetId = map["texture_asset_id"];
-    //int mapNumRows = map["num_rows"];
-    //int mapNumCols = map["num_cols"];
-    int tileSize = map["tile_size"];
-    double mapScale = map["scale"];
-
-    std::ifstream mapFile(mapFilePath);
-
-    if (!mapFile.is_open()) {
-        Logger::Err("Error: Unable to open file: " + mapFilePath);
-    }
-
-    std::vector<std::vector<int>>* mapData = new std::vector<std::vector<int>>();
-
-    std::string line;
-
-    int rowNumber = 0;
-    int columnNumber = 0;
-    while (std::getline(mapFile, line)) {
-        std::istringstream ss(line);
-        std::string value;
-
-        columnNumber = 0;
-        while (std::getline(ss, value, ',')) {
-            int tileNumber = std::stoi(value);
-
-            int srcRectX = tileNumber % 10 * tileSize;
-            int srcRectY = tileNumber / 10 * tileSize;
-
-            Entity tile = registry->CreateEntity();
-            tile.AddComponent<TransformComponent>(glm::vec2(columnNumber * (mapScale * tileSize), rowNumber * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
-            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
-            columnNumber++;
-        }
-
-        rowNumber++;
-    }
-
-    Game::mapWidth = columnNumber * tileSize * mapScale;
-    Game::mapHeight = rowNumber * tileSize * mapScale;
-    mapFile.close();
+    LoadTileMap(level, registry);
 
     ////////////////////////////////////////////////////////////////////////////
     // Read the level entities and their components
@@ -309,4 +264,47 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
         }
         i++;
     }
+}
+
+
+void LevelLoader::LoadTileMap(sol::table level, const std::unique_ptr<Registry>& registry) {
+    sol::table map = level["tilemap"];
+    std::string mapFilePath = map["map_file"];
+    std::string mapTextureAssetId = map["texture_asset_id"];
+    int tileSize = map["tile_size"];
+    double mapScale = map["scale"];
+
+    std::ifstream mapFile(mapFilePath);
+
+    if (!mapFile.is_open()) {
+        Logger::Err("Error: Unable to open file: " + mapFilePath);
+    }
+
+    std::string line;
+
+    int rowNumber = 0;
+    int columnNumber = 0;
+    while (std::getline(mapFile, line)) {
+        std::istringstream ss(line);
+        std::string value;
+
+        columnNumber = 0;
+        while (std::getline(ss, value, ',')) {
+            int tileNumber = std::stoi(value);
+
+            int srcRectX = tileNumber % 10 * tileSize;
+            int srcRectY = tileNumber / 10 * tileSize;
+
+            Entity tile = registry->CreateEntity();
+            tile.AddComponent<TransformComponent>(glm::vec2(columnNumber * (mapScale * tileSize), rowNumber * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
+            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
+            columnNumber++;
+        }
+
+        rowNumber++;
+    }
+
+    Game::mapWidth = columnNumber * tileSize * mapScale;
+    Game::mapHeight = rowNumber * tileSize * mapScale;
+    mapFile.close();
 }
