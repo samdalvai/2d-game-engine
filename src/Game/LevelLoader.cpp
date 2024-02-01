@@ -126,12 +126,12 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 
     std::string line;
 
-    int coordinatesY = 0;
+    int rowNumber = 0;
     while (std::getline(mapFileTest, line)) {
         std::istringstream ss(line);
         std::string value;
 
-        int coordinatesX = 0;
+        int columnNumber = 0;
 
         while (std::getline(ss, value, ',')) {
             int tileNumber = std::stoi(value);
@@ -139,18 +139,17 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
             int srcRectX = tileNumber % 10 * tileSize;
             int srcRectY = tileNumber / 10 * tileSize;
 
-            // Process or store the integer value as needed
-            std::cout << tileNumber << " ";
             Entity tile = registry->CreateEntity();
-            tile.AddComponent<TransformComponent>(glm::vec2(coordinatesX * (mapScale * tileSize), coordinatesY * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
+            tile.AddComponent<TransformComponent>(glm::vec2(columnNumber * (mapScale * tileSize), rowNumber * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
             tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
-            coordinatesX++;
+            columnNumber++;
         }
 
-        coordinatesY++;
-
-        std::cout << std::endl;  // Move to the next line after processing each line
+        rowNumber++;
     }
+
+    Game::mapWidth = mapNumCols * tileSize * mapScale;
+    Game::mapHeight = mapNumRows * tileSize * mapScale;
 
     mapFileTest.close();
 
