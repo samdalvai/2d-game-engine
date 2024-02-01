@@ -126,15 +126,18 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 
     std::string line;
     while (std::getline(mapFileTest, line)) {
-        std::vector<int> rowData;
+        std::istringstream ss(line);
+        std::string value;
 
-        std::istringstream iss(line);
-        int value;
-        while (iss >> value) {
-            rowData.push_back(value);
+        while (std::getline(ss, value, ',')) {
+            // Convert the string to an integer
+            int intValue = std::stoi(value);
+
+            // Process or store the integer value as needed
+            std::cout << intValue << " ";
         }
 
-        mapData->push_back(rowData);
+        std::cout << std::endl;  // Move to the next line after processing each line
     }
 
     mapFileTest.close();
