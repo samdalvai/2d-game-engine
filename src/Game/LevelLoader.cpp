@@ -89,36 +89,14 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
     sol::table map = level["tilemap"];
     std::string mapFilePath = map["map_file"];
     std::string mapTextureAssetId = map["texture_asset_id"];
-    int mapNumRows = map["num_rows"];
-    int mapNumCols = map["num_cols"];
+    //int mapNumRows = map["num_rows"];
+    //int mapNumCols = map["num_cols"];
     int tileSize = map["tile_size"];
     double mapScale = map["scale"];
-    std::fstream mapFile;
-    mapFile.open(mapFilePath);
-    for (int y = 0; y < mapNumRows; y++) {
-        for (int x = 0; x < mapNumCols; x++) {
-            char ch;
-            mapFile.get(ch);
-            int srcRectY = std::atoi(&ch) * tileSize;
-            mapFile.get(ch);
-            int srcRectX = std::atoi(&ch) * tileSize;
-            mapFile.ignore();
 
-            /*Entity tile = registry->CreateEntity();
-            tile.AddComponent<TransformComponent>(glm::vec2(x * (mapScale * tileSize), y * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
-            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);*/
-        }
-    }
-    mapFile.close();
-    Game::mapWidth = mapNumCols * tileSize * mapScale;
-    Game::mapHeight = mapNumRows * tileSize * mapScale;
-    
-    ////////////////////////////////////////////////////////////////////////////
-    /// load tilemap dinamically
-    ////////////////////////////////////////////////////////////////////////////
-    std::ifstream mapFileTest(mapFilePath);
+    std::ifstream mapFile(mapFilePath);
 
-    if (!mapFileTest.is_open()) {
+    if (!mapFile.is_open()) {
         Logger::Err("Error: Unable to open file: " + mapFilePath);
     }
 
@@ -127,12 +105,12 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
     std::string line;
 
     int rowNumber = 0;
-    while (std::getline(mapFileTest, line)) {
+    int columnNumber = 0;
+    while (std::getline(mapFile, line)) {
         std::istringstream ss(line);
         std::string value;
 
-        int columnNumber = 0;
-
+        columnNumber = 0;
         while (std::getline(ss, value, ',')) {
             int tileNumber = std::stoi(value);
 
@@ -148,10 +126,9 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
         rowNumber++;
     }
 
-    Game::mapWidth = mapNumCols * tileSize * mapScale;
-    Game::mapHeight = mapNumRows * tileSize * mapScale;
-
-    mapFileTest.close();
+    Game::mapWidth = columnNumber * tileSize * mapScale;
+    Game::mapHeight = rowNumber * tileSize * mapScale;
+    mapFile.close();
 
     ////////////////////////////////////////////////////////////////////////////
     // Read the level entities and their components
