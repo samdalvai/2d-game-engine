@@ -1,4 +1,4 @@
-# 2d-game-engine-course
+# 2d-game-engine
 2D Game Engine made from scratch from the Pikuma course made with C++, SDL2, glm and Lua.
 Visit [pikuma.com](https://pikuma.com/courses/cpp-2d-game-engine-development) for move info on the course.
 
