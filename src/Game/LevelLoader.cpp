@@ -66,9 +66,6 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
 }
 
 void LevelLoader::LoadAssets(sol::table level, const std::unique_ptr<AssetStore>& assetStore, SDL_Renderer* renderer) {
-    ////////////////////////////////////////////////////////////////////////////
-    // Read the level assets
-    ////////////////////////////////////////////////////////////////////////////
     sol::table assets = level["assets"];
 
     int i = 0;
@@ -135,10 +132,6 @@ void LevelLoader::LoadTileMap(sol::table level, const std::unique_ptr<Registry>&
 }
 
 void LevelLoader::LoadEntities(sol::table level, const std::unique_ptr<Registry>& registry) {
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Read the level entities and their components
-    ////////////////////////////////////////////////////////////////////////////
     sol::table entities = level["entities"];
     int i = 0;
     while (true) {
