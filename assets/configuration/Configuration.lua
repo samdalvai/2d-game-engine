@@ -1,3 +1,3 @@
 Config = {
-    level = 0
+    level = 1
 }

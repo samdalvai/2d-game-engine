@@ -85,6 +85,8 @@ Level = {
     tilemap = {
         map_file = "./assets/tilemaps/desert.map",
         texture_asset_id = "tilemap-texture",
+        num_rows = 30,
+        num_cols = 40,
         tile_size = 32,
         scale = 2.0
     },
@@ -131,10 +133,10 @@ Level = {
                     friendly = true
                 },
                 keyboard_controller = {
-                    up_velocity = { x = 0, y = -30 },
-                    right_velocity = { x = 30, y = 0 },
-                    down_velocity = { x = 0, y = 30 },
-                    left_velocity = { x = -30, y = 0 }
+                    up_velocity = { x = 0, y = -75 },
+                    right_velocity = { x = 75, y = 0 },
+                    down_velocity = { x = 0, y = 75 },
+                    left_velocity = { x = -75, y = 0 }
                 },
                 camera_follow = {
                     follow = true
@@ -2596,3 +2598,7 @@ Level = {
         }
     }
 }
+
+-- Define some useful global variables
+map_width = Level.tilemap.num_cols * Level.tilemap.tile_size * Level.tilemap.scale
+map_height = Level.tilemap.num_rows * Level.tilemap.tile_size * Level.tilemap.scale

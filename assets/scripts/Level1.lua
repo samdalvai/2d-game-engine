@@ -98,6 +98,8 @@ Level = {
     tilemap = {
         map_file = "./assets/tilemaps/jungle.map",
         texture_asset_id = map_texture_asset_id,
+        num_rows = 20,
+        num_cols = 25,
         tile_size = 32,
         scale = 2.0
     },
@@ -148,10 +150,10 @@ Level = {
                     friendly = true
                 },
                 keyboard_controller = {
-                    up_velocity = { x = 0, y = -50 },
-                    right_velocity = { x = 50, y = 0 },
-                    down_velocity = { x = 0, y = 50 },
-                    left_velocity = { x = -50, y = 0 }
+                    up_velocity = { x = 0, y = -200 },
+                    right_velocity = { x = 200, y = 0 },
+                    down_velocity = { x = 0, y = 200 },
+                    left_velocity = { x = -200, y = 0 }
                 },
                 camera_follow = {
                     follow = true
@@ -2865,3 +2867,7 @@ Level = {
         }
     }
 }
+
+-- Define some useful global variables
+map_width = Level.tilemap.num_cols * Level.tilemap.tile_size * Level.tilemap.scale
+map_height = Level.tilemap.num_rows * Level.tilemap.tile_size * Level.tilemap.scale
