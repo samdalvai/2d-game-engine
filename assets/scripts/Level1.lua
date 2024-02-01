@@ -98,8 +98,6 @@ Level = {
     tilemap = {
         map_file = "./assets/tilemaps/jungle.map",
         texture_asset_id = map_texture_asset_id,
-        num_rows = 20,
-        num_cols = 25,
         tile_size = 32,
         scale = 2.0
     },
@@ -2867,7 +2865,3 @@ Level = {
         }
     }
 }
-
--- Define some useful global variables
-map_width = Level.tilemap.num_cols * Level.tilemap.tile_size * Level.tilemap.scale
-map_height = Level.tilemap.num_rows * Level.tilemap.tile_size * Level.tilemap.scale
