@@ -104,9 +104,9 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
             int srcRectX = std::atoi(&ch) * tileSize;
             mapFile.ignore();
 
-            Entity tile = registry->CreateEntity();
+            /*Entity tile = registry->CreateEntity();
             tile.AddComponent<TransformComponent>(glm::vec2(x * (mapScale * tileSize), y * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
-            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
+            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);*/
         }
     }
     mapFile.close();
@@ -125,17 +125,29 @@ void LevelLoader::LoadLevel(sol::state& lua, const std::unique_ptr<Registry>& re
     std::vector<std::vector<int>>* mapData = new std::vector<std::vector<int>>();
 
     std::string line;
+
+    int coordinatesY = 0;
     while (std::getline(mapFileTest, line)) {
         std::istringstream ss(line);
         std::string value;
 
+        int coordinatesX = 0;
+
         while (std::getline(ss, value, ',')) {
-            // Convert the string to an integer
-            int intValue = std::stoi(value);
+            int tileNumber = std::stoi(value);
+
+            int srcRectX = tileNumber % 10 * tileSize;
+            int srcRectY = tileNumber / 10 * tileSize;
 
             // Process or store the integer value as needed
-            std::cout << intValue << " ";
+            std::cout << tileNumber << " ";
+            Entity tile = registry->CreateEntity();
+            tile.AddComponent<TransformComponent>(glm::vec2(coordinatesX * (mapScale * tileSize), coordinatesY * (mapScale * tileSize)), glm::vec2(mapScale, mapScale), 0.0);
+            tile.AddComponent<SpriteComponent>(mapTextureAssetId, tileSize, tileSize, 0, false, srcRectX, srcRectY);
+            coordinatesX++;
         }
+
+        coordinatesY++;
 
         std::cout << std::endl;  // Move to the next line after processing each line
     }
