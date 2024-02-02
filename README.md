@@ -30,5 +30,5 @@ make run
 
 ## Clean game executable file
 ```
-make build
+make clean
 ```
