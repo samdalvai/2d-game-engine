@@ -19,7 +19,13 @@ In order for the project to run you need to install the following packages on yo
 - **Lua** -> for the scripting system. Please note, you need to update the `LINKER_FLAGS` section in `Makefile` with the specific version you are installing, e.g. 5.2. In addition if you are on Mac OS you need to remove the version from the flag, e.g. instead of `-llua5.3` you have to set it to `-llua`.
 - **sdl2**, **sdl2_image**, **sdl2_ttf**, **sdl2_mixer** -> libraries to manage rendering of images, text and sound
 
-E.g. on macOS run:
+## Installation on linux based systems
+
+```shell
+sudo apt install build-essential libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev liblua5.3-dev
+```
+
+## Installation on macOS
 
 ```shell
 brew install lua sdl2 sdl2_image sdl2_ttf sdl2_mixer
