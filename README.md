@@ -39,6 +39,8 @@ brew install lua sdl2 sdl2_image sdl2_ttf sdl2_mixer
 make build
 ```
 
+> Note: use `make build-apple-silicon` on newer MacOS devices
+
 ## Run
 
 ```shell
